@@ -4,19 +4,43 @@
       "window": {
         "visible": true
       }
+    },
+    "Solenoids": {
+      "0": {
+        "header": {
+          "open": true
+        }
+      },
+      "window": {
+        "visible": true
+      }
     }
   },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/Spark[0]": "Motor Controller",
+      "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/Shuffleboard/Autonomous/SendableChooser[0]": "String Chooser"
     }
   },
   "NetworkTables": {
+    "Persistent Values": {
+      "open": false
+    },
     "transitory": {
       "SmartDashboard": {
         "open": true
       }
     }
+  },
+  "sourceNames": {
+    "Solenoid[0,1]": "bicep",
+    "Solenoid[0,2]": "bicep",
+    "Solenoid[0,3]": "wrist",
+    "Solenoid[0,4]": "wrist",
+    "Solenoid[0,5]": "forearm",
+    "Solenoid[0,6]": "forearm"
   }
 }

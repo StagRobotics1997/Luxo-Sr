@@ -26,13 +26,20 @@ import com.revrobotics.CANSparkMaxLowLevel;
 
 
 public class DrivetrainSubsystem extends SubsystemBase {
-    private static final double TRACKWIDTH = 26.5;
-    private static final double WHEELBASE = 20.5;
+    private static final double TRACKWIDTH = 19.5;
+    private static final double WHEELBASE = 26.5;
 
-    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(307.1);
-    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(275.1);
-    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(264.5);
-    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(234.2);
+    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(211.1);
+    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(420.3);
+    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(336.9);
+    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(340.2);
+
+    
+//     private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(211.1);
+//     private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(420.3);
+//     private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(165.1);
+//     private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(340.2);
+
 
     private static DrivetrainSubsystem instance;
 
@@ -135,19 +142,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void stickDrive(double forward, double strafe, double rotation) {
         //double forward = -RobotgetOI.getPrimaryJoystick().getRawAxis(1);
-        forward = Utilities.deadband(forward);
+        forward = Utilities.deadband(-forward *0.85);
         // Square the forward stick
-        forward = Math.copySign(Math.pow(forward, 2.0), forward);
+        forward = Math.copySign(Math.pow(forward, 3.0), forward);
         
         //double strafe = -Robot.getOi().getPrimaryJoystick().getRawAxis(0);
-        strafe = Utilities.deadband(strafe);
+        strafe = Utilities.deadband(-strafe * 0.85);
         // Square the strafe stick
-        strafe = Math.copySign(Math.pow(strafe, 2.0), strafe);
+        strafe = Math.copySign(Math.pow(strafe, 3.0), strafe);
         
         //double rotation = -Robot.getOi().getPrimaryJoystick().getRawAxis(4);
-        rotation = Utilities.deadband(rotation);
+        rotation = Utilities.deadband(-rotation *0.85);
         // Square the rotation stick
-        rotation = Math.copySign(Math.pow(rotation, 2.0), rotation);
+        rotation = Math.copySign(Math.pow(rotation, 3.0), rotation);
         
         drive(new Translation2d(forward, strafe), rotation, true);
         

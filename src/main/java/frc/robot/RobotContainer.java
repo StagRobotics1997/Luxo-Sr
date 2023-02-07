@@ -7,11 +7,15 @@ package frc.robot;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+// import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.*;
+import frc.robot.commands.*;
 
 
 /**
@@ -23,6 +27,8 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class RobotContainer {
    // The robot's subsystems
    private final DrivetrainSubsystem m_robotDrive = new DrivetrainSubsystem();
+   //private final frc.robot.commands.ArmCommands armCommands = new ArmCommands();
+   private final frc.robot.subsystems.ArmSubsystem arm= new ArmSubsystem();
    
   
    // Retained command handles
@@ -48,24 +54,31 @@ public class RobotContainer {
        // Configure the button bindings
        configureButtonBindings();
 
+
       // Configure default commands
       // Set the default drive command to split-stick arcade drive
       m_robotDrive.setDefaultCommand(
       // A split-stick arcade command, with forward/backward controlled by the left
       // hand, and turning controlled by the right.
-      Commands.run(
+      new RunCommand(
             () ->
-                m_robotDrive.stickDrive(-m_primaryJoystick.getRawAxis(2), 
-                                         m_primaryJoystick.getRawAxis(1),
-                                         m_primaryJoystick.getRawAxis(3)),
+                m_robotDrive.stickDrive( m_primaryJoystick.getRawAxis(1), 
+                                         m_primaryJoystick.getRawAxis(0),
+                                         m_secondaryJoystick.getRawAxis(0)),
                 m_robotDrive));
-
+                
       // Add commands to the autonomous command chooser
       //m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
       //m_chooser.addOption("Complex Auto", m_complexAuto);
 
       // Put the chooser on the dashboard
       Shuffleboard.getTab("Autonomous").add(m_chooser);
+      SmartDashboard.putNumber("primary Axis 1 ", m_primaryJoystick.getRawAxis(0));
+      SmartDashboard.putNumber("primary Axis 2",  m_primaryJoystick.getRawAxis(1));
+      SmartDashboard.putNumber("secondary Axis 1", m_secondaryJoystick.getRawAxis(0));
+      SmartDashboard.putNumber("secondary Axis 2",  m_secondaryJoystick.getRawAxis(1));
+      SmartDashboard.putNumber("aux Axis 1", m_auxJoystick.getRawAxis(0));
+      SmartDashboard.putNumber("aux Axis 2",  m_auxJoystick.getRawAxis(1));
    }
 
   /**
@@ -78,7 +91,27 @@ public class RobotContainer {
       m_primaryJoystick  
            .button(7)
            .onTrue(m_robotDrive.resetGyroscope());
-  }  
+
+           m_auxJoystick  
+           .button(7)
+           .onTrue((ArmCommands.startCommands(arm)));
+
+           m_auxJoystick  
+           .button(8)
+           .onTrue((ArmCommands.pickupoffloorCommand(arm)));
+
+           m_auxJoystick  
+           .button(9)
+           .onTrue((ArmCommands.midbarCommand(arm)));
+
+           m_auxJoystick  
+           .button(10)
+           .onTrue(ArmCommands.shelfCommand(arm));
+
+           m_auxJoystick  
+           .button(11)
+           .onTrue(ArmCommands.HighbarCommand(arm));
+  } 
 
 //public CommandJoystick getPrimaryJoystick() {
 //  return m_primaryJoystick;
