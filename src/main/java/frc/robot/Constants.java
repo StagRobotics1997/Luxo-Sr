@@ -40,7 +40,11 @@ public final class Constants {
         public static final int WRIST_EXTENDER_2 = 4;
         public static final int FOREARM_EXTENDER_1 = 5;
         public static final int FOREARM_EXTENDER_2 =6;
-                
+    }
+        //solenoids
+    public static final class KickstandConstants {
+        public static final int KICKER_EXTENDER_1 = 1;
+        public static final int KICKER_EXTENDER_2 = 2;
     }
 
     public static final class OIConstants {

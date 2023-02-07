@@ -30,7 +30,9 @@ public class RobotContainer {
    //private final frc.robot.commands.ArmCommands armCommands = new ArmCommands();
    private final frc.robot.subsystems.ArmSubsystem arm= new ArmSubsystem();
    
-  
+  //private final frc.robot.commands.ArmCommands armCommands = new ArmCommands();
+  private final frc.robot.subsystems.KickstandSubsystem kicker= new KickstandSubsystem();
+   
    // Retained command handles
 
    // The autonomous routines
@@ -111,6 +113,11 @@ public class RobotContainer {
            m_auxJoystick  
            .button(11)
            .onTrue(ArmCommands.HighbarCommand(arm));
+
+           m_auxJoystick  
+           .button(12)
+           .onTrue(KickstandCommands.toggleKickstandCommand(kicker));
+
   } 
 
 //public CommandJoystick getPrimaryJoystick() {
