@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import frc.robot.Constants.ClawConstants.OIConstants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
@@ -30,6 +29,8 @@ public class RobotContainer {
    //private final frc.robot.commands.ArmCommands armCommands = new ArmCommands();
    private final frc.robot.subsystems.ArmSubsystem arm= new ArmSubsystem();
    private final frc.robot.subsystems.ClawSubsystem claw= new ClawSubsystem();
+   private final frc.robot.subsystems.KickstandSubsystem kicker= new KickstandSubsystem();
+   private final frc.robot.subsystems.DefibulatorSubsystem Defibulator= new DefibulatorSubsystem();
   //private final frc.robot.commands.ArmCommands armCommands = new ArmCommands();
   // private final frc.robot.subsystems.KickstandSubsystem kicker= new KickstandSubsystem();
    
@@ -47,9 +48,9 @@ public class RobotContainer {
    // The driver's controller
    //CommandPS4Controller m_driverController =
    //    new CommandPS4Controller(OIConstants.kDriverControllerPort);
-   CommandJoystick m_primaryJoystick   = new CommandJoystick(OIConstants.PRIMARY_JOYSTICK);
-   CommandJoystick m_secondaryJoystick = new CommandJoystick(OIConstants.SECONDARY_JOYSTICK);
-   CommandJoystick m_auxJoystick       = new CommandJoystick(OIConstants.AUX_JOYSTICK);
+   CommandJoystick m_primaryJoystick   = new CommandJoystick(frc.robot.Constants.OIConstants.PRIMARY_JOYSTICK);
+   CommandJoystick m_secondaryJoystick = new CommandJoystick(frc.robot.Constants.OIConstants.SECONDARY_JOYSTICK);
+   CommandJoystick m_auxJoystick       = new CommandJoystick(frc.robot.Constants.OIConstants.AUX_JOYSTICK);
 
    /** The container for the robot. Contains subsystems, OI devices, and commands. */
    public RobotContainer() {
@@ -118,6 +119,9 @@ public class RobotContainer {
            .button(12)
            .onTrue(ClawCommands.ClawstartCommands(claw));
 
+            m_auxJoystick  
+            .button(3)
+            .onTrue(DefibulatorCommands.toggledefibulatorCommand(Defibulator));
 
           //  m_auxJoystick  
           //  .button(12)
