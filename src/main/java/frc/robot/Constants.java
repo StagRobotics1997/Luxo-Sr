@@ -45,8 +45,8 @@ public final class Constants {
     }
         //solenoids
     public static final class KickstandConstants {
-        public static final int KICKER_EXTENDER_1 = 1;
-        public static final int KICKER_EXTENDER_2 = 2;
+        public static final int KICKER_EXTENDER_1 = 7;
+        public static final int KICKER_EXTENDER_2 = 8;
     }
 
     public static final class OIConstants {
