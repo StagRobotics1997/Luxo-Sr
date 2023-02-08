@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.ClawConstants.OIConstants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
@@ -29,7 +29,7 @@ public class RobotContainer {
    private final DrivetrainSubsystem m_robotDrive = new DrivetrainSubsystem();
    //private final frc.robot.commands.ArmCommands armCommands = new ArmCommands();
    private final frc.robot.subsystems.ArmSubsystem arm= new ArmSubsystem();
-   
+   private final frc.robot.subsystems.ClawSubsystem claw= new ClawSubsystem();
   //private final frc.robot.commands.ArmCommands armCommands = new ArmCommands();
   // private final frc.robot.subsystems.KickstandSubsystem kicker= new KickstandSubsystem();
    
@@ -113,6 +113,11 @@ public class RobotContainer {
            m_auxJoystick  
            .button(11)
            .onTrue(ArmCommands.HighbarCommand(arm));
+
+           m_auxJoystick  
+           .button(12)
+           .onTrue(ClawCommands.ClawstartCommands(claw));
+
 
           //  m_auxJoystick  
           //  .button(12)

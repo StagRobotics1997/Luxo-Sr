@@ -49,10 +49,18 @@ public final class Constants {
         public static final int KICKER_EXTENDER_2 = 8;
     }
 
+    public static final class ClawConstants {
+        public static final int CLAW_MOTOR = 0;
+
+    public static final int CLAW_EXTENDER_1 = 3;
+    public static final int CLAW_EXTENDER_2 = 4;
+    
+
     public static final class OIConstants {
         public static final int PRIMARY_JOYSTICK   = 0;
 	    public static final int SECONDARY_JOYSTICK = 1;
  	    public static final int AUX_JOYSTICK       = 2;
     }
          
+}
 }
