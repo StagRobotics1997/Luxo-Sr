@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 
 
 /**
@@ -28,9 +30,10 @@ public class RobotContainer {
    private final DrivetrainSubsystem m_robotDrive = new DrivetrainSubsystem();
    //private final frc.robot.commands.ArmCommands armCommands = new ArmCommands();
    private final frc.robot.subsystems.ArmSubsystem arm= new ArmSubsystem();
-   private final frc.robot.subsystems.ClawSubsystem claw= new ClawSubsystem();
-   private final frc.robot.subsystems.KickstandSubsystem kicker= new KickstandSubsystem();
-   private final frc.robot.subsystems.DefibulatorSubsystem Defibulator= new DefibulatorSubsystem();
+   public static UsbCamera camera1;
+  //  private final frc.robot.subsystems.ClawSubsystem claw= new ClawSubsystem();
+  //  private final frc.robot.subsystems.KickstandSubsystem kicker= new KickstandSubsystem();
+  //  private final frc.robot.subsystems.DefibulatorSubsystem Defibulator= new DefibulatorSubsystem();
   //private final frc.robot.commands.ArmCommands armCommands = new ArmCommands();
   // private final frc.robot.subsystems.KickstandSubsystem kicker= new KickstandSubsystem();
    
@@ -56,8 +59,8 @@ public class RobotContainer {
    public RobotContainer() {
        // Configure the button bindings
        configureButtonBindings();
-
-
+      arm.setDefaultCommand(arm.forearmMotoron());
+      camera1 = CameraServer.startAutomaticCapture(0);
       // Configure default commands
       // Set the default drive command to split-stick arcade drive
       m_robotDrive.setDefaultCommand(
@@ -115,13 +118,13 @@ public class RobotContainer {
            .button(11)
            .onTrue(ArmCommands.HighbarCommand(arm));
 
-           m_auxJoystick  
-           .button(12)
-           .onTrue(ClawCommands.ClawstartCommands(claw));
+          //  m_auxJoystick  
+          //  .button(12)
+          //  .onTrue(ClawCommands.ClawstartCommands(claw));
 
-            m_auxJoystick  
-            .button(3)
-            .onTrue(DefibulatorCommands.toggledefibulatorCommand(Defibulator));
+          //   m_auxJoystick  
+          //   .button(3)
+          //   .onTrue(DefibulatorCommands.toggledefibulatorCommand(Defibulator));
 
           //  m_auxJoystick  
           //  .button(12)

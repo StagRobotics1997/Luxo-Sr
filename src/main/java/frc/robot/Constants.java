@@ -34,7 +34,7 @@ public final class Constants {
 
     public static final class ArmConstants {
         // Motor
-        public static final int FOREARM_MOTOR = 0;
+        public static final int FOREARM_MOTOR = 9;
         // Solenoids
         public static final int BICEP_EXTENDER_1 = 1;
         public static final int BICEP_EXTENDER_2 = 2;
@@ -44,7 +44,7 @@ public final class Constants {
         public static final int FOREARM_EXTENDER_2 = 6;
         // Sensors
         public static final int SENSOR_1 = 0;
-        public static final int SENSOR_2 = 1;
+        public static final int SENSOR_2 = 9;
     }
 
     public static final class KickstandConstants {

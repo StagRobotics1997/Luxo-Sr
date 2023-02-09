@@ -69,7 +69,8 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void forearmMotorForward() {
-    forearmMotor.set(0.5);
+    setMotorSpeed(.5);
+    //forearmMotor.set(0.5);
   }
 
   public void forearmMotorBackward() {
@@ -77,7 +78,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public CommandBase forearmMotoron() {
-    return this.runOnce(() -> forearmMotor.set(0.5));
+    return this.runOnce(() -> setMotorSpeed(-.5));
   }
 
   public CommandBase forearmMotorOff() {
