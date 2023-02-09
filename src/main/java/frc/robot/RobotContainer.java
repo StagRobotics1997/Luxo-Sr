@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -12,12 +14,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.*;
 import frc.robot.commands.*;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
-
+import frc.robot.subsystems.*;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -26,70 +25,91 @@ import edu.wpi.first.cscore.UsbCamera;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-   // The robot's subsystems
-   private final DrivetrainSubsystem m_robotDrive = new DrivetrainSubsystem();
-   //private final frc.robot.commands.ArmCommands armCommands = new ArmCommands();
-   private final frc.robot.subsystems.ArmSubsystem arm= new ArmSubsystem();
-   public static UsbCamera camera1;
+
+  // The robot's subsystems
+  private final DrivetrainSubsystem m_robotDrive = new DrivetrainSubsystem();
+  //private final frc.robot.commands.ArmCommands armCommands = new ArmCommands();
+  private final frc.robot.subsystems.ArmSubsystem arm = new ArmSubsystem();
+  public static UsbCamera camera1;
   //  private final frc.robot.subsystems.ClawSubsystem claw= new ClawSubsystem();
   //  private final frc.robot.subsystems.KickstandSubsystem kicker= new KickstandSubsystem();
   //  private final frc.robot.subsystems.DefibulatorSubsystem Defibulator= new DefibulatorSubsystem();
-   private final frc.robot.subsystems.ClawSubsystem claw= new ClawSubsystem();
-   private final frc.robot.subsystems.KickstandSubsystem kicker= new KickstandSubsystem();
-   private final frc.robot.subsystems.DefibulatorSubsystem Defibulator= new DefibulatorSubsystem();
-   private final frc.robot.subsystems.DropSubsystem drop= new DropSubsystem();
+  private final frc.robot.subsystems.ClawSubsystem claw = new ClawSubsystem();
+  private final frc.robot.subsystems.KickstandSubsystem kicker = new KickstandSubsystem();
+  private final frc.robot.subsystems.DefibulatorSubsystem Defibulator = new DefibulatorSubsystem();
+  private final frc.robot.subsystems.DropSubsystem drop = new DropSubsystem();
+  private final frc.robot.subsystems.LeadScrewSubsystem m_leadScrew = new LeadScrewSubsystem();
   //private final frc.robot.commands.ArmCommands armCommands = new ArmCommands();
   // private final frc.robot.subsystems.KickstandSubsystem kicker= new KickstandSubsystem();
-   
-   // Retained command handles
 
-   // The autonomous routines
-   // A simple auto routine that drives forward a specified distance, and then stops.
-   //private final Command m_simpleAuto = Autos.simpleAuto(m_robotDrive);
-   //private final Command m_complexAuto = Autos.complexAuto(m_robotDrive, m_shooter);
-   // A complex auto routine that drives forward, drops a hatch, and then drives backward.
-  
-   // A chooser for autonomous commands
-   SendableChooser<Command> m_chooser = new SendableChooser<>();
+  // Retained command handles
 
-   // The driver's controller
-   //CommandPS4Controller m_driverController =
-   //    new CommandPS4Controller(OIConstants.kDriverControllerPort);
-   CommandJoystick m_primaryJoystick   = new CommandJoystick(frc.robot.Constants.OIConstants.PRIMARY_JOYSTICK);
-   CommandJoystick m_secondaryJoystick = new CommandJoystick(frc.robot.Constants.OIConstants.SECONDARY_JOYSTICK);
-   CommandJoystick m_auxJoystick       = new CommandJoystick(frc.robot.Constants.OIConstants.AUX_JOYSTICK);
+  // The autonomous routines
+  // A simple auto routine that drives forward a specified distance, and then stops.
+  //private final Command m_simpleAuto = Autos.simpleAuto(m_robotDrive);
+  //private final Command m_complexAuto = Autos.complexAuto(m_robotDrive, m_shooter);
+  // A complex auto routine that drives forward, drops a hatch, and then drives backward.
 
-   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-   public RobotContainer() {
-       // Configure the button bindings
-       configureButtonBindings();
-      arm.setDefaultCommand(arm.forearmMotoron());
-      camera1 = CameraServer.startAutomaticCapture(0);
-      // Configure default commands
-      // Set the default drive command to split-stick arcade drive
-      m_robotDrive.setDefaultCommand(
+  // A chooser for autonomous commands
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
+
+  // The driver's controller
+  //CommandPS4Controller m_driverController =
+  //    new CommandPS4Controller(OIConstants.kDriverControllerPort);
+  CommandJoystick m_primaryJoystick = new CommandJoystick(
+    frc.robot.Constants.OIConstants.PRIMARY_JOYSTICK
+  );
+  CommandJoystick m_secondaryJoystick = new CommandJoystick(
+    frc.robot.Constants.OIConstants.SECONDARY_JOYSTICK
+  );
+  CommandJoystick m_auxJoystick = new CommandJoystick(
+    frc.robot.Constants.OIConstants.AUX_JOYSTICK
+  );
+
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  public RobotContainer() {
+    // Configure the button bindings
+    configureButtonBindings();
+    // arm.setDefaultCommand(arm.forearmMotoron());
+    camera1 = CameraServer.startAutomaticCapture(0);
+    // Configure default commands
+    // Set the default drive command to split-stick arcade drive
+    m_robotDrive.setDefaultCommand(
       // A split-stick arcade command, with forward/backward controlled by the left
       // hand, and turning controlled by the right.
       new RunCommand(
-            () ->
-                m_robotDrive.stickDrive( m_primaryJoystick.getRawAxis(1), 
-                                         m_primaryJoystick.getRawAxis(0),
-                                         m_secondaryJoystick.getRawAxis(0)),
-                m_robotDrive));
-                
-      // Add commands to the autonomous command chooser
-      //m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
-      //m_chooser.addOption("Complex Auto", m_complexAuto);
+        () ->
+          m_robotDrive.stickDrive(
+            m_primaryJoystick.getRawAxis(1),
+            m_primaryJoystick.getRawAxis(0),
+            m_secondaryJoystick.getRawAxis(0)
+          ),
+        m_robotDrive
+      )
+    );
+    m_leadScrew.setDefaultCommand(m_leadScrew.process());
+    // Add commands to the autonomous command chooser
+    //m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
+    //m_chooser.addOption("Complex Auto", m_complexAuto);
 
-      // Put the chooser on the dashboard
-      Shuffleboard.getTab("Autonomous").add(m_chooser);
-      SmartDashboard.putNumber("primary Axis 1 ", m_primaryJoystick.getRawAxis(0));
-      SmartDashboard.putNumber("primary Axis 2",  m_primaryJoystick.getRawAxis(1));
-      SmartDashboard.putNumber("secondary Axis 1", m_secondaryJoystick.getRawAxis(0));
-      SmartDashboard.putNumber("secondary Axis 2",  m_secondaryJoystick.getRawAxis(1));
-      SmartDashboard.putNumber("aux Axis 1", m_auxJoystick.getRawAxis(0));
-      SmartDashboard.putNumber("aux Axis 2",  m_auxJoystick.getRawAxis(1));
-   }
+    // Put the chooser on the dashboard
+    Shuffleboard.getTab("Autonomous").add(m_chooser);
+    SmartDashboard.putNumber(
+      "primary Axis 1 ",
+      m_primaryJoystick.getRawAxis(0)
+    );
+    SmartDashboard.putNumber("primary Axis 2", m_primaryJoystick.getRawAxis(1));
+    SmartDashboard.putNumber(
+      "secondary Axis 1",
+      m_secondaryJoystick.getRawAxis(0)
+    );
+    SmartDashboard.putNumber(
+      "secondary Axis 2",
+      m_secondaryJoystick.getRawAxis(1)
+    );
+    SmartDashboard.putNumber("aux Axis 1", m_auxJoystick.getRawAxis(0));
+    SmartDashboard.putNumber("aux Axis 2", m_auxJoystick.getRawAxis(1));
+  }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -98,51 +118,36 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-      m_primaryJoystick  
-           .button(7)
-           .onTrue(m_robotDrive.resetGyroscope());
+    m_primaryJoystick.button(7).onTrue(m_robotDrive.resetGyroscope());
 
-           m_auxJoystick  
-           .button(7)
-           .onTrue((ArmCommands.startCommands(arm)));
+    m_auxJoystick.button(7).onTrue((ArmCommands.startCommands(arm)));
 
-           m_auxJoystick  
-           .button(8)
-           .onTrue((ArmCommands.pickupoffloorCommand(arm)));
+    m_auxJoystick.button(8).onTrue((ArmCommands.pickupoffloorCommand(arm)));
 
-           m_auxJoystick  
-           .button(9)
-           .onTrue((ArmCommands.midbarCommand(arm)));
+    m_auxJoystick.button(9).onTrue((ArmCommands.midbarCommand(arm)));
 
-           m_auxJoystick  
-           .button(10)
-           .onTrue(ArmCommands.shelfCommand(arm));
+    m_auxJoystick.button(10).onTrue(ArmCommands.shelfCommand(arm));
 
-           m_auxJoystick  
-           .button(11)
-           .onTrue(ArmCommands.HighbarCommand(arm));
+    m_auxJoystick.button(11).onTrue(ArmCommands.HighbarCommand(arm));
 
-          //  m_auxJoystick  
-          //  .button(12)
-          //  .onTrue(ClawCommands.ClawstartCommands(claw));
+    //  m_auxJoystick
+    //  .button(12)
+    //  .onTrue(ClawCommands.ClawstartCommands(claw));
 
-          //   m_auxJoystick  
-          //   .button(3)
-          //   .onTrue(DefibulatorCommands.toggledefibulatorCommand(Defibulator));
+    //   m_auxJoystick
+    //   .button(3)
+    //   .onTrue(DefibulatorCommands.toggledefibulatorCommand(Defibulator));
 
-            m_auxJoystick  
-            .button(3)
-            .onTrue(DropCommands.toggleDropCommand(drop));
+    m_auxJoystick.button(3).onTrue(DropCommands.toggleDropCommand(drop));
+    //  m_auxJoystick
+    //  .button(12)
+    //  .onTrue(KickstandCommands.toggleKickstandCommand(kicker));
 
-          //  m_auxJoystick  
-          //  .button(12)
-          //  .onTrue(KickstandCommands.toggleKickstandCommand(kicker));
+  }
 
-  } 
-
-//public CommandJoystick getPrimaryJoystick() {
-//  return m_primaryJoystick;
-//}
+  //public CommandJoystick getPrimaryJoystick() {
+  //  return m_primaryJoystick;
+  //}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -152,5 +157,4 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();
   }
-
 }
