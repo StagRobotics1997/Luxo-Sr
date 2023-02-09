@@ -34,6 +34,10 @@ public class RobotContainer {
   //  private final frc.robot.subsystems.ClawSubsystem claw= new ClawSubsystem();
   //  private final frc.robot.subsystems.KickstandSubsystem kicker= new KickstandSubsystem();
   //  private final frc.robot.subsystems.DefibulatorSubsystem Defibulator= new DefibulatorSubsystem();
+   private final frc.robot.subsystems.ClawSubsystem claw= new ClawSubsystem();
+   private final frc.robot.subsystems.KickstandSubsystem kicker= new KickstandSubsystem();
+   private final frc.robot.subsystems.DefibulatorSubsystem Defibulator= new DefibulatorSubsystem();
+   private final frc.robot.subsystems.DropSubsystem drop= new DropSubsystem();
   //private final frc.robot.commands.ArmCommands armCommands = new ArmCommands();
   // private final frc.robot.subsystems.KickstandSubsystem kicker= new KickstandSubsystem();
    
@@ -125,6 +129,10 @@ public class RobotContainer {
           //   m_auxJoystick  
           //   .button(3)
           //   .onTrue(DefibulatorCommands.toggledefibulatorCommand(Defibulator));
+
+            m_auxJoystick  
+            .button(3)
+            .onTrue(DropCommands.toggleDropCommand(drop));
 
           //  m_auxJoystick  
           //  .button(12)

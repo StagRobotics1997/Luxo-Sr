@@ -59,6 +59,12 @@ public final class Constants {
         public static final int DEFIBULATOR_EXTENDER_2 = 8;
     }
 
+    public static final class DropConstants {
+        // solenoids
+        public static final int DROP_EXTENDER_1 = 7;
+        public static final int DROP_EXTENDER_2 = 8;
+    }
+
     public static final class ClawConstants {
         public static final int CLAW_MOTOR = 0;
 
