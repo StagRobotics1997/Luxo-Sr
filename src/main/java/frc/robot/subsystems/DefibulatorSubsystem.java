@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DefibulatorSubsystem extends SubsystemBase {
-    private DoubleSolenoid DefibulatorExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, DefibulatorConstants.DEFIBULATOR_EXTENDER_1,DefibulatorConstants.DEFIBULATOR_EXTENDER_2);
+    private DoubleSolenoid DefibulatorExtender = new DoubleSolenoid(PneumaticsModuleType.REVPH, DefibulatorConstants.DEFIBULATOR_EXTENDER_1,DefibulatorConstants.DEFIBULATOR_EXTENDER_2);
 
     private boolean extendKicker = false;
 
