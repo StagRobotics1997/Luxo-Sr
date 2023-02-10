@@ -60,20 +60,21 @@ public class LeadScrewSubsystem extends SubsystemBase {
 
   public Command move_to_bottom() {
     m_desiredPosition = Position.BOTTOM;
-    return this.runOnce(() -> process());
+    return processCommand();
   }
 
   public Command move_to_position_1() {
     m_desiredPosition = Position.POSITION_1;
-    return this.runOnce(() -> process());
+    return processCommand();
   }
 
   public Command move_to_position_2() {
     m_desiredPosition = Position.POSITION_2;
-    return this.runOnce(() -> process());
+    return processCommand();
   }
 
   public void stopMotor() {
+    m_desiredPosition = Position.NONE;
     setMotorSpeed(0.0);
   }
 
