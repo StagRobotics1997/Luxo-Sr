@@ -4,8 +4,6 @@ import frc.robot.Constants.LeadScrewConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LeadScrewSubsystem extends SubsystemBase {
@@ -23,105 +21,125 @@ public class LeadScrewSubsystem extends SubsystemBase {
     TOP
   }
 
-  private Position lastPosition = Position.NONE;
-  private Position desiredPosition = Position.NONE;
+  private Position m_lastPosition = Position.NONE;
+  private Position m_desiredPosition = Position.NONE;
+  private double m_motorSpeed = 0.0;
 
   public LeadScrewSubsystem() {
-    if (!sensor_bottom.get()) {
-      lastPosition = Position.POSITION_1;
+    if (!is_sensor_bottom_on()) {
+      m_lastPosition = Position.POSITION_1;
     }
-  }
-  public void init() {
+    setMotorSpeed(0.0);
   }
 
-  public final boolean getSensor1(){
+  public final void setMotorSpeed(double newSpeed){
+    m_motorSpeed = newSpeed;
+    motor.set(m_motorSpeed);
+  }
+
+  public final boolean is_sensor_1_on() {
     return !sensor_1.get();
-  } 
-  public boolean getSensor2(){
+  }
+
+  public boolean is_sensor_2_on() {
     return !sensor_2.get();
-  } 
-  public boolean getSensorTop(){
-    return sensor_top.get();
-  } 
-  public boolean getSensorBottom(){
-    return sensor_bottom.get();
   }
-  
+
+  public boolean is_sensor_top_on() {
+    return !sensor_top.get();
+  }
+
+  public boolean is_sensor_bottom_on() {
+    return !sensor_bottom.get();
+  }
+
   public Command move_to_top() {
-    desiredPosition = Position.TOP;
-    return new InstantCommand(() -> process());
+    m_desiredPosition = Position.TOP;
+    return processCommand();
   }
+
   public Command move_to_bottom() {
-    desiredPosition = Position.BOTTOM;
-    return new InstantCommand(() -> process());
+    m_desiredPosition = Position.BOTTOM;
+    return this.runOnce(() -> process());
   }
+
   public Command move_to_position_1() {
-    desiredPosition = Position.POSITION_1;
-    return new InstantCommand(() -> process());
+    m_desiredPosition = Position.POSITION_1;
+    return this.runOnce(() -> process());
   }
+
   public Command move_to_position_2() {
-    desiredPosition = Position.POSITION_2;
-    return new InstantCommand(() -> process());
+    m_desiredPosition = Position.POSITION_2;
+    return this.runOnce(() -> process());
   }
+
   public void stopMotor() {
-    // return this.runOnce(() ->  
-    motor.set(0.0);
-    //);
+    setMotorSpeed(0.0);
   }
-  public Command startMotor() {
-    return this.runOnce(() ->  motor.set(0.5));
+
+  public Command motorStartUpCommand() {
+    return this.runOnce(() -> setMotorSpeed(LeadScrewConstants.UP_SPEED));
   }
+
+  public Command motorStartDownCommand() {
+    return this.runOnce(() -> setMotorSpeed(LeadScrewConstants.UP_SPEED));
+  }
+
   public Command stopMotorCommand() {
-    return this.runOnce(() ->  motor.set(0.0));
+    return this.runOnce(() -> setMotorSpeed(0.0));
   }
+
   public Command move_to_Position(Position newPosition) {
-    return new InstantCommand(() -> desiredPosition = newPosition);
-    // return null;
+    m_desiredPosition = newPosition;
+    return processCommand();
+  }
+
+  public Command processCommand() {
+    return this.runOnce(() -> process());
   }
 
   public Position getPosition() {
     // check sensors to determine if we know for sure where we are
-    if (sensor_bottom.get())
+    if (is_sensor_bottom_on())
       return Position.BOTTOM;
 
-    if (sensor_1.get())
+    if (is_sensor_top_on())
+      return Position.TOP;
+
+    if (is_sensor_1_on())
       return Position.POSITION_1;
 
-    if (sensor_2.get())
+    if (is_sensor_2_on())
       return Position.POSITION_2;
-
-    if (sensor_top.get())
-      return Position.TOP;
 
     return Position.NONE;
   }
 
   public void process() {
     // Fail safes - check direction moving and check the appropriate limit switch
-    double currentSpeed = motor.get();
-    // if ((currentSpeed > 0 && LeadScrewConstants.UP_SPEED > 0 || currentSpeed < 0 && LeadScrewConstants.UP_SPEED < 0)
-    //     && sensor_top.get()) {
-    //   motor.set(0);
-    // }
-    // if ((currentSpeed > 0 && LeadScrewConstants.DOWN_SPEED > 0 || currentSpeed < 0 && LeadScrewConstants.DOWN_SPEED < 0)
-    //     && sensor_bottom.get()) {
-    //   motor.set(0);
-    // }
+    if ((m_motorSpeed > 0 && LeadScrewConstants.UP_SPEED > 0 || m_motorSpeed < 0 && LeadScrewConstants.UP_SPEED < 0)
+        && is_sensor_top_on()) {
+      stopMotor();
+    }
+    if ((m_motorSpeed > 0 && LeadScrewConstants.DOWN_SPEED > 0 || m_motorSpeed < 0 && LeadScrewConstants.DOWN_SPEED < 0)
+        && is_sensor_bottom_on()) {
+      stopMotor();
+    }
 
     Position currentPosition = getPosition(); // temp variable to store where we are if we know based on the sensors
 
     if (currentPosition != Position.NONE)
-      lastPosition = currentPosition; // we got a reading, store it
+      m_lastPosition = currentPosition; // we got a reading, store it
 
-    if (currentPosition == desiredPosition || desiredPosition == Position.NONE) { // we're where we want to be
-      if (currentSpeed != 0.0)
-        motor.set(0.0); // stop the motor if it's moving
+    if (currentPosition == m_desiredPosition || m_desiredPosition == Position.NONE) { // we're where we want to be
+      // if (currentSpeed != 0.0)
+        stopMotor(); // stop the motor if it's moving
     }
 
-    if (desiredPosition.compareTo(lastPosition) > 0) { // do we need to go up or down?
-      motor.set(LeadScrewConstants.UP_SPEED);
+    if (m_desiredPosition.compareTo(m_lastPosition) > 0) { // do we need to go up or down?
+      setMotorSpeed(LeadScrewConstants.UP_SPEED);
     } else {
-      motor.set(LeadScrewConstants.DOWN_SPEED);
+      setMotorSpeed(LeadScrewConstants.DOWN_SPEED);
     }
   }
 }

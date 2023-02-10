@@ -130,26 +130,10 @@ public class RobotContainer {
   private void configureButtonBindings() {
     m_primaryJoystick.button(7).onTrue(m_robotDrive.resetGyroscope());
 
-    m_auxJoystick.button(7).onTrue(m_leadScrew.startMotor());
-    
-    m_auxJoystick.button(6).onTrue(
-      // Commands.sequence(
-        Commands.print("6 pressed")
-        // new FunctionalCommand(m_leadScrew::init,
-        // () -> m_leadScrew.startMotor(),
-        // interrupted -> m_leadScrew.stopMotor(),
-        // () ->  m_leadScrew.getSensor1(),
-        // m_leadScrew)
-      //);
-    );
-    // m_auxJoystick.button(8).onTrue((m_leadScrew.move_to_Position(Position.POSITION_2)));
-   //  m_auxJoystick.button(9).onTrue((m_leadScrew.move_to_top()));
-
-    // m_auxJoystick.button(8).onTrue((ArmCommands.pickupoffloorCommand(arm)));
-
-    // m_auxJoystick.button(9).onTrue((ArmCommands.midbarCommand(arm)));
-
-    // m_auxJoystick.button(10).onTrue(ArmCommands.shelfCommand(arm));
+    m_auxJoystick.button(6).onTrue(m_leadScrew.move_to_top());
+    m_auxJoystick.button(7).onTrue(m_leadScrew.move_to_bottom());
+    m_auxJoystick.button(8).onTrue(m_leadScrew.move_to_position_1());
+    m_auxJoystick.button(9).onTrue(m_leadScrew.move_to_position_2());
 
     m_auxJoystick.button(11).onTrue(ArmCommands.HighbarCommand(arm));
 
@@ -169,13 +153,21 @@ public class RobotContainer {
   }
   public void configureTriggers() {
     Trigger sensorTopTrigger = new Trigger(m_leadScrew.sensor_top::get);
-    sensorTopTrigger.onFalse(m_leadScrew.stopMotorCommand());
+    sensorTopTrigger
+      .onTrue(m_leadScrew.processCommand())
+      .onFalse(m_leadScrew.processCommand());
     Trigger sensorBottomTrigger = new Trigger(m_leadScrew.sensor_bottom::get);
-    sensorBottomTrigger.onFalse(m_leadScrew.stopMotorCommand());
+    sensorBottomTrigger
+      .onTrue(m_leadScrew.processCommand())
+      .onFalse(m_leadScrew.processCommand());
     Trigger sensor1Trigger = new Trigger(m_leadScrew.sensor_1::get);
-    sensor1Trigger.onFalse(m_leadScrew.stopMotorCommand());
+    sensor1Trigger
+      .onTrue(m_leadScrew.processCommand())
+      .onFalse(m_leadScrew.processCommand());
     Trigger sensor2Trigger = new Trigger(m_leadScrew.sensor_2::get);
-    sensor2Trigger.onFalse(m_leadScrew.stopMotorCommand());
+    sensor2Trigger
+      .onTrue(m_leadScrew.processCommand())
+      .onFalse(m_leadScrew.processCommand());
   }
   // public CommandJoystick getPrimaryJoystick() {
   // return m_primaryJoystick;
