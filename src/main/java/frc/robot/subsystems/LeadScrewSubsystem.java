@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import frc.robot.Utilities;
 
 public class LeadScrewSubsystem extends SubsystemBase {
   private final Spark motor = new Spark(LeadScrewConstants.FOREARM_MOTOR);
@@ -19,7 +21,7 @@ public class LeadScrewSubsystem extends SubsystemBase {
     BOTTOM,
     POSITION_1,
     POSITION_2,
-    TOP
+    TOP,
     MANUAL
   }
 
@@ -34,7 +36,7 @@ public class LeadScrewSubsystem extends SubsystemBase {
     setMotorSpeed(0.0);
   }
 
-  public final void setMotorSpeed(double newSpeed){
+  public final void setMotorSpeed(double newSpeed) {
     m_motorSpeed = newSpeed;
     motor.set(m_motorSpeed);
   }
@@ -76,11 +78,12 @@ public class LeadScrewSubsystem extends SubsystemBase {
   }
 
   public Command toggle_manual_mode(CommandJoystick joystick) {
-    m_auxJoystick = joystick;
+    m_joystick = joystick;
     if (m_desiredPosition == Position.MANUAL)
       m_desiredPosition = Position.NONE;
     else
       m_desiredPosition = Position.MANUAL;
+    return stopMotorCommand();
   }
 
   public void stopMotor() {
@@ -104,9 +107,9 @@ public class LeadScrewSubsystem extends SubsystemBase {
     return this.runOnce(() -> setMotorSpeed(0.0));
   }
 
-  public Command move_to_Position(Position newPosition) {
+  public void moveToPosition(Position newPosition) {
     m_desiredPosition = newPosition;
-    return processCommand();
+    process();
   }
 
   public Command processCommand() {
@@ -131,11 +134,13 @@ public class LeadScrewSubsystem extends SubsystemBase {
   }
 
   private boolean is_moving_up() {
-    return ((m_motorSpeed > 0 && LeadScrewConstants.UP_SPEED > 0) || (m_motorSpeed < 0 && LeadScrewConstants.UP_SPEED < 0));
+    return ((m_motorSpeed > 0 && LeadScrewConstants.UP_SPEED > 0)
+        || (m_motorSpeed < 0 && LeadScrewConstants.UP_SPEED < 0));
   }
-  
+
   private boolean is_moving_down() {
-    return ((m_motorSpeed > 0 && LeadScrewConstants.DOWN_SPEED > 0) || (m_motorSpeed < 0 && LeadScrewConstants.DOWN_SPEED < 0));
+    return ((m_motorSpeed > 0 && LeadScrewConstants.DOWN_SPEED > 0)
+        || (m_motorSpeed < 0 && LeadScrewConstants.DOWN_SPEED < 0));
   }
 
   public boolean failSafeCheck() {
@@ -165,16 +170,17 @@ public class LeadScrewSubsystem extends SubsystemBase {
       m_lastPosition = currentPosition; // we got a reading, store it
 
     return (currentPosition == m_desiredPosition || m_desiredPosition == Position.NONE);
-      
+
   }
 
   public void process() {
 
-    if (m_desiredPosition == Position.MANUAL) return; // In manual mode, don't use any of this logic 
+    if (m_desiredPosition == Position.MANUAL)
+      return; // In manual mode, don't use any of this logic
 
     if (reached_destination()) { // we're where we want to be
       // if (currentSpeed != 0.0)
-        stopMotor(); // stop the motor if it's moving
+      stopMotor(); // stop the motor if it's moving
     }
 
     if (m_desiredPosition.compareTo(m_lastPosition) > 0) { // do we need to go up or down?
