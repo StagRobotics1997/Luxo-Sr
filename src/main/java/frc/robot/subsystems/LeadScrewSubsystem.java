@@ -12,6 +12,7 @@ public class LeadScrewSubsystem extends SubsystemBase {
   public final DigitalInput sensor_2 = new DigitalInput(LeadScrewConstants.SENSOR_2);
   public final DigitalInput sensor_bottom = new DigitalInput(LeadScrewConstants.SENSOR_BOTTOM);
   public final DigitalInput sensor_top = new DigitalInput(LeadScrewConstants.SENSOR_TOP);
+  private CommandJoystick m_joystick;
 
   public enum Position {
     NONE,
@@ -19,6 +20,7 @@ public class LeadScrewSubsystem extends SubsystemBase {
     POSITION_1,
     POSITION_2,
     TOP
+    MANUAL
   }
 
   private Position m_lastPosition = Position.NONE;
@@ -73,6 +75,14 @@ public class LeadScrewSubsystem extends SubsystemBase {
     return this.runOnce(() -> process());
   }
 
+  public Command toggle_manual_mode(CommandJoystick joystick) {
+    m_auxJoystick = joystick;
+    if (m_desiredPosition == Position.MANUAL)
+      m_desiredPosition = Position.NONE;
+    else
+      m_desiredPosition = Position.MANUAL;
+  }
+
   public void stopMotor() {
     setMotorSpeed(0.0);
   }
@@ -83,6 +93,10 @@ public class LeadScrewSubsystem extends SubsystemBase {
 
   public Command motorStartDownCommand() {
     return this.runOnce(() -> setMotorSpeed(LeadScrewConstants.UP_SPEED));
+  }
+
+  public Command motorOnCommand(double speed) {
+    return this.runOnce(() -> setMotorSpeed(speed));
   }
 
   public Command stopMotorCommand() {
@@ -115,18 +129,32 @@ public class LeadScrewSubsystem extends SubsystemBase {
     return Position.NONE;
   }
 
-  public void process() {
-    // Fail safes - check direction moving and check the appropriate limit switch
-    if ((m_motorSpeed > 0 && LeadScrewConstants.UP_SPEED > 0 || m_motorSpeed < 0 && LeadScrewConstants.UP_SPEED < 0)
-        && is_sensor_top_on()) {
-      stopMotor();
-    }
-    if ((m_motorSpeed > 0 && LeadScrewConstants.DOWN_SPEED > 0 || m_motorSpeed < 0 && LeadScrewConstants.DOWN_SPEED < 0)
-        && is_sensor_bottom_on()) {
-      stopMotor();
-    }
+  private boolean is_moving_up() {
+    return ((m_motorSpeed > 0 && LeadScrewConstants.UP_SPEED > 0) || (m_motorSpeed < 0 && LeadScrewConstants.UP_SPEED < 0));
+  }
+  
+  private boolean is_moving_down() {
+    return ((m_motorSpeed > 0 && LeadScrewConstants.DOWN_SPEED > 0) || (m_motorSpeed < 0 && LeadScrewConstants.DOWN_SPEED < 0));
+  }
 
-    Position currentPosition = getPosition(); // temp variable to store where we are if we know based on the sensors
+  public void periodic() {
+    // Fail safes - check direction moving and check the appropriate limit switch
+    if (is_moving_up() && is_sensor_top_on()) {
+      stopMotor();
+    }
+    if (is_moving_down() && is_sensor_bottom_on()) {
+      stopMotor();
+    }
+    if (m_desiredPosition == Position.MANUAL) { // in manual mode, use joystick to control motor speed
+      setMotorSpeed(m_joystick.getRawAxis(2));
+    }
+  }
+
+  public void process() {
+
+    if (m_desiredPosition == Position.MANUAL) return; // In manual mode, don't use any of this logic
+
+    Position currentPosition = getPosition(); // store where we are if we know based on the sensors
 
     if (currentPosition != Position.NONE)
       m_lastPosition = currentPosition; // we got a reading, store it

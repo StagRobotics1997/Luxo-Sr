@@ -84,7 +84,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     configureTriggers();
-    // arm.setDefaultCommand(arm.forearmMotoron());
+
     camera1 = CameraServer.startAutomaticCapture(0);
     // Configure default commands
     // Set the default drive command to split-stick arcade drive
@@ -130,13 +130,14 @@ public class RobotContainer {
   private void configureButtonBindings() {
     m_primaryJoystick.button(7).onTrue(m_robotDrive.resetGyroscope());
 
-    m_auxJoystick.button(6).onTrue(m_leadScrew.move_to_top());
-    m_auxJoystick.button(7).onTrue(m_leadScrew.move_to_bottom());
-    m_auxJoystick.button(8).onTrue(m_leadScrew.move_to_position_1());
-    m_auxJoystick.button(9).onTrue(m_leadScrew.move_to_position_2());
-
-    m_auxJoystick.button(11).onTrue(ArmCommands.HighbarCommand(arm));
-
+    m_auxJoystick.button(7).onTrue(m_leadScrew.move_to_top());
+    m_auxJoystick.button(8).onTrue(m_leadScrew.move_to_bottom());
+    m_auxJoystick.button(9).onTrue(m_leadScrew.move_to_position_1());
+    m_auxJoystick.button(10).onTrue(m_leadScrew.move_to_position_2());
+    m_auxJoystick.button(11).onTrue(m_leadScrew.toggle_manual_mode(m_auxJoystick));
+    
+    m_auxJoystick.button(12).onTrue(ArmCommands.HighbarCommand(arm));
+    
     // m_auxJoystick
     // .button(12)
     // .onTrue(ClawCommands.ClawstartCommands(claw));
@@ -152,20 +153,16 @@ public class RobotContainer {
 
   }
   public void configureTriggers() {
-    Trigger sensorTopTrigger = new Trigger(m_leadScrew.sensor_top::get);
-    sensorTopTrigger
+    Trigger sensorTopTrigger = new Trigger(m_leadScrew.sensor_top::get)
       .onTrue(m_leadScrew.processCommand())
       .onFalse(m_leadScrew.processCommand());
-    Trigger sensorBottomTrigger = new Trigger(m_leadScrew.sensor_bottom::get);
-    sensorBottomTrigger
+    Trigger sensorBottomTrigger = new Trigger(m_leadScrew.sensor_bottom::get)
       .onTrue(m_leadScrew.processCommand())
       .onFalse(m_leadScrew.processCommand());
-    Trigger sensor1Trigger = new Trigger(m_leadScrew.sensor_1::get);
-    sensor1Trigger
+    Trigger sensor1Trigger = new Trigger(m_leadScrew.sensor_1::get)
       .onTrue(m_leadScrew.processCommand())
       .onFalse(m_leadScrew.processCommand());
-    Trigger sensor2Trigger = new Trigger(m_leadScrew.sensor_2::get);
-    sensor2Trigger
+    Trigger sensor2Trigger = new Trigger(m_leadScrew.sensor_2::get)
       .onTrue(m_leadScrew.processCommand())
       .onFalse(m_leadScrew.processCommand());
   }
