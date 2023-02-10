@@ -51,8 +51,8 @@ public final class Constants {
         public static final int SENSOR_TOP = 1;
         public static final int SENSOR_BOTTOM = 2;
         // Speeds
-        public static final double UP_SPEED = 0.1;
-        public static final double DOWN_SPEED = -0.1;
+        public static final double UP_SPEED = 0.5;
+        public static final double DOWN_SPEED = -0.5;
     }
 
     public static final class KickstandConstants {

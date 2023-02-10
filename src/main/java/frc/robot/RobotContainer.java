@@ -11,12 +11,17 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 // import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.LeadScrewSubsystem.Position;;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -39,10 +44,10 @@ public class RobotContainer {
   // KickstandSubsystem();
   // private final frc.robot.subsystems.DefibulatorSubsystem Defibulator= new
   // DefibulatorSubsystem();
-  private final frc.robot.subsystems.ClawSubsystem claw = new ClawSubsystem();
-  private final frc.robot.subsystems.KickstandSubsystem kicker = new KickstandSubsystem();
-  private final frc.robot.subsystems.DefibulatorSubsystem Defibulator = new DefibulatorSubsystem();
-  private final frc.robot.subsystems.DropSubsystem drop = new DropSubsystem();
+  // private final frc.robot.subsystems.ClawSubsystem claw = new ClawSubsystem();
+  // private final frc.robot.subsystems.KickstandSubsystem kicker = new KickstandSubsystem();
+  // private final frc.robot.subsystems.DefibulatorSubsystem Defibulator = new DefibulatorSubsystem();
+  // private final frc.robot.subsystems.DropSubsystem drop = new DropSubsystem();
   private final frc.robot.subsystems.LeadScrewSubsystem m_leadScrew = new LeadScrewSubsystem();
   // private final frc.robot.commands.ArmCommands armCommands = new ArmCommands();
   // private final frc.robot.subsystems.KickstandSubsystem kicker= new
@@ -78,6 +83,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    configureTriggers();
     // arm.setDefaultCommand(arm.forearmMotoron());
     camera1 = CameraServer.startAutomaticCapture(0);
     // Configure default commands
@@ -91,7 +97,7 @@ public class RobotContainer {
                 m_primaryJoystick.getRawAxis(0),
                 m_secondaryJoystick.getRawAxis(0)),
             m_robotDrive));
-    m_leadScrew.setDefaultCommand(m_leadScrew.process());
+    // m_leadScrew.setDefaultCommand(m_leadScrew.process());
     // Add commands to the autonomous command chooser
     // m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
     // m_chooser.addOption("Complex Auto", m_complexAuto);
@@ -124,13 +130,26 @@ public class RobotContainer {
   private void configureButtonBindings() {
     m_primaryJoystick.button(7).onTrue(m_robotDrive.resetGyroscope());
 
-    m_auxJoystick.button(7).onTrue((ArmCommands.startCommands(arm)));
+    m_auxJoystick.button(7).onTrue(m_leadScrew.startMotor());
+    
+    m_auxJoystick.button(6).onTrue(
+      // Commands.sequence(
+        Commands.print("6 pressed")
+        // new FunctionalCommand(m_leadScrew::init,
+        // () -> m_leadScrew.startMotor(),
+        // interrupted -> m_leadScrew.stopMotor(),
+        // () ->  m_leadScrew.getSensor1(),
+        // m_leadScrew)
+      //);
+    );
+    // m_auxJoystick.button(8).onTrue((m_leadScrew.move_to_Position(Position.POSITION_2)));
+   //  m_auxJoystick.button(9).onTrue((m_leadScrew.move_to_top()));
 
-    m_auxJoystick.button(8).onTrue((ArmCommands.pickupoffloorCommand(arm)));
+    // m_auxJoystick.button(8).onTrue((ArmCommands.pickupoffloorCommand(arm)));
 
-    m_auxJoystick.button(9).onTrue((ArmCommands.midbarCommand(arm)));
+    // m_auxJoystick.button(9).onTrue((ArmCommands.midbarCommand(arm)));
 
-    m_auxJoystick.button(10).onTrue(ArmCommands.shelfCommand(arm));
+    // m_auxJoystick.button(10).onTrue(ArmCommands.shelfCommand(arm));
 
     m_auxJoystick.button(11).onTrue(ArmCommands.HighbarCommand(arm));
 
@@ -142,13 +161,22 @@ public class RobotContainer {
     // .button(3)
     // .onTrue(DefibulatorCommands.toggledefibulatorCommand(Defibulator));
 
-    m_auxJoystick.button(3).onTrue(DropCommands.toggleDropCommand(drop));
+    // m_auxJoystick.button(3).onTrue(DropCommands.toggleDropCommand(drop));
     // m_auxJoystick
     // .button(12)
     // .onTrue(KickstandCommands.toggleKickstandCommand(kicker));
 
   }
-
+  public void configureTriggers() {
+    Trigger sensorTopTrigger = new Trigger(m_leadScrew.sensor_top::get);
+    sensorTopTrigger.onFalse(m_leadScrew.stopMotorCommand());
+    Trigger sensorBottomTrigger = new Trigger(m_leadScrew.sensor_bottom::get);
+    sensorBottomTrigger.onFalse(m_leadScrew.stopMotorCommand());
+    Trigger sensor1Trigger = new Trigger(m_leadScrew.sensor_1::get);
+    sensor1Trigger.onFalse(m_leadScrew.stopMotorCommand());
+    Trigger sensor2Trigger = new Trigger(m_leadScrew.sensor_2::get);
+    sensor2Trigger.onFalse(m_leadScrew.stopMotorCommand());
+  }
   // public CommandJoystick getPrimaryJoystick() {
   // return m_primaryJoystick;
   // }
