@@ -2,7 +2,9 @@ package frc.robot.subsystems;
 import frc.robot.Constants.ClawConstants;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -10,7 +12,7 @@ public class ClawSubsystem extends SubsystemBase {
   private DoubleSolenoid ClawExtender = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClawConstants.CLAW_EXTENDER_1, ClawConstants.CLAW_EXTENDER_2);
   private boolean extendClaw= false;
   private boolean onClawmotor= false;
-  private Spark ClawMotor = new Spark(ClawConstants.CLAW_MOTOR);
+  private  VictorSPX ClawMotor = new  VictorSPX(ClawConstants.CLAW_MOTOR);
   
   public ClawSubsystem(){
   }
