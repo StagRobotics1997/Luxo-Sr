@@ -101,12 +101,15 @@ public class RobotContainer {
    * it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_primaryJoystick.button(7).onTrue(m_robotDrive.resetGyroscope());
-
-    m_auxJoystick.button(7).onTrue(m_leadScrew.move_to_top());
-    m_auxJoystick.button(8).onTrue(m_leadScrew.move_to_bottom());
-    m_auxJoystick.button(9).onTrue(m_leadScrew.move_to_position_1());
-    m_auxJoystick.button(10).onTrue(m_leadScrew.move_to_position_2());
+    // m_primaryJoystick.button(7).onTrue(m_robotDrive.resetGyroscope());
+    // m_auxJoystick.button(7).onTrue(m_leadScrew.move_to_top());
+    // m_auxJoystick.button(8).onTrue(m_leadScrew.move_to_bottom());
+    // m_auxJoystick.button(9).onTrue(m_leadScrew.move_to_position_1());
+    // m_auxJoystick.button(10).onTrue(m_leadScrew.move_to_position_2());
+    m_auxJoystick.button(7).onTrue(LeadScrewCommands.move_to_top(m_leadScrew));
+    m_auxJoystick.button(8).onTrue(LeadScrewCommands.move_to_bottom(m_leadScrew));
+    m_auxJoystick.button(9).onTrue(LeadScrewCommands.move_to_position_1(m_leadScrew));
+    m_auxJoystick.button(10).onTrue(LeadScrewCommands.move_to_position_2(m_leadScrew));
     m_auxJoystick
       .button(11)
       .onTrue(m_leadScrew.toggle_manual_mode(m_auxJoystick));

@@ -137,29 +137,41 @@ public class LeadScrewSubsystem extends SubsystemBase {
     return ((m_motorSpeed > 0 && LeadScrewConstants.DOWN_SPEED > 0) || (m_motorSpeed < 0 && LeadScrewConstants.DOWN_SPEED < 0));
   }
 
-  public void periodic() {
+  public boolean failSafeCheck() {
     // Fail safes - check direction moving and check the appropriate limit switch
     if (is_moving_up() && is_sensor_top_on()) {
       stopMotor();
+      return true;
     }
     if (is_moving_down() && is_sensor_bottom_on()) {
       stopMotor();
+      return true;
     }
+    return false;
+  }
+
+  public void teleopPeriodic() {
+    failSafeCheck();
     if (m_desiredPosition == Position.MANUAL) { // in manual mode, use joystick to control motor speed
-      setMotorSpeed(m_joystick.getRawAxis(2));
+      setMotorSpeed(Utilities.deadband(m_joystick.getRawAxis(2)));
     }
   }
 
-  public void process() {
-
-    if (m_desiredPosition == Position.MANUAL) return; // In manual mode, don't use any of this logic
-
+  public boolean reached_destination() {
     Position currentPosition = getPosition(); // store where we are if we know based on the sensors
 
     if (currentPosition != Position.NONE)
       m_lastPosition = currentPosition; // we got a reading, store it
 
-    if (currentPosition == m_desiredPosition || m_desiredPosition == Position.NONE) { // we're where we want to be
+    return (currentPosition == m_desiredPosition || m_desiredPosition == Position.NONE);
+      
+  }
+
+  public void process() {
+
+    if (m_desiredPosition == Position.MANUAL) return; // In manual mode, don't use any of this logic 
+
+    if (reached_destination()) { // we're where we want to be
       // if (currentSpeed != 0.0)
         stopMotor(); // stop the motor if it's moving
     }
