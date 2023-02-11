@@ -9,4 +9,8 @@ public final class ClawCommands {
             claw.Clawclosed(),
             claw.ClawMotorOff());
     }
+    // public static Command toggledefibulatorCommand(DefibulatorSubsystem Defibulator) {
+    //     return Commands.sequence(
+    //         Defibulator.ToggleExtendDefibulator());
+    // }
 }

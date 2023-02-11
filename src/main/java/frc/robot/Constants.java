@@ -33,44 +33,50 @@ public final class Constants {
     }
 
     public static final class ArmConstants {
-        // Motor
-        public static final int FOREARM_MOTOR_1 = 9;//Can
-        public static final int FOREARM_MOTOR_2 = 10;//Can
         // Solenoids
-        public static final int BICEP_EXTENDER_1 = 1;
-        public static final int BICEP_EXTENDER_2 = 2;
-        public static final int WRIST_EXTENDER_1 = 3;
-        public static final int WRIST_EXTENDER_2 = 4;
-        public static final int FOREARM_EXTENDER_1 = 5;
-        public static final int FOREARM_EXTENDER_2 = 6;
-        // Sensors
-        public static final int SENSOR_1 = 0;
-        public static final int SENSOR_2 = 9;
+        public static final int BICEP_EXTENDER_1 = 0;
+        public static final int BICEP_EXTENDER_2 = 1;
+        public static final int WRIST_EXTENDER_1 = 4;
+        public static final int WRIST_EXTENDER_2 = 5;
+        public static final int FOREARM_EXTENDER_1 = 2;
+        public static final int FOREARM_EXTENDER_2 = 3;
     }
 
+    public static final class  LeadScrewConstants {
+        // Motor
+        public static final int FOREARM_MOTOR = 9;
+        // Sensors
+        public static final int SENSOR_1 = 1;
+        public static final int SENSOR_2 = 2;
+        public static final int SENSOR_TOP = 9;
+        public static final int SENSOR_BOTTOM = 0;
+        // Speeds
+        public static final double UP_SPEED = 0.5;
+        public static final double DOWN_SPEED = -0.5;
+    }
     public static final class KickstandConstants {
         // solenoids
-        public static final int KICKER_EXTENDER_1 = 7;
-        public static final int KICKER_EXTENDER_2 = 8;
+        public static final int KICKER_EXTENDER_1 = 8;
+        public static final int KICKER_EXTENDER_2 = 9;
     }
 
-    public static final class DefibulatorConstants {
-        // Solenoids
-        public static final int DEFIBULATOR_EXTENDER_1 = 7;
-        public static final int DEFIBULATOR_EXTENDER_2 = 8;
-    }
+    // public static final class DefibulatorConstants {
+    //     // Solenoids
+    //     public static final int DEFIBULATOR_EXTENDER_1 = 7;
+    //     public static final int DEFIBULATOR_EXTENDER_2 = 8;
+    // }
 
     public static final class DropConstants {
         // solenoids
-        public static final int DROP_EXTENDER_1 = 7;
-        public static final int DROP_EXTENDER_2 = 8;
+        public static final int DROP_EXTENDER_1 = 10;
+        public static final int DROP_EXTENDER_2 = 11;
     }
 
     public static final class ClawConstants {
         public static final int CLAW_MOTOR = 11;//can
 
-        public static final int CLAW_EXTENDER_1 = 3;
-        public static final int CLAW_EXTENDER_2 = 4;
+        public static final int CLAW_EXTENDER_1 = 6;
+        public static final int CLAW_EXTENDER_2 = 7;
     }
 
     public static final class OIConstants {
