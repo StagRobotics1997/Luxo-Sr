@@ -19,7 +19,8 @@ public final class LeadScrewCommands {
 
   public static Command move_to_top(LeadScrewSubsystem leadScrew) {
     return Commands
-        .run(() -> leadScrew.moveToPosition(Position.TOP), leadScrew)
+        .run(() -> leadScrew.motorStartUpCommand(), leadScrew)
+        .repeatedly()
         .until(() -> (leadScrew.is_sensor_top_on()))
         .withTimeout(10.0)
         .finallyDo(interrupted -> leadScrew.stopMotor());

@@ -1,8 +1,12 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants.LeadScrewConstants;
+
+import java.sql.Date;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -57,33 +61,30 @@ public class LeadScrewSubsystem extends SubsystemBase {
     return !sensor_bottom.get();
   }
 
-  public Command move_to_top() {
+  public void move_to_top() {
     m_desiredPosition = Position.TOP;
-    return processCommand();
+    process();
   }
-
-  public Command move_to_bottom() {
+  public void move_to_bottom() {
     m_desiredPosition = Position.BOTTOM;
-    return processCommand();
+    process();
   }
-
-  public Command move_to_position_1() {
+  public void move_to_position_1() {
     m_desiredPosition = Position.POSITION_1;
-    return processCommand();
+    process();
   }
-
-  public Command move_to_position_2() {
+  public void move_to_position_2() {
     m_desiredPosition = Position.POSITION_2;
-    return processCommand();
+    process();
   }
 
-  public Command toggle_manual_mode(CommandJoystick joystick) {
+  public void toggle_manual_mode(CommandJoystick joystick) {
     m_joystick = joystick;
     if (m_desiredPosition == Position.MANUAL)
       m_desiredPosition = Position.NONE;
     else
       m_desiredPosition = Position.MANUAL;
-    return stopMotorCommand();
+    stopMotorCommand();
   }
 
   public void stopMotor() {
@@ -146,46 +147,65 @@ public class LeadScrewSubsystem extends SubsystemBase {
   public boolean failSafeCheck() {
     // Fail safes - check direction moving and check the appropriate limit switch
     if (is_moving_up() && is_sensor_top_on()) {
+      SmartDashboard.putString("Reached failsafe", "Top");
       stopMotor();
       return true;
     }
     if (is_moving_down() && is_sensor_bottom_on()) {
+      SmartDashboard.putString("Reached failsafe", "Bottom");
       stopMotor();
       return true;
     }
     return false;
   }
 
-  public void teleopPeriodic() {
+  public void periodic() {
+    SmartDashboard.putString("Desired Destination", m_desiredPosition.toString());
+    SmartDashboard.putBoolean("Sensor1", sensor_1.get());
+    SmartDashboard.putBoolean("Sensor2", sensor_2.get());
+    SmartDashboard.putBoolean("SensorTop", sensor_top.get());
+    SmartDashboard.putBoolean("SensorBottom", sensor_bottom.get());
     failSafeCheck();
     if (m_desiredPosition == Position.MANUAL) { // in manual mode, use joystick to control motor speed
-      setMotorSpeed(Utilities.deadband(m_joystick.getRawAxis(2)));
-    }
+      setMotorSpeed(Utilities.deadband(m_joystick.getRawAxis(1) * .5));
+    } 
+    // else {
+    //   if( m_desiredPosition == Position.NONE) setMotorSpeed(0.0);
+    // }
   }
 
   public boolean reached_destination() {
     Position currentPosition = getPosition(); // store where we are if we know based on the sensors
+    SmartDashboard.putString("Detected position", currentPosition.toString());
 
     if (currentPosition != Position.NONE)
       m_lastPosition = currentPosition; // we got a reading, store it
 
-    return (currentPosition == m_desiredPosition || m_desiredPosition == Position.NONE);
+    return (currentPosition == m_desiredPosition); // || m_desiredPosition == Position.NONE);
 
   }
 
   public void process() {
+    SmartDashboard.putString("step", "0");
 
     if (m_desiredPosition == Position.MANUAL)
       return; // In manual mode, don't use any of this logic
-
-    if (reached_destination()) { // we're where we want to be
+    boolean arrived = reached_destination();
+    SmartDashboard.putBoolean("Reached Destination", arrived);
+    if (arrived) { // we're where we want to be
       // if (currentSpeed != 0.0)
-      stopMotor(); // stop the motor if it's moving
+      m_desiredPosition = Position.NONE; // stop the motor if it's moving
     }
-
+    if( m_desiredPosition == Position.NONE) {
+      SmartDashboard.putString("step", "1");
+      stopMotor();
+      return;
+    }
     if (m_desiredPosition.compareTo(m_lastPosition) > 0) { // do we need to go up or down?
+      SmartDashboard.putString("step", "2");
       setMotorSpeed(LeadScrewConstants.UP_SPEED);
     } else {
+      SmartDashboard.putString("step", "3");
       setMotorSpeed(LeadScrewConstants.DOWN_SPEED);
     }
   }

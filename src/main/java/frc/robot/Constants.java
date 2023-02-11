@@ -46,10 +46,10 @@ public final class Constants {
         // Motor
         public static final int FOREARM_MOTOR = 9;
         // Sensors
-        public static final int SENSOR_1 = 0;
-        public static final int SENSOR_2 = 9;
-        public static final int SENSOR_TOP = 1;
-        public static final int SENSOR_BOTTOM = 2;
+        public static final int SENSOR_1 = 1;
+        public static final int SENSOR_2 = 2;
+        public static final int SENSOR_TOP = 9;
+        public static final int SENSOR_BOTTOM = 0;
         // Speeds
         public static final double UP_SPEED = 0.5;
         public static final double DOWN_SPEED = -0.5;
