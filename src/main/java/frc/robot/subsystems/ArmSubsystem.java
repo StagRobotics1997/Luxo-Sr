@@ -4,7 +4,8 @@ import frc.robot.Constants.ArmConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.*;
@@ -20,7 +21,7 @@ public class ArmSubsystem extends SubsystemBase {
   private boolean extendWrist = false;
   private boolean extendForearm = false;
   private boolean onforearmmotor = false;
-  private final Spark forearmMotor = new Spark(ArmConstants.FOREARM_MOTOR);
+  private final VictorSPX forearmMotor = new VictorSPX(ArmConstants.FOREARM_MOTOR_1, ArmConstants.FOREARM_MOTOR_2 );
   private final DigitalInput m_sensor_1 = new DigitalInput(ArmConstants.SENSOR_1);
   private final DigitalInput m_sensor_2 = new DigitalInput(ArmConstants.SENSOR_2);
   private int currentPosition = 0;
