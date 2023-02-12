@@ -44,7 +44,8 @@ public final class Constants {
 
     public static final class  LeadScrewConstants {
         // Motor
-        public static final int FOREARM_MOTOR = 9;
+        public static final int MOTOR_1 = 9;
+        public static final int MOTOR_2 = 10;
         // Sensors
         public static final int SENSOR_1 = 1;
         public static final int SENSOR_2 = 2;

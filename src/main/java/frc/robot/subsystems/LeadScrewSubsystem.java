@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Utilities;
 
 public class LeadScrewSubsystem extends SubsystemBase {
-  private final Spark motor = new Spark(LeadScrewConstants.FOREARM_MOTOR);
+  private final Spark m_motor_1 = new Spark(LeadScrewConstants.MOTOR_1);
+  private final Spark m_motor_2 = new Spark(LeadScrewConstants.MOTOR_2);
   public final DigitalInput sensor_1 = new DigitalInput(LeadScrewConstants.SENSOR_1);
   public final DigitalInput sensor_2 = new DigitalInput(LeadScrewConstants.SENSOR_2);
   public final DigitalInput sensor_bottom = new DigitalInput(LeadScrewConstants.SENSOR_BOTTOM);
@@ -42,7 +43,8 @@ public class LeadScrewSubsystem extends SubsystemBase {
 
   public final void setMotorSpeed(double newSpeed) {
     m_motorSpeed = newSpeed;
-    motor.set(m_motorSpeed);
+    m_motor_1.set(m_motorSpeed);
+    m_motor_2.set(m_motorSpeed);
   }
 
   public final boolean is_sensor_1_on() {
