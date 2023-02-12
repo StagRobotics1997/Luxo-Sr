@@ -62,11 +62,11 @@ public class ClawSubsystem extends SubsystemBase {
     return this.runOnce(() -> ClawMotor.set(VictorSPXControlMode.Velocity, 0.0));
   }
 
-  public CommandBase Clawclosed() {
+  public CommandBase CloseClaw() {
     return this.runOnce(() -> ClawExtender.set(DoubleSolenoid.Value.kReverse));
   }
 
-  public CommandBase Clawopen() {
+  public CommandBase OpenClaw() {
     return this.runOnce(() -> ClawExtender.set(DoubleSolenoid.Value.kForward));
   }
 }

@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants.LeadScrewConstants;
 
-import java.sql.Date;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

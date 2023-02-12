@@ -6,11 +6,15 @@ import frc.robot.subsystems.ClawSubsystem;
 public final class ClawCommands {
     public static Command ClawstartCommands(ClawSubsystem claw) {
         return Commands.sequence(
-            claw.Clawclosed(),
+            claw.OpenClaw(),
             claw.ClawMotorOff());
     }
-    // public static Command toggledefibulatorCommand(DefibulatorSubsystem Defibulator) {
-    //     return Commands.sequence(
-    //         Defibulator.ToggleExtendDefibulator());
-    // }
+    public static Command closeClawCommand(ClawSubsystem claw) {
+        return Commands.sequence(
+            claw.CloseClaw());
+    }
+    public static Command openClawCommand(ClawSubsystem claw) {
+        return Commands.sequence(
+            claw.OpenClaw());
+    }
 }

@@ -32,16 +32,11 @@ public class RobotContainer {
   // The robot's subsystems
   private final DrivetrainSubsystem m_robotDrive = new DrivetrainSubsystem();
   // private final frc.robot.commands.ArmCommands armCommands = new ArmCommands();
-  private final frc.robot.subsystems.ArmSubsystem arm = new ArmSubsystem();
-  public static UsbCamera camera1;
-  // private final frc.robot.subsystems.ClawSubsystem claw= new ClawSubsystem();
-  // private final frc.robot.subsystems.KickstandSubsystem kicker= new
-  // KickstandSubsystem();
-  // private final frc.robot.subsystems.DefibulatorSubsystem Defibulator= new
-  // DefibulatorSubsystem();
-  private final frc.robot.subsystems.ClawSubsystem claw = new ClawSubsystem();
-  private final frc.robot.subsystems.KickstandSubsystem kicker = new KickstandSubsystem();
-  private final frc.robot.subsystems.DropSubsystem drop = new DropSubsystem();
+  private final frc.robot.subsystems.ArmSubsystem m_arm = new ArmSubsystem();
+  public static UsbCamera m_camera_0;
+  private final frc.robot.subsystems.ClawSubsystem m_claw = new ClawSubsystem();
+  private final frc.robot.subsystems.KickstandSubsystem m_kickstand = new KickstandSubsystem();
+  private final frc.robot.subsystems.DropSubsystem m_drop = new DropSubsystem();
   private final frc.robot.subsystems.LeadScrewSubsystem m_leadScrew = new LeadScrewSubsystem();
 
   // private final frc.robot.commands.ArmCommands armCommands = new ArmCommands();
@@ -63,8 +58,6 @@ public class RobotContainer {
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   // The driver's controller
-  // CommandPS4Controller m_driverController =
-  // new CommandPS4Controller(OIConstants.kDriverControllerPort);
   CommandJoystick m_primaryJoystick = new CommandJoystick(frc.robot.Constants.OIConstants.PRIMARY_JOYSTICK);
   CommandJoystick m_secondaryJoystick = new CommandJoystick(frc.robot.Constants.OIConstants.SECONDARY_JOYSTICK);
   CommandJoystick m_auxJoystick = new CommandJoystick(frc.robot.Constants.OIConstants.AUX_JOYSTICK);
@@ -75,14 +68,16 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    camera1 = CameraServer.startAutomaticCapture(0);
+
+    m_camera_0 = CameraServer.startAutomaticCapture(0);
     // Configure default commands
     // Set the default drive command to split-stick arcade drive
     m_robotDrive.setDefaultCommand(
         // A split-stick arcade command, with forward/backward controlled by the left
         // hand, and turning controlled by the right.
         new RunCommand(
-            () -> m_robotDrive.stickDrive(m_primaryJoystick.getRawAxis(1),
+            () -> m_robotDrive.stickDrive(
+                m_primaryJoystick.getRawAxis(1),
                 m_primaryJoystick.getRawAxis(0),
                 m_secondaryJoystick.getRawAxis(0)),
             m_robotDrive));
@@ -139,44 +134,34 @@ public class RobotContainer {
     // .button(12)
     // .onTrue(ClawCommands.ClawstartCommands(claw));
 
-    // m_auxJoystick
-    // .button(3)
-    // .onTrue(DefibulatorCommands.toggledefibulatorCommand(Defibulator));
-
-    m_auxJoystick
-        .button(3)
-        .onTrue(DropCommands.toggleDropCommand(drop));
-
-    // m_auxJoystick
-    // .button(12)
-    // .onTrue(KickstandCommands.toggleKickstandCommand(kicker));
+    m_auxJoystick.button(1).onTrue(ClawCommands.closeClawCommand(m_claw)).onFalse(ClawCommands.openClawCommand(m_claw));
+    m_auxJoystick.button(3).onTrue(DropCommands.toggleDropCommand(m_drop));
     m_auxJoystick.button(7).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_bottom(), m_leadScrew));
     m_auxJoystick.button(8).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_position_1(), m_leadScrew));
-    m_auxJoystick.button(10).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_position_2(), m_leadScrew));
     m_auxJoystick.button(9).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_top(), m_leadScrew));
-    m_auxJoystick
-        .button(11)
-        .onTrue(Commands.runOnce(() -> m_leadScrew.toggle_manual_mode(m_auxJoystick), m_leadScrew));
-
+    m_auxJoystick.button(10).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_position_2(), m_leadScrew));
+    m_auxJoystick.button(11).onTrue(Commands.runOnce(() -> m_leadScrew.toggle_manual_mode(m_auxJoystick), m_leadScrew));
+    m_auxJoystick.button(12).onTrue(KickstandCommands.toggleKickstandCommand(m_kickstand));
   }
 
   public void configureTriggers() {
     Trigger sensorTopTrigger = new Trigger(m_leadScrew.sensor_top::get);
-    sensorTopTrigger.onTrue(m_leadScrew.processCommand())
+    sensorTopTrigger
+        .onTrue(m_leadScrew.processCommand())
         .onFalse(m_leadScrew.processCommand());
     Trigger sensorBottomTrigger = new Trigger(m_leadScrew.sensor_bottom::get);
-    sensorBottomTrigger.onTrue(m_leadScrew.processCommand())
+    sensorBottomTrigger
+        .onTrue(m_leadScrew.processCommand())
         .onFalse(m_leadScrew.processCommand());
     Trigger sensor1Trigger = new Trigger(m_leadScrew.sensor_1::get);
-    sensor1Trigger.onTrue(m_leadScrew.processCommand())
+    sensor1Trigger
+        .onTrue(m_leadScrew.processCommand())
         .onFalse(m_leadScrew.processCommand());
     Trigger sensor2Trigger = new Trigger(m_leadScrew.sensor_2::get);
-    sensor2Trigger.onTrue(m_leadScrew.processCommand())
+    sensor2Trigger
+        .onTrue(m_leadScrew.processCommand())
         .onFalse(m_leadScrew.processCommand());
   }
-  // public CommandJoystick getPrimaryJoystick() {
-  // return m_primaryJoystick;
-  // }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

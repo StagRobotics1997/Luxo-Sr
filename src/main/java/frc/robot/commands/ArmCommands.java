@@ -9,33 +9,33 @@ public final class ArmCommands {
     public static Command startCommands(ArmSubsystem arm) {
         return Commands.sequence(
             arm.bicepIn(),
-            arm.foreArmIn(),
-            arm.wristout());
+            arm.forearmIn(),
+            arm.wristOut());
     }
     public static Command pickupoffloorCommand(ArmSubsystem arm) {
         return Commands.sequence(
             arm.bicepIn(),
-            arm.foreArmIn(),
-            arm.wristout());
+            arm.forearmIn(),
+            arm.wristOut());
     }
     
     public static Command midbarCommand(ArmSubsystem arm) {
         return Commands.sequence(
             arm.bicepIn(),
-            arm.foreArmout(),
-            arm.wristout());
+            arm.forearmOut(),
+            arm.wristOut());
     }
     public static Command shelfCommand(ArmSubsystem arm) {
         return Commands.sequence(
             arm.bicepIn(),
-            arm.foreArmout(),
-            arm.wristout());
+            arm.forearmOut(),
+            arm.wristOut());
     }
     public static Command HighbarCommand(ArmSubsystem arm) {
         return Commands.sequence(
             arm.bicepout(),
-            arm.foreArmout(),
-            arm.wristout());
+            arm.forearmOut(),
+            arm.wristOut());
     }
     
 }
