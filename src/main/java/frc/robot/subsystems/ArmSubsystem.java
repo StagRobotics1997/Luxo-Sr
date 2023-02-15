@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
-  private DoubleSolenoid bicepExtender = new DoubleSolenoid(PneumaticsModuleType.REVPH, ArmConstants.BICEP_EXTENDER_1,
+  private DoubleSolenoid bicepExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ArmConstants.BICEP_EXTENDER_1,
       ArmConstants.BICEP_EXTENDER_2);
-  private DoubleSolenoid forearmExtender = new DoubleSolenoid(PneumaticsModuleType.REVPH,
+  private DoubleSolenoid forearmExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
       ArmConstants.FOREARM_EXTENDER_1, ArmConstants.FOREARM_EXTENDER_2);
-  private DoubleSolenoid wristExtender = new DoubleSolenoid(PneumaticsModuleType.REVPH, ArmConstants.WRIST_EXTENDER_1,
+  private DoubleSolenoid wristExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ArmConstants.WRIST_EXTENDER_1,
       ArmConstants.WRIST_EXTENDER_2);
   private boolean extendBicep = false;
   private boolean extendWrist = false;

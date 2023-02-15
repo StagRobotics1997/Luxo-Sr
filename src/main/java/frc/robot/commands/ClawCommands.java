@@ -16,5 +16,11 @@ public final class ClawCommands {
     public static Command openClawCommand(ClawSubsystem claw) {
         return Commands.sequence(
             claw.OpenClaw());
+
+        }
+        
+    public static Command toggleClawMotorCommand(ClawSubsystem claw) {
+        return Commands.sequence(
+            claw.toggleClawMotor());
     }
 }

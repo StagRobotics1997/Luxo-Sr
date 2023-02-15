@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class KickstandSubsystem extends SubsystemBase {
-    private DoubleSolenoid kickerExtender = new DoubleSolenoid(PneumaticsModuleType.REVPH, KickstandConstants.KICKER_EXTENDER_1, KickstandConstants.KICKER_EXTENDER_2);
+    private DoubleSolenoid kickerExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, KickstandConstants.KICKER_EXTENDER_1, KickstandConstants.KICKER_EXTENDER_2);
 
     private boolean extendKicker = false;
 
