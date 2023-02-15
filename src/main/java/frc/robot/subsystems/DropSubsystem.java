@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DropSubsystem extends SubsystemBase {
-    private DoubleSolenoid DropExtender = new DoubleSolenoid(PneumaticsModuleType.REVPH, DropConstants.DROP_EXTENDER_1, DropConstants.DROP_EXTENDER_2);
+    private DoubleSolenoid DropExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, DropConstants.DROP_EXTENDER_1, DropConstants.DROP_EXTENDER_2);
 
     private boolean extendDrop = false;
 
