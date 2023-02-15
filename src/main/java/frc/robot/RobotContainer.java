@@ -35,8 +35,8 @@ public class RobotContainer {
   private final frc.robot.subsystems.ArmSubsystem m_arm = new ArmSubsystem();
   public static UsbCamera m_camera_0;
   private final frc.robot.subsystems.ClawSubsystem m_claw = new ClawSubsystem();
-  private final frc.robot.subsystems.KickstandSubsystem m_kickstand = new KickstandSubsystem();
-  private final frc.robot.subsystems.DropSubsystem m_drop = new DropSubsystem();
+  // private final frc.robot.subsystems.KickstandSubsystem m_kickstand = new KickstandSubsystem();
+  // private final frc.robot.subsystems.DropSubsystem m_drop = new DropSubsystem();
   private final frc.robot.subsystems.LeadScrewSubsystem m_leadScrew = new LeadScrewSubsystem();
 
   // private final frc.robot.commands.ArmCommands armCommands = new ArmCommands();
@@ -135,13 +135,13 @@ public class RobotContainer {
     // .onTrue(ClawCommands.ClawstartCommands(claw));
 
     m_auxJoystick.button(1).onTrue(ClawCommands.closeClawCommand(m_claw)).onFalse(ClawCommands.openClawCommand(m_claw));
-    m_auxJoystick.button(3).onTrue(DropCommands.toggleDropCommand(m_drop));
+    // m_auxJoystick.button(3).onTrue(DropCommands.toggleDropCommand(m_drop));
     m_auxJoystick.button(7).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_bottom(), m_leadScrew));
     m_auxJoystick.button(8).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_position_1(), m_leadScrew));
     m_auxJoystick.button(9).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_top(), m_leadScrew));
     m_auxJoystick.button(10).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_position_2(), m_leadScrew));
     m_auxJoystick.button(11).onTrue(Commands.runOnce(() -> m_leadScrew.toggle_manual_mode(m_auxJoystick), m_leadScrew));
-    m_auxJoystick.button(12).onTrue(KickstandCommands.toggleKickstandCommand(m_kickstand));
+    // m_auxJoystick.button(12).onTrue(KickstandCommands.toggleKickstandCommand(m_kickstand));
     m_auxJoystick.button(2).onTrue(ClawCommands.toggleClawMotorCommand(m_claw));
   }
 

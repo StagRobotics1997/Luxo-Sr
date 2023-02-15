@@ -37,7 +37,7 @@ public class ClawSubsystem extends SubsystemBase {
       ClawMotorOff();
       onClawmotor = false;
     }
-    return null;
+    return this.runOnce(() -> onClawmotor = onClawmotor);
   }
   // public CommandBase ToggleExtendDefibulator(){
   //   if (clawOpen){
