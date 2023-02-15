@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import frc.robot.Constants.LeadScrewConstants;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -11,8 +10,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Utilities;
 
 public class LeadScrewSubsystem extends SubsystemBase {
-  private final Spark m_motor_1 = new Spark(LeadScrewConstants.MOTOR_1);
-  private final Spark m_motor_2 = new Spark(LeadScrewConstants.MOTOR_2);
+  private final VictorSPX m_motor_1 = new VictorSPX(LeadScrewConstants.MOTOR_1);
+  private final VictorSPX m_motor_2 = new VictorSPX(LeadScrewConstants.MOTOR_2);
   public final DigitalInput sensor_1 = new DigitalInput(LeadScrewConstants.SENSOR_1);
   public final DigitalInput sensor_2 = new DigitalInput(LeadScrewConstants.SENSOR_2);
   public final DigitalInput sensor_bottom = new DigitalInput(LeadScrewConstants.SENSOR_BOTTOM);

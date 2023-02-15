@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClawSubsystem extends SubsystemBase {
-  private DoubleSolenoid ClawExtender = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClawConstants.CLAW_EXTENDER_1,
+  private DoubleSolenoid ClawExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ClawConstants.CLAW_EXTENDER_1,
       ClawConstants.CLAW_EXTENDER_2);
   private boolean extendClaw = false;
   private boolean onClawmotor = false;
@@ -29,7 +29,7 @@ public class ClawSubsystem extends SubsystemBase {
     }
   }
 
-  public void toggleClawMotor(double speed) {
+  public CommandBase toggleClawMotor() {
     if (onClawmotor == false) {
       ClawMotorForward();
       onClawmotor = true;

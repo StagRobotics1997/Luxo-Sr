@@ -17,4 +17,8 @@ public final class ClawCommands {
         return Commands.sequence(
             claw.OpenClaw());
     }
+    public static Command toggleClawMotorCommand(Clawsystem claw) {
+        return Commands.sequence(
+            claw.ToggleCLawMotor());
+    }
 }

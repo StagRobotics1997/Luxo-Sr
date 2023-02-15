@@ -142,6 +142,7 @@ public class RobotContainer {
     m_auxJoystick.button(10).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_position_2(), m_leadScrew));
     m_auxJoystick.button(11).onTrue(Commands.runOnce(() -> m_leadScrew.toggle_manual_mode(m_auxJoystick), m_leadScrew));
     m_auxJoystick.button(12).onTrue(KickstandCommands.toggleKickstandCommand(m_kickstand));
+    m_auxJoystick.button(2).onTrue(CawCommands.toggleClawMotorCommand(m_claw));
   }
 
   public void configureTriggers() {
