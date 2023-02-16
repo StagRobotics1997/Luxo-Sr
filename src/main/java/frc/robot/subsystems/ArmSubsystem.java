@@ -16,6 +16,7 @@ public class ArmSubsystem extends SubsystemBase {
   private boolean extendBicep = false;
   private boolean extendWrist = false;
   private boolean extendForearm = false;
+ 
 
   public ArmSubsystem() {
   }

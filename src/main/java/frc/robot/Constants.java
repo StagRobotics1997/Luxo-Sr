@@ -57,8 +57,8 @@ public final class Constants {
     }
     public static final class KickstandConstants {
         // solenoids
-        public static final int KICKER_EXTENDER_1 = 8;
-        public static final int KICKER_EXTENDER_2 = 9;
+        public static final int KICKER_EXTENDER_1 = 0;
+        public static final int KICKER_EXTENDER_2 = 1;
     }
 
     // public static final class DefibulatorConstants {
@@ -69,8 +69,8 @@ public final class Constants {
 
     public static final class DropConstants {
         // solenoids
-        public static final int DROP_EXTENDER_1 = 10;
-        public static final int DROP_EXTENDER_2 = 11;
+        public static final int DROP_EXTENDER_1 = 2;
+        public static final int DROP_EXTENDER_2 = 3;
     }
 
     public static final class ClawConstants {
