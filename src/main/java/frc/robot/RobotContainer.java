@@ -135,18 +135,20 @@ public class RobotContainer {
     // .onTrue(ClawCommands.ClawstartCommands(claw));
 
     m_auxJoystick.button(1).onTrue(ClawCommands.closeClawCommand(m_claw)).onFalse(ClawCommands.openClawCommand(m_claw));
-    m_auxJoystick.button(3).onTrue(DropCommands.toggleDropCommand(m_drop));
+    m_auxJoystick.button(3).onTrue(ArmCommands.startCommands(m_arm, m_leadScrew));
+    m_auxJoystick.button(4).onTrue(ArmCommands.pickupoffloorCommand(m_arm, m_leadScrew));
+    m_auxJoystick.button(5).onTrue(ArmCommands.midbarCommand(m_arm, m_leadScrew));
+    m_auxJoystick.button(6).onTrue(ArmCommands.HighbarCommand(m_arm, m_leadScrew));
     m_auxJoystick.button(7).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_bottom(), m_leadScrew));
-    m_auxJoystick.button(8).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_position_1(), m_leadScrew));
-    m_auxJoystick.button(9).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_top(), m_leadScrew));
-    m_auxJoystick.button(10).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_position_2(), m_leadScrew));
-    m_auxJoystick.button(11).onTrue(Commands.runOnce(() -> m_leadScrew.toggle_manual_mode(m_auxJoystick), m_leadScrew));
-    m_auxJoystick.button(12).onTrue(KickstandCommands.toggleKickstandCommand(m_kickstand));
-    m_auxJoystick.button(2).onTrue(ClawCommands.toggleClawMotorCommand(m_claw));
-    m_auxJoystick.button(6).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendBicep(),m_arm));
-    m_auxJoystick.button(4).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendForearm(),m_arm));
-    m_auxJoystick.button(5).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendFront(),m_arm));
-
+    m_auxJoystick.button(8).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_top(), m_leadScrew));
+    m_auxJoystick.button(9).onTrue(ClawCommands.toggleClawMotorCommand(m_claw));
+   m_auxJoystick.button(10).onTrue(KickstandCommands.toggleKickstandCommand(m_kickstand));
+   m_auxJoystick.button(11).onTrue(Commands.runOnce(() -> m_leadScrew.toggle_manual_mode(m_auxJoystick), m_leadScrew));
+   m_auxJoystick.button(12).onTrue(DropCommands.toggleDropCommand(m_drop));
+     // m_auxJoystick.button(6).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendBicep(),m_arm));
+    // m_auxJoystick.button(4).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendForearm(),m_arm));
+    // m_auxJoystick.button(5).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendFront(),m_arm));
+   
   }
 
   public void configureTriggers() {
