@@ -9,7 +9,7 @@ import frc.robot.subsystems.LeadScrewSubsystem;
 public final class ArmCommands {
     public static Command startCommands(ArmSubsystem arm, LeadScrewSubsystem leadScrew) {
         return Commands.parallel(
-                Commands.runOnce(() -> leadScrew.move_to_position_2(), leadScrew),
+                Commands.runOnce(() -> leadScrew.move_to_bottom(), leadScrew),
                 Commands.sequence(
                         arm.bicepIn(),
                         arm.forearmIn(),
@@ -18,7 +18,7 @@ public final class ArmCommands {
 
     public static Command pickupoffloorCommand(ArmSubsystem arm, LeadScrewSubsystem leadScrew) {
         return Commands.parallel(
-                Commands.runOnce(() -> leadScrew.move_to_position_2(), leadScrew),
+                Commands.runOnce(() -> leadScrew.move_to_position_1(), leadScrew),
                 Commands.sequence(
                         arm.bicepIn(),
                         arm.forearmIn(),
@@ -45,7 +45,7 @@ public final class ArmCommands {
 
     public static Command HighbarCommand(ArmSubsystem arm, LeadScrewSubsystem leadScrew) {
         return Commands.parallel(
-                Commands.runOnce(() -> leadScrew.move_to_position_2(), leadScrew),
+                Commands.runOnce(() -> leadScrew.move_to_top(), leadScrew),
                 Commands.sequence(
                         arm.bicepout(),
                         arm.forearmOut(),
