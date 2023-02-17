@@ -26,8 +26,8 @@ import com.revrobotics.CANSparkMaxLowLevel;
 
 
 public class DrivetrainSubsystem extends SubsystemBase {
-    private static final double TRACKWIDTH = 19.5;
-    private static final double WHEELBASE = 26.5;
+    private static final double TRACKWIDTH = 22.2;
+    private static final double WHEELBASE = 24;
 
     private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(211.1);
     private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(420.3);
