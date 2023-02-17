@@ -169,7 +169,7 @@ public class LeadScrewSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("SensorBottom", sensor_bottom.get());
     failSafeCheck();
     if (m_desiredPosition == Position.MANUAL) { // in manual mode, use joystick to control motor speed
-      setMotorSpeed(Utilities.deadband(m_joystick.getRawAxis(1) * .5));
+      setMotorSpeed(Utilities.deadband(-m_joystick.getRawAxis(1) * .5));
     } 
     // else {
     //   if( m_desiredPosition == Position.NONE) setMotorSpeed(0.0);

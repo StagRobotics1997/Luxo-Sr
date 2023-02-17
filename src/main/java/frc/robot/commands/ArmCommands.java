@@ -18,7 +18,7 @@ public final class ArmCommands {
 
     public static Command pickupoffloorCommand(ArmSubsystem arm, LeadScrewSubsystem leadScrew) {
         return Commands.parallel(
-                Commands.runOnce(() -> leadScrew.move_to_position_1(), leadScrew),
+                Commands.runOnce(() -> leadScrew.move_to_bottom(), leadScrew),
                 Commands.sequence(
                         arm.bicepIn(),
                         arm.forearmIn(),

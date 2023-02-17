@@ -29,7 +29,7 @@ public class ClawSubsystem extends SubsystemBase {
     }
   }
 
-  public CommandBase toggleClawMotor() {
+  public void toggleClawMotor() {
     if (onClawmotor == false) {
       ClawMotorForward();
       onClawmotor = true;
@@ -37,7 +37,7 @@ public class ClawSubsystem extends SubsystemBase {
       ClawMotorOff();
       onClawmotor = false;
     }
-    return this.runOnce(() -> onClawmotor = onClawmotor);
+    //return this.runOnce(() -> onClawmotor = onClawmotor);
   }
   // public CommandBase ToggleExtendDefibulator(){
   //   if (clawOpen){
@@ -48,21 +48,28 @@ public class ClawSubsystem extends SubsystemBase {
   //   return this.runOnce(() -> DefibulatorExtender.set(DoubleSolenoid.Value.kForward));
   // }
   public void ClawMotorForward() {
-    ClawMotor.set(VictorSPXControlMode.Velocity, 0.85);
+    ClawMotor.set(VictorSPXControlMode.PercentOutput, 0.85);
   }
 
   public void ClawMotorBackward() {
-    ClawMotor.set(VictorSPXControlMode.Velocity, -0.85);
+    ClawMotor.set(VictorSPXControlMode.PercentOutput, -0.85);
   }
 
-  public CommandBase ClawMotoron() {
+  public void ClawMotoron() {
+    ClawMotor.set(VictorSPXControlMode.Velocity, 0.5);
+  }
+
+  public void ClawMotorOff() {
+    ClawMotor.set(VictorSPXControlMode.Velocity, 0);
+  }
+
+  public CommandBase ClawMotoronCommand() {
     return this.runOnce(() -> ClawMotor.set(VictorSPXControlMode.Velocity, 0.5));
   }
 
-  public CommandBase ClawMotorOff() {
+  public CommandBase ClawMotorOffCommand() {
     return this.runOnce(() -> ClawMotor.set(VictorSPXControlMode.Velocity, 0.0));
   }
-
   public CommandBase CloseClaw() {
     return this.runOnce(() -> ClawExtender.set(DoubleSolenoid.Value.kReverse));
   }

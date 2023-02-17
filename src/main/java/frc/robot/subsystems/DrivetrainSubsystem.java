@@ -29,16 +29,20 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private static final double TRACKWIDTH = 22.2;
     private static final double WHEELBASE = 24;
 
-    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(211.1);
-    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(420.3);
-    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(156.9);
-    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(340.2);
-
-    
-//     private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(211.1);
+//     private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(220.7);
 //     private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(420.3);
-//     private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(165.1);
-//     private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(340.2);
+//     private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(336.9);
+//     private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(160.2);
+
+//     private static final double FRONT_LEFT_ANGLE_OFFSET = 0;
+//     private static final double FRONT_RIGHT_ANGLE_OFFSET = 0;
+//     private static final double BACK_LEFT_ANGLE_OFFSET = 0;
+//     private static final double BACK_RIGHT_ANGLE_OFFSET = 0;
+
+    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(205);
+    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(64);
+    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(359.1);
+    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(1.3);
 
 
     private static DrivetrainSubsystem instance;

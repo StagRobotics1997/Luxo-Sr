@@ -7,7 +7,7 @@ public final class ClawCommands {
     public static Command ClawstartCommands(ClawSubsystem claw) {
         return Commands.sequence(
             claw.OpenClaw(),
-            claw.ClawMotorOff());
+            claw.ClawMotorOffCommand());
     }
     public static Command closeClawCommand(ClawSubsystem claw) {
         return Commands.sequence(
@@ -19,8 +19,8 @@ public final class ClawCommands {
 
         }
         
-    public static Command toggleClawMotorCommand(ClawSubsystem claw) {
-        return Commands.sequence(
-            claw.toggleClawMotor());
-    }
+    // public static Command toggleClawMotorCommand(ClawSubsystem claw) {
+    //     return Commands.sequence(
+    //         claw.toggleClawMotor());
+    // }
 }

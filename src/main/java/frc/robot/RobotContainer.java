@@ -141,14 +141,18 @@ public class RobotContainer {
     m_auxJoystick.button(6).onTrue(ArmCommands.HighbarCommand(m_arm, m_leadScrew));
     m_auxJoystick.button(7).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_bottom(), m_leadScrew));
     m_auxJoystick.button(8).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_top(), m_leadScrew));
-    m_auxJoystick.button(9).onTrue(ClawCommands.toggleClawMotorCommand(m_claw));
-   m_auxJoystick.button(10).onTrue(KickstandCommands.toggleKickstandCommand(m_kickstand));
-   m_auxJoystick.button(11).onTrue(Commands.runOnce(() -> m_leadScrew.toggle_manual_mode(m_auxJoystick), m_leadScrew));
-   m_auxJoystick.button(12).onTrue(DropCommands.toggleDropCommand(m_drop));
-     // m_auxJoystick.button(6).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendBicep(),m_arm));
-    // m_auxJoystick.button(4).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendForearm(),m_arm));
-    // m_auxJoystick.button(5).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendFront(),m_arm));
-   
+    // m_auxJoystick.button(9).onTrue(ClawCommands.toggleClawMotorCommand(m_claw));
+    m_primaryJoystick.button(8).onTrue(Commands.runOnce(() -> m_claw.toggleClawMotor(), m_claw));
+    m_auxJoystick.button(10).onTrue(KickstandCommands.toggleKickstandCommand(m_kickstand));
+    m_auxJoystick.button(11).onTrue(Commands.runOnce(() -> m_leadScrew.toggle_manual_mode(m_auxJoystick), m_leadScrew));
+    m_auxJoystick.button(12).onTrue(DropCommands.toggleDropCommand(m_drop));
+    m_primaryJoystick.button(8).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendBicep(), m_arm));
+    m_primaryJoystick.button(7).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendForearm(), m_arm));
+    m_auxJoystick.button(2).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendFront(), m_arm));
+    m_primaryJoystick.button(11).onTrue(m_arm.bicepIn());
+    m_primaryJoystick.button(9).onTrue(m_arm.bicepout());
+    m_primaryJoystick.button(10).onTrue(m_arm.forearmIn());
+    m_primaryJoystick.button(12).onTrue(m_arm.forearmOut());
   }
 
   public void configureTriggers() {
