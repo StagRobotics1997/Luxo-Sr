@@ -26,9 +26,6 @@
     }
   },
   "NetworkTables": {
-    "Persistent Values": {
-      "open": false
-    },
     "transitory": {
       "SmartDashboard": {
         "open": true

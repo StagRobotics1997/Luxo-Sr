@@ -7,7 +7,6 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Utilities;
@@ -86,37 +85,12 @@ public class LeadScrewSubsystem extends SubsystemBase {
       m_desiredPosition = Position.NONE;
     else
       m_desiredPosition = Position.MANUAL;
-    stopMotorCommand();
+    stopMotor();
   }
 
   public void stopMotor() {
     m_desiredPosition = Position.NONE;
     setMotorSpeed(0.0);
-  }
-
-  public Command motorStartUpCommand() {
-    return this.runOnce(() -> setMotorSpeed(LeadScrewConstants.UP_SPEED));
-  }
-
-  public Command motorStartDownCommand() {
-    return this.runOnce(() -> setMotorSpeed(LeadScrewConstants.UP_SPEED));
-  }
-
-  public Command motorOnCommand(double speed) {
-    return this.runOnce(() -> setMotorSpeed(speed));
-  }
-
-  public Command stopMotorCommand() {
-    return this.runOnce(() -> setMotorSpeed(0.0));
-  }
-
-  public void moveToPosition(Position newPosition) {
-    m_desiredPosition = newPosition;
-    process();
-  }
-
-  public Command processCommand() {
-    return this.runOnce(() -> process());
   }
 
   public Position getPosition() {
@@ -163,17 +137,14 @@ public class LeadScrewSubsystem extends SubsystemBase {
 
   public void periodic() {
     SmartDashboard.putString("Desired Destination", m_desiredPosition.toString());
-    SmartDashboard.putBoolean("Sensor1", sensor_1.get());
-    SmartDashboard.putBoolean("Sensor2", sensor_2.get());
-    SmartDashboard.putBoolean("SensorTop", sensor_top.get());
-    SmartDashboard.putBoolean("SensorBottom", sensor_bottom.get());
+    SmartDashboard.putBoolean("Sensor1", is_sensor_1_on());
+    SmartDashboard.putBoolean("Sensor2", is_sensor_2_on());
+    SmartDashboard.putBoolean("SensorTop", is_sensor_top_on());
+    SmartDashboard.putBoolean("SensorBottom", is_sensor_bottom_on());
     failSafeCheck();
     if (m_desiredPosition == Position.MANUAL) { // in manual mode, use joystick to control motor speed
       setMotorSpeed(Utilities.deadband(-m_joystick.getRawAxis(1) * .5));
     } 
-    // else {
-    //   if( m_desiredPosition == Position.NONE) setMotorSpeed(0.0);
-    // }
   }
 
   public boolean reached_destination() {
@@ -184,7 +155,6 @@ public class LeadScrewSubsystem extends SubsystemBase {
       m_lastPosition = currentPosition; // we got a reading, store it
 
     return (currentPosition == m_desiredPosition); // || m_desiredPosition == Position.NONE);
-
   }
 
   public void process() {
