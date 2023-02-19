@@ -8,6 +8,6 @@ public final class DropCommands {
  
     public static Command toggleDropCommand(DropSubsystem Drop) {
         return Commands.sequence(
-            Drop.ToggleextendDrop());
+           Commands.runOnce(() ->Drop.ToggleextendDrop(),Drop));
     }
 }

@@ -31,7 +31,7 @@ public class ClawSubsystem extends SubsystemBase {
 
   public void toggleClawMotor() {
     if (onClawmotor == false) {
-      ClawMotorForward();
+      ClawMotorBackward();
       onClawmotor = true;
     } else {
       ClawMotorOff();
@@ -64,11 +64,11 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   public CommandBase ClawMotoronCommand() {
-    return this.runOnce(() -> ClawMotor.set(VictorSPXControlMode.Velocity, 0.5));
+    return this.runOnce(() -> ClawMotor.set(VictorSPXControlMode.PercentOutput, -0.8));
   }
 
   public CommandBase ClawMotorOffCommand() {
-    return this.runOnce(() -> ClawMotor.set(VictorSPXControlMode.Velocity, 0.0));
+    return this.runOnce(() -> ClawMotor.set(VictorSPXControlMode.PercentOutput, 0.0));
   }
   public CommandBase CloseClaw() {
     return this.runOnce(() -> ClawExtender.set(DoubleSolenoid.Value.kReverse));

@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -39,10 +39,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 //     private static final double BACK_LEFT_ANGLE_OFFSET = 0;
 //     private static final double BACK_RIGHT_ANGLE_OFFSET = 0;
 
-    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(205);
-    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(64);
-    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(359.1);
-    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(1.3);
+    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(355.1);
+    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(74.3);
+    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(196.4);
+    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(166.9);
 
 
     private static DrivetrainSubsystem instance;
@@ -87,7 +87,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0)
     );
 
-    private final Gyroscope gyroscope = new NavX(SPI.Port.kMXP);
+    private final Gyroscope gyroscope = new NavX(I2C.Port.kOnboard);
 
     public DrivetrainSubsystem() {
         gyroscope.calibrate();
@@ -120,7 +120,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Back Right Module Angle", Math.toDegrees(backRightModule.getCurrentAngle()));
 
         SmartDashboard.putNumber("Gyroscope Angle", gyroscope.getAngle().toDegrees());
-
+        SmartDashboard.putNumber("Gyroscope Raw degrees", gyroscope.getUnadjustedAngle().toDegrees());
+     
         frontLeftModule.updateState(TimedRobot.kDefaultPeriod);
         frontRightModule.updateState(TimedRobot.kDefaultPeriod);
         backLeftModule.updateState(TimedRobot.kDefaultPeriod);
@@ -160,7 +161,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // Square the rotation stick
         rotation = Math.copySign(Math.pow(rotation, 3.0), rotation);
         
-        drive(new Translation2d(forward, strafe), rotation, true);
+        drive(new Translation2d(forward, strafe), rotation, false);
         
     }
 

@@ -2,7 +2,7 @@ package frc.robot;
 
 public class Utilities {
     public static double deadband(double input) {
-        return deadband(input, 0.05);
+        return deadband(input, .1);
     }
 
     public static double deadband(double input, double buffer) {
