@@ -7,6 +7,7 @@ import frc.robot.subsystems.KickstandSubsystem;
 public final class KickstandCommands {
  
     public static Command toggleKickstandCommand(KickstandSubsystem kicker) {
-        return Commands.runOnce(() -> kicker.ToggleExtendKicker(), kicker);
+        return Commands.sequence(
+            kicker.ToggleExtendKicker());
     }
 }

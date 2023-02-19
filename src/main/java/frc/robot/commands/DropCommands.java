@@ -6,7 +6,8 @@ import frc.robot.subsystems.DropSubsystem;
 
 public final class DropCommands {
  
-    public static Command toggleDropCommand(DropSubsystem dropper) {
-        return Commands.runOnce(() ->  dropper.ToggleDrop(), dropper);
+    public static Command toggleDropCommand(DropSubsystem Drop) {
+        return Commands.sequence(
+            Drop.ToggleextendDrop());
     }
 }

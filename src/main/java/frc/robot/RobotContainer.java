@@ -146,32 +146,32 @@ public class RobotContainer {
     m_auxJoystick.button(10).onTrue(KickstandCommands.toggleKickstandCommand(m_kickstand));
     m_auxJoystick.button(11).onTrue(Commands.runOnce(() -> m_leadScrew.toggle_manual_mode(m_auxJoystick), m_leadScrew));
     m_auxJoystick.button(12).onTrue(DropCommands.toggleDropCommand(m_drop));
-    // m_primaryJoystick.button(8).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendBicep(), m_arm));
-    // m_primaryJoystick.button(7).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendForearm(), m_arm));
-    // m_auxJoystick.button(2).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendFront(), m_arm));
-    m_primaryJoystick.button(11).onTrue(Commands.runOnce(() -> m_arm.bicepIn(), m_arm));
-    m_primaryJoystick.button(9).onTrue(Commands.runOnce(() -> m_arm.bicepOut(), m_arm));
-    m_primaryJoystick.button(10).onTrue(Commands.runOnce(() -> m_arm.forearmIn(), m_arm));
-    m_primaryJoystick.button(12).onTrue(Commands.runOnce(() -> m_arm.forearmOut(), m_arm));
+    m_primaryJoystick.button(8).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendBicep(), m_arm));
+    m_primaryJoystick.button(7).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendForearm(), m_arm));
+    m_auxJoystick.button(2).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendFront(), m_arm));
+    m_primaryJoystick.button(11).onTrue(m_arm.bicepIn());
+    m_primaryJoystick.button(9).onTrue(m_arm.bicepout());
+    m_primaryJoystick.button(10).onTrue(m_arm.forearmIn());
+    m_primaryJoystick.button(12).onTrue(m_arm.forearmOut());
   }
 
   public void configureTriggers() {
     Trigger sensorTopTrigger = new Trigger(m_leadScrew.sensor_top::get);
     sensorTopTrigger
-        .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew))
-        .onFalse(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
+        .onTrue(m_leadScrew.processCommand())
+        .onFalse(m_leadScrew.processCommand());
     Trigger sensorBottomTrigger = new Trigger(m_leadScrew.sensor_bottom::get);
     sensorBottomTrigger
-        .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew))
-        .onFalse(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
+        .onTrue(m_leadScrew.processCommand())
+        .onFalse(m_leadScrew.processCommand());
     Trigger sensor1Trigger = new Trigger(m_leadScrew.sensor_1::get);
     sensor1Trigger
-        .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew))
-        .onFalse(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
+        .onTrue(m_leadScrew.processCommand())
+        .onFalse(m_leadScrew.processCommand());
     Trigger sensor2Trigger = new Trigger(m_leadScrew.sensor_2::get);
     sensor2Trigger
-        .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew))
-        .onFalse(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
+        .onTrue(m_leadScrew.processCommand())
+        .onFalse(m_leadScrew.processCommand());
   }
 
   /**
