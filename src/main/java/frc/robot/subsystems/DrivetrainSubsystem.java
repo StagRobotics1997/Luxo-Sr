@@ -12,7 +12,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Utilities;
 import frc.robot.drivers.Gyroscope;
 import frc.robot.drivers.SwerveModule;
@@ -20,6 +20,8 @@ import frc.robot.drivers.Mk2SwerveModuleBuilder;
 import frc.robot.drivers.NavX;
 import frc.robot.math.Vector2;
 import frc.robot.Constants.DriveConstants;
+
+import java.sql.Time;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -97,6 +99,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
         frontRightModule.setName("Front Right");
         backLeftModule.setName("Back Left");
         backRightModule.setName("Back Right");
+
+        // Attempt at fixing the startup alignment issue
+        Timer.delay(1.0);
+        frontLeftModule.resetKinematics();
+        frontRightModule.resetKinematics();
+        backLeftModule.resetKinematics();
+        backRightModule.resetKinematics();
     }
 
     public static DrivetrainSubsystem getInstance() {
