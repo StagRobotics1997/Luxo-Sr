@@ -36,15 +36,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
 //     private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(336.9);
 //     private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(160.2);
 
-//     private static final double FRONT_LEFT_ANGLE_OFFSET = 0.0;
-//     private static final double FRONT_RIGHT_ANGLE_OFFSET = 0.0;
-//     private static final double BACK_LEFT_ANGLE_OFFSET = 0.0;
-//     private static final double BACK_RIGHT_ANGLE_OFFSET = 0.0;
+//     private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(0.0);
+//     private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(0.0);
+//     private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(0.0);
+//     private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(0.0);
 
-    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(355.1);
-    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(74.3);
-    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(196.4);
-    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(166.9);
+    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(212);
+    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(72.0);
+    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(337.0);
+    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(166.0);
 
 
     private static DrivetrainSubsystem instance;
@@ -92,9 +92,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final Gyroscope gyroscope = new NavX(I2C.Port.kOnboard);
 
     public DrivetrainSubsystem() {
-        gyroscope.calibrate();
-        gyroscope.setInverted(true); // You might not need to invert the gyro
-
+    
         frontLeftModule.setName("Front Left");
         frontRightModule.setName("Front Right");
         backLeftModule.setName("Back Left");
@@ -102,6 +100,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         // Attempt at fixing the startup alignment issue
         Timer.delay(1.0);
+        gyroscope.calibrate();
+        gyroscope.setInverted(true); // You might not need to invert the gyro
         frontLeftModule.resetKinematics();
         frontRightModule.resetKinematics();
         backLeftModule.resetKinematics();
@@ -127,7 +127,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Front Right Module Angle", Math.toDegrees(frontRightModule.getCurrentAngle()));
         SmartDashboard.putNumber("Back Left Module Angle", Math.toDegrees(backLeftModule.getCurrentAngle()));
         SmartDashboard.putNumber("Back Right Module Angle", Math.toDegrees(backRightModule.getCurrentAngle()));
-
+        SmartDashboard.putNumber("funniness", -Math.toRadians(0.0));
         SmartDashboard.putNumber("Gyroscope Angle", gyroscope.getAngle().toDegrees());
         SmartDashboard.putNumber("Gyroscope Raw degrees", gyroscope.getUnadjustedAngle().toDegrees());
      
@@ -157,24 +157,24 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void stickDrive(double forward, double strafe, double rotation) {
         //double forward = -RobotgetOI.getPrimaryJoystick().getRawAxis(1);
         forward = Utilities.deadband(-forward *0.85);
-        // Square the forward stick
-        forward = Math.copySign(Math.pow(forward, 3.0), forward);
+        // // Square the forward stick
+        // forward = Math.copySign(Math.pow(forward, 3.0), forward);
         
-        //double strafe = -Robot.getOi().getPrimaryJoystick().getRawAxis(0);
-        strafe = Utilities.deadband(-strafe * 0.85);
-        // Square the strafe stick
-        strafe = Math.copySign(Math.pow(strafe, 3.0), strafe);
+        // //double strafe = -Robot.getOi().getPrimaryJoystick().getRawAxis(0);
+        // strafe = Utilities.deadband(-strafe * 0.85);
+        // // Square the strafe stick
+        // strafe = Math.copySign(Math.pow(strafe, 3.0), strafe);
         
-        //double rotation = -Robot.getOi().getPrimaryJoystick().getRawAxis(4);
-        rotation = Utilities.deadband(-rotation *0.85);
-        // Square the rotation stick
-        rotation = Math.copySign(Math.pow(rotation, 3.0), rotation);
+        // //double rotation = -Robot.getOi().getPrimaryJoystick().getRawAxis(4);
+        // rotation = Utilities.deadband(-rotation *0.85);
+        // // Square the rotation stick
+        // rotation = Math.copySign(Math.pow(rotation, 3.0), rotation);
         
-        //forward  = Utilities.joystickCubicScaledDeadband(-forward);
-        //strafe   = Utilities.joystickCubicScaledDeadband(-strafe);
-        //rotation = Utilities.joystickCubicScaledDeadband(-rotation);
+        forward  = Utilities.joystickCubicScaledDeadband(-forward);
+        strafe   = Utilities.joystickCubicScaledDeadband(-strafe);
+        rotation = Utilities.joystickCubicScaledDeadband(-rotation);
 
-        drive(new Translation2d(forward, strafe), rotation, false);
+         drive(new Translation2d(forward, strafe), rotation, false);
         
     }
 

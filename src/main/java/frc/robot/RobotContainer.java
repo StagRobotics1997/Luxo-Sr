@@ -17,6 +17,7 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -70,6 +71,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_camera_0 = CameraServer.startAutomaticCapture(0);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
     // Configure default commands
     // Set the default drive command to split-stick arcade drive
     m_robotDrive.setDefaultCommand(
