@@ -29,17 +29,17 @@ import com.revrobotics.CANSparkMaxLowLevel;
 
 public class DrivetrainSubsystem extends SubsystemBase {
     private static final double TRACKWIDTH = 22.2;
-    private static final double WHEELBASE = 24;
+    private static final double WHEELBASE = 24.0;
 
 //     private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(220.7);
 //     private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(420.3);
 //     private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(336.9);
 //     private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(160.2);
 
-//     private static final double FRONT_LEFT_ANGLE_OFFSET = 0;
-//     private static final double FRONT_RIGHT_ANGLE_OFFSET = 0;
-//     private static final double BACK_LEFT_ANGLE_OFFSET = 0;
-//     private static final double BACK_RIGHT_ANGLE_OFFSET = 0;
+//     private static final double FRONT_LEFT_ANGLE_OFFSET = 0.0;
+//     private static final double FRONT_RIGHT_ANGLE_OFFSET = 0.0;
+//     private static final double BACK_LEFT_ANGLE_OFFSET = 0.0;
+//     private static final double BACK_RIGHT_ANGLE_OFFSET = 0.0;
 
     private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(355.1);
     private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(74.3);
@@ -170,6 +170,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // Square the rotation stick
         rotation = Math.copySign(Math.pow(rotation, 3.0), rotation);
         
+        //forward  = Utilities.joystickCubicScaledDeadband(-forward);
+        //strafe   = Utilities.joystickCubicScaledDeadband(-strafe);
+        //rotation = Utilities.joystickCubicScaledDeadband(-rotation);
+
         drive(new Translation2d(forward, strafe), rotation, false);
         
     }
