@@ -40,6 +40,9 @@
       },
       "SmartDashboard": {
         "open": true
+      },
+      "limelight": {
+        "open": true
       }
     }
   },
