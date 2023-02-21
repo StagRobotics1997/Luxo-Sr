@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import frc.robot.Constants.ArmConstants;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -16,7 +15,6 @@ public class ArmSubsystem extends SubsystemBase {
   private boolean extendBicep = false;
   private boolean extendWrist = false;
   private boolean extendForearm = false;
- 
 
   public ArmSubsystem() {
   }
@@ -51,27 +49,27 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
-  public CommandBase bicepIn() {
-    return this.runOnce(() -> bicepExtender.set(DoubleSolenoid.Value.kReverse));
+  public void bicepIn() {
+    bicepExtender.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public CommandBase bicepout() {
-    return this.runOnce(() -> bicepExtender.set(DoubleSolenoid.Value.kForward));
+  public void bicepout() {
+    bicepExtender.set(DoubleSolenoid.Value.kForward);
   }
 
-  public CommandBase forearmIn() {
-    return this.runOnce(() -> forearmExtender.set(DoubleSolenoid.Value.kReverse));
+  public void forearmIn() {
+    forearmExtender.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public CommandBase forearmOut() {
-    return this.runOnce(() -> forearmExtender.set(DoubleSolenoid.Value.kForward));
+  public void forearmOut() {
+    forearmExtender.set(DoubleSolenoid.Value.kForward);
   }
 
-  public CommandBase wristIn() {
-    return this.runOnce(() -> wristExtender.set(DoubleSolenoid.Value.kReverse));
+  public void wristIn() {
+    wristExtender.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public CommandBase wristOut() {
-    return this.runOnce(() -> wristExtender.set(DoubleSolenoid.Value.kForward));
+  public void wristOut() {
+    wristExtender.set(DoubleSolenoid.Value.kForward);
   }
 }

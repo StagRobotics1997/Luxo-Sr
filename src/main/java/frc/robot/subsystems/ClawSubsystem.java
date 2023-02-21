@@ -5,8 +5,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClawSubsystem extends SubsystemBase {
@@ -15,6 +14,7 @@ public class ClawSubsystem extends SubsystemBase {
   private boolean extendClaw = false;
   private boolean onClawmotor = false;
   private VictorSPX ClawMotor = new VictorSPX(ClawConstants.CLAW_MOTOR);
+  public final DigitalInput clawLimitSwich = new DigitalInput(ClawConstants.CLAW_LIMITSWICH);
 
   public ClawSubsystem() {
   }
@@ -55,26 +55,33 @@ public class ClawSubsystem extends SubsystemBase {
     ClawMotor.set(VictorSPXControlMode.PercentOutput, -0.85);
   }
 
-  public void ClawMotoron() {
-    ClawMotor.set(VictorSPXControlMode.Velocity, 0.5);
+ 
+
+  
+
+
+  public void grab(){
+    ClawMotorOff();
+    CloseClaw();
+  }
+
+  public void StartClaw(){
+    ClawMotorOn();
+    OpenClaw();
+  }
+
+  public void ClawMotorOn() {
+     ClawMotor.set(VictorSPXControlMode.PercentOutput, -0.8);
   }
 
   public void ClawMotorOff() {
-    ClawMotor.set(VictorSPXControlMode.Velocity, 0);
+   ClawMotor.set(VictorSPXControlMode.PercentOutput, 0.0);
+  }
+  public void CloseClaw() {
+    ClawExtender.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public CommandBase ClawMotoronCommand() {
-    return this.runOnce(() -> ClawMotor.set(VictorSPXControlMode.PercentOutput, -0.8));
-  }
-
-  public CommandBase ClawMotorOffCommand() {
-    return this.runOnce(() -> ClawMotor.set(VictorSPXControlMode.PercentOutput, 0.0));
-  }
-  public CommandBase CloseClaw() {
-    return this.runOnce(() -> ClawExtender.set(DoubleSolenoid.Value.kReverse));
-  }
-
-  public CommandBase OpenClaw() {
-    return this.runOnce(() -> ClawExtender.set(DoubleSolenoid.Value.kForward));
+  public void OpenClaw() {
+    ClawExtender.set(DoubleSolenoid.Value.kForward);
   }
 }
