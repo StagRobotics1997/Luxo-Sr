@@ -49,7 +49,7 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   public void grab() {
-    SmartDashboard.putString("step", "grab");
+    SmartDashboard.putString("Claw", "grab");
     ClawMotorOff();
     CloseClaw();
   }
@@ -60,18 +60,21 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   public void ClawMotorOn() {
+    SmartDashboard.putNumber("Claw Motor", -0.8);
     m_motor.set(VictorSPXControlMode.PercentOutput, -0.8);
   }
 
   public void ClawMotorOff() {
+    SmartDashboard.putNumber("Claw Motor", 0.0);
     m_motor.set(VictorSPXControlMode.PercentOutput, 0.0);
   }
 
   public void CloseClaw() {
-    m_clawExtender.set(DoubleSolenoid.Value.kForward);
+    SmartDashboard.putString("Claw", "Close");
+    m_clawExtender.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void OpenClaw() {
-    m_clawExtender.set(DoubleSolenoid.Value.kReverse);
+    m_clawExtender.set(DoubleSolenoid.Value.kForward);
   }
 }

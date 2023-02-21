@@ -72,6 +72,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    configureTriggers();
 
     m_camera_0 = CameraServer.startAutomaticCapture(0);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
@@ -99,6 +100,8 @@ public class RobotContainer {
     SmartDashboard.putNumber("secondary Axis 2", m_secondaryJoystick.getRawAxis(1));
     SmartDashboard.putNumber("aux Axis 1", m_auxJoystick.getRawAxis(0));
     SmartDashboard.putNumber("aux Axis 2", m_auxJoystick.getRawAxis(1));
+    SmartDashboard.putString("Claw", "null");
+    SmartDashboard.putNumber("Claw Motor", 0);
   }
 
   /**
@@ -186,6 +189,7 @@ public class RobotContainer {
     Trigger clawLimitTrigger = new Trigger(m_claw.clawLimitSwich::get);
     clawLimitTrigger
         .onFalse(Commands.runOnce(() -> m_claw.grab(), m_claw));
+       
   }
 
   /**
