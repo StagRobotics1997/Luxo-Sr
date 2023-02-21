@@ -141,14 +141,14 @@ public class RobotContainer {
 
     m_auxJoystick.button(1).onTrue(Commands.runOnce(() -> m_claw.StartClaw(), m_claw));
     m_auxJoystick.button(2).onTrue(ClawCommands.ClawMotoroffCommand(m_claw));
+    m_secondaryJoystick.button(1).onTrue(ClawCommands.closeClawCommand(m_claw));
     m_auxJoystick.button(3).onTrue(PositionCommands.startCommands(m_arm, m_leadScrew, m_drop));
     m_auxJoystick.button(4).onTrue(PositionCommands.pickupoffloorCommand(m_arm, m_leadScrew));
     m_auxJoystick.button(5).onTrue(PositionCommands.midbarCommand(m_arm, m_leadScrew));
     m_auxJoystick.button(6).onTrue(PositionCommands.HighbarCommand(m_arm, m_leadScrew));
-    // m_auxJoystick.button(7).onTrue(Commands.runOnce(() ->
-    // m_leadScrew.move_to_bottom(), m_leadScrew));
-    // m_auxJoystick.button(8).onTrue(Commands.runOnce(() ->
-    // m_leadScrew.move_to_top(), m_leadScrew));
+    m_auxJoystick.button(7).onTrue(Commands.runOnce(() ->
+    m_leadScrew.move_to_bottom(), m_leadScrew));
+    m_auxJoystick.button(8).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_top(), m_leadScrew));
     m_auxJoystick.button(10).onTrue(KickstandCommands.toggleKickerCommand(m_kickstand));
     m_auxJoystick.button(11).onTrue(Commands.runOnce(() -> m_leadScrew.toggle_manual_mode(m_auxJoystick), m_leadScrew));
     m_auxJoystick.button(12).onTrue(DropCommands.toggleDropCommand(m_drop));
@@ -156,14 +156,14 @@ public class RobotContainer {
     m_primaryJoystick.button(8).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendBicep(), m_arm));
     m_secondaryJoystick.button(5).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendForearm(), m_arm));
     m_auxJoystick.button(9).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendFront(), m_arm));
-    // m_primaryJoystick.button(11).onTrue(m_arm.bicepIn());
-    // m_primaryJoystick.button(9).onTrue(m_arm.bicepout());
-    // m_secondaryJoystick.button(9).onTrue(m_arm.forearmIn());
-    // m_primaryJoystick.button(12).onTrue(m_arm.forearmOut());
-    // m_secondaryJoystick.button(7).onTrue(Commands.runOnce(() -> m_drop. dropin(),
-    // m_drop));
-    // m_secondaryJoystick.button(8).onTrue(Commands.runOnce(() -> m_drop.
-    // dropout(), m_drop));
+     m_primaryJoystick.button(11).onTrue(Commands.runOnce(() ->m_arm.bicepIn(), m_arm));
+     m_primaryJoystick.button(9).onTrue(Commands.runOnce(() ->m_arm.bicepout(),m_arm));
+     m_secondaryJoystick.button(9).onTrue(Commands.runOnce(() ->m_arm.forearmIn(),m_arm));
+  m_primaryJoystick.button(12).onTrue(Commands.runOnce(() ->m_arm.forearmOut(),m_arm));
+     m_secondaryJoystick.button(7).onTrue(Commands.runOnce(() -> m_drop. dropin(),
+     m_drop));
+     m_secondaryJoystick.button(8).onTrue(Commands.runOnce(() -> m_drop.
+     dropout(), m_drop));
   }
 
   public void configureTriggers() {
@@ -185,7 +185,7 @@ public class RobotContainer {
         .onFalse(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
     Trigger clawLimitTrigger = new Trigger(m_claw.clawLimitSwich::get);
     clawLimitTrigger
-        .onTrue(Commands.runOnce(() -> m_claw.grab(), m_claw));
+        .onFalse(Commands.runOnce(() -> m_claw.grab(), m_claw));
   }
 
   /**

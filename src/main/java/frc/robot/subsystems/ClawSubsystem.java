@@ -7,47 +7,49 @@ import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ClawSubsystem extends SubsystemBase {
-  private DoubleSolenoid ClawExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ClawConstants.CLAW_EXTENDER_1,
+  private DoubleSolenoid m_clawExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ClawConstants.CLAW_EXTENDER_1,
       ClawConstants.CLAW_EXTENDER_2);
-  private boolean extendClaw = false;
-  private boolean onClawmotor = false;
-  private VictorSPX ClawMotor = new VictorSPX(ClawConstants.CLAW_MOTOR);
+  private boolean m_clawExtended = false;
+  private boolean m_motorOn = false;
+  private VictorSPX m_motor = new VictorSPX(ClawConstants.CLAW_MOTOR);
   public final DigitalInput clawLimitSwich = new DigitalInput(ClawConstants.CLAW_LIMITSWICH);
 
   public ClawSubsystem() {
   }
 
   public void ToggleExtendClaw() {
-    if (extendClaw == false) {
-      ClawExtender.set(DoubleSolenoid.Value.kReverse);
-      extendClaw = true;
-    } else if (extendClaw = true) {
-      ClawExtender.set(DoubleSolenoid.Value.kForward);
-      extendClaw = false;
+    if (m_clawExtended == false) {
+      m_clawExtender.set(DoubleSolenoid.Value.kReverse);
+      m_clawExtended = true;
+    } else if (m_clawExtended = true) {
+      m_clawExtender.set(DoubleSolenoid.Value.kForward);
+      m_clawExtended = false;
     }
   }
 
   public void toggleClawMotor() {
-    if (onClawmotor == false) {
+    if (m_motorOn == false) {
       ClawMotorBackward();
-      onClawmotor = true;
+      m_motorOn = true;
     } else {
       ClawMotorOff();
-      onClawmotor = false;
+      m_motorOn = false;
     }
   }
 
   public void ClawMotorForward() {
-    ClawMotor.set(VictorSPXControlMode.PercentOutput, 0.85);
+    m_motor.set(VictorSPXControlMode.PercentOutput, 0.85);
   }
 
   public void ClawMotorBackward() {
-    ClawMotor.set(VictorSPXControlMode.PercentOutput, -0.85);
+    m_motor.set(VictorSPXControlMode.PercentOutput, -0.85);
   }
 
   public void grab() {
+    SmartDashboard.putString("step", "grab");
     ClawMotorOff();
     CloseClaw();
   }
@@ -58,18 +60,18 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   public void ClawMotorOn() {
-    ClawMotor.set(VictorSPXControlMode.PercentOutput, -0.8);
+    m_motor.set(VictorSPXControlMode.PercentOutput, -0.8);
   }
 
   public void ClawMotorOff() {
-    ClawMotor.set(VictorSPXControlMode.PercentOutput, 0.0);
+    m_motor.set(VictorSPXControlMode.PercentOutput, 0.0);
   }
 
   public void CloseClaw() {
-    ClawExtender.set(DoubleSolenoid.Value.kReverse);
+    m_clawExtender.set(DoubleSolenoid.Value.kForward);
   }
 
   public void OpenClaw() {
-    ClawExtender.set(DoubleSolenoid.Value.kForward);
+    m_clawExtender.set(DoubleSolenoid.Value.kReverse);
   }
 }

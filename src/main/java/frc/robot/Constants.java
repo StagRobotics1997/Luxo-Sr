@@ -75,7 +75,7 @@ public final class Constants {
 
     public static final int CLAW_EXTENDER_1 = 6;
     public static final int CLAW_EXTENDER_2 = 7;
-    public static final int CLAW_LIMITSWICH = 3;
+    public static final int CLAW_LIMITSWICH = 8;
   }
 
   public static final class OIConstants {
