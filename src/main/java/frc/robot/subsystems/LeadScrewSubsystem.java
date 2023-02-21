@@ -7,7 +7,6 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Utilities;
@@ -67,14 +66,17 @@ public class LeadScrewSubsystem extends SubsystemBase {
     m_desiredPosition = Position.TOP;
     process();
   }
+
   public void move_to_bottom() {
     m_desiredPosition = Position.BOTTOM;
     process();
   }
+
   public void move_to_position_1() {
     m_desiredPosition = Position.POSITION_1;
     process();
   }
+
   public void move_to_position_2() {
     m_desiredPosition = Position.POSITION_2;
     process();
@@ -86,7 +88,7 @@ public class LeadScrewSubsystem extends SubsystemBase {
       m_desiredPosition = Position.NONE;
     else
       m_desiredPosition = Position.MANUAL;
-    stopMotorCommand();
+    stopMotor();
   }
 
   public void stopMotor() {
@@ -94,29 +96,9 @@ public class LeadScrewSubsystem extends SubsystemBase {
     setMotorSpeed(0.0);
   }
 
-  public Command motorStartUpCommand() {
-    return this.runOnce(() -> setMotorSpeed(LeadScrewConstants.UP_SPEED));
-  }
-
-  public Command motorStartDownCommand() {
-    return this.runOnce(() -> setMotorSpeed(LeadScrewConstants.UP_SPEED));
-  }
-
-  public Command motorOnCommand(double speed) {
-    return this.runOnce(() -> setMotorSpeed(speed));
-  }
-
-  public Command stopMotorCommand() {
-    return this.runOnce(() -> setMotorSpeed(0.0));
-  }
-
   public void moveToPosition(Position newPosition) {
     m_desiredPosition = newPosition;
     process();
-  }
-
-  public Command processCommand() {
-    return this.runOnce(() -> process());
   }
 
   public Position getPosition() {
@@ -170,9 +152,9 @@ public class LeadScrewSubsystem extends SubsystemBase {
     failSafeCheck();
     if (m_desiredPosition == Position.MANUAL) { // in manual mode, use joystick to control motor speed
       setMotorSpeed(Utilities.deadband(-m_joystick.getRawAxis(1) * .5));
-    } 
+    }
     // else {
-    //   if( m_desiredPosition == Position.NONE) setMotorSpeed(0.0);
+    // if( m_desiredPosition == Position.NONE) setMotorSpeed(0.0);
     // }
   }
 
@@ -198,7 +180,7 @@ public class LeadScrewSubsystem extends SubsystemBase {
       // if (currentSpeed != 0.0)
       m_desiredPosition = Position.NONE; // stop the motor if it's moving
     }
-    if( m_desiredPosition == Position.NONE) {
+    if (m_desiredPosition == Position.NONE) {
       SmartDashboard.putString("step", "1");
       stopMotor();
       return;

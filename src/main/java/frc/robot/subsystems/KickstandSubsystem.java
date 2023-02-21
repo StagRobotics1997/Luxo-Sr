@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import frc.robot.Constants.KickstandConstants;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class KickstandSubsystem extends SubsystemBase {
@@ -25,12 +24,12 @@ public class KickstandSubsystem extends SubsystemBase {
     }
   }
 
-  public void kickerin() {
+  public void KickerIn() {
     extendKicker = true;
     kickerExtender.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public void kickerout() {
+  public void KickerOut() {
     extendKicker = false;
     kickerExtender.set(DoubleSolenoid.Value.kForward);
   }

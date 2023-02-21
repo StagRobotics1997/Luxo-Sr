@@ -37,16 +37,8 @@ public class ClawSubsystem extends SubsystemBase {
       ClawMotorOff();
       onClawmotor = false;
     }
-    //return this.runOnce(() -> onClawmotor = onClawmotor);
   }
-  // public CommandBase ToggleExtendDefibulator(){
-  //   if (clawOpen){
-  //       extendKicker = true;
-  //       return this.runOnce(() ->DefibulatorExtender.set(DoubleSolenoid.Value.kReverse));
-  //   }
-  //   extendKicker = false;
-  //   return this.runOnce(() -> DefibulatorExtender.set(DoubleSolenoid.Value.kForward));
-  // }
+
   public void ClawMotorForward() {
     ClawMotor.set(VictorSPXControlMode.PercentOutput, 0.85);
   }
@@ -55,28 +47,24 @@ public class ClawSubsystem extends SubsystemBase {
     ClawMotor.set(VictorSPXControlMode.PercentOutput, -0.85);
   }
 
- 
-
-  
-
-
-  public void grab(){
+  public void grab() {
     ClawMotorOff();
     CloseClaw();
   }
 
-  public void StartClaw(){
+  public void StartClaw() {
     ClawMotorOn();
     OpenClaw();
   }
 
   public void ClawMotorOn() {
-     ClawMotor.set(VictorSPXControlMode.PercentOutput, -0.8);
+    ClawMotor.set(VictorSPXControlMode.PercentOutput, -0.8);
   }
 
   public void ClawMotorOff() {
-   ClawMotor.set(VictorSPXControlMode.PercentOutput, 0.0);
+    ClawMotor.set(VictorSPXControlMode.PercentOutput, 0.0);
   }
+
   public void CloseClaw() {
     ClawExtender.set(DoubleSolenoid.Value.kReverse);
   }

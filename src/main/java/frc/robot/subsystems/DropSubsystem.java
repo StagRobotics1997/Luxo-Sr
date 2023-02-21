@@ -6,11 +6,8 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DropSubsystem extends SubsystemBase {
-  private DoubleSolenoid DropExtender = new DoubleSolenoid(12,PneumaticsModuleType.CTREPCM,
+  private DoubleSolenoid DropExtender = new DoubleSolenoid(12, PneumaticsModuleType.CTREPCM,
       DropConstants.DROP_EXTENDER_1, DropConstants.DROP_EXTENDER_2);
-
-      // private DoubleSolenoid DropExtender = new DoubleSolenoid(12, PneumaticsModuleType.CTREPCM,
-      // DropConstants.DROP_EXTENDER_1, DropConstants.DROP_EXTENDER_2);
 
   private boolean extendDrop = false;
 
@@ -26,11 +23,13 @@ public class DropSubsystem extends SubsystemBase {
       DropExtender.set(DoubleSolenoid.Value.kForward);
     }
   }
-  public void dropin(){
+
+  public void dropin() {
     extendDrop = true;
     DropExtender.set(DoubleSolenoid.Value.kReverse);
   }
-  public void dropout(){
+
+  public void dropout() {
     extendDrop = false;
     DropExtender.set(DoubleSolenoid.Value.kForward);
   }

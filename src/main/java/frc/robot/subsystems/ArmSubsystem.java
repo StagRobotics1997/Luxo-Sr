@@ -6,70 +6,70 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
-  private DoubleSolenoid bicepExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ArmConstants.BICEP_EXTENDER_1,
+  private DoubleSolenoid m_bicepExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ArmConstants.BICEP_EXTENDER_1,
       ArmConstants.BICEP_EXTENDER_2);
-  private DoubleSolenoid forearmExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
+  private DoubleSolenoid m_forearmExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
       ArmConstants.FOREARM_EXTENDER_1, ArmConstants.FOREARM_EXTENDER_2);
-  private DoubleSolenoid wristExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ArmConstants.WRIST_EXTENDER_1,
+  private DoubleSolenoid m_wristExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ArmConstants.WRIST_EXTENDER_1,
       ArmConstants.WRIST_EXTENDER_2);
-  private boolean extendBicep = false;
-  private boolean extendWrist = false;
-  private boolean extendForearm = false;
+  private boolean m_bicepExtended = false;
+  private boolean m_wristExtended = false;
+  private boolean m_forearmExtended = false;
 
   public ArmSubsystem() {
   }
 
   public void ToggleExtendBicep() {
-    if (extendBicep == false) {
-      bicepExtender.set(DoubleSolenoid.Value.kReverse);
-      extendBicep = true;
-    } else if (extendBicep = true) {
-      bicepExtender.set(DoubleSolenoid.Value.kForward);
-      extendBicep = false;
+    if (m_bicepExtended == false) {
+      m_bicepExtender.set(DoubleSolenoid.Value.kReverse);
+      m_bicepExtended = true;
+    } else if (m_bicepExtended = true) {
+      m_bicepExtender.set(DoubleSolenoid.Value.kForward);
+      m_bicepExtended = false;
     }
   }
 
   public void ToggleExtendFront() {
-    if (extendWrist == false) {
-      wristExtender.set(DoubleSolenoid.Value.kReverse);
-      extendWrist = true;
-    } else if (extendWrist = true) {
-      wristExtender.set(DoubleSolenoid.Value.kForward);
-      extendWrist = false;
+    if (m_wristExtended == false) {
+      m_wristExtender.set(DoubleSolenoid.Value.kReverse);
+      m_wristExtended = true;
+    } else if (m_wristExtended = true) {
+      m_wristExtender.set(DoubleSolenoid.Value.kForward);
+      m_wristExtended = false;
     }
   }
 
   public void ToggleExtendForearm() {
-    if (extendForearm == false) {
-      forearmExtender.set(DoubleSolenoid.Value.kReverse);
-      extendForearm = true;
-    } else if (extendForearm = true) {
-      forearmExtender.set(DoubleSolenoid.Value.kForward);
-      extendForearm = false;
+    if (m_forearmExtended == false) {
+      m_forearmExtender.set(DoubleSolenoid.Value.kReverse);
+      m_forearmExtended = true;
+    } else if (m_forearmExtended = true) {
+      m_forearmExtender.set(DoubleSolenoid.Value.kForward);
+      m_forearmExtended = false;
     }
   }
 
   public void bicepIn() {
-    bicepExtender.set(DoubleSolenoid.Value.kReverse);
+    m_bicepExtender.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void bicepout() {
-    bicepExtender.set(DoubleSolenoid.Value.kForward);
+    m_bicepExtender.set(DoubleSolenoid.Value.kForward);
   }
 
   public void forearmIn() {
-    forearmExtender.set(DoubleSolenoid.Value.kReverse);
+    m_forearmExtender.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void forearmOut() {
-    forearmExtender.set(DoubleSolenoid.Value.kForward);
+    m_forearmExtender.set(DoubleSolenoid.Value.kForward);
   }
 
   public void wristIn() {
-    wristExtender.set(DoubleSolenoid.Value.kReverse);
+    m_wristExtender.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void wristOut() {
-    wristExtender.set(DoubleSolenoid.Value.kForward);
+    m_wristExtender.set(DoubleSolenoid.Value.kForward);
   }
 }
