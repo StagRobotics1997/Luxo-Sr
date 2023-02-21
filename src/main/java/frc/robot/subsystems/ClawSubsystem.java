@@ -49,7 +49,6 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   public void grab() {
-    SmartDashboard.putString("step", "grab");
     ClawMotorOff();
     CloseClaw();
   }
