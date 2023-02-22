@@ -92,7 +92,7 @@ public class LeadScrewSubsystem extends SubsystemBase {
   }
 
   public void stopMotor() {
-    m_desiredPosition = Position.NONE;
+    // m_desiredPosition = Position.NONE;
     setMotorSpeed(0.0);
   }
 
