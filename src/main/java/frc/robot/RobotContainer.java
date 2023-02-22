@@ -17,7 +17,7 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+// import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -153,6 +153,8 @@ public class RobotContainer {
     m_secondaryJoystick.button(7).onTrue(Commands.runOnce(() -> m_drop.dropin(), m_drop));
     m_secondaryJoystick.button(8).onTrue(Commands.runOnce(() -> m_drop.dropout(), m_drop));
     m_secondaryJoystick.button(9).onTrue(Commands.runOnce(() -> m_arm.forearmIn(), m_arm));
+    
+    m_secondaryJoystick.button(12).onTrue(Commands.runOnce(() -> m_robotDrive.reset(), m_arm));
 
     m_auxJoystick.button(1).onTrue(Commands.runOnce(() -> m_claw.StartClaw(), m_claw));
     m_auxJoystick.button(2).onTrue(ClawCommands.ClawMotoroffCommand(m_claw));
