@@ -28,15 +28,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private static final double TRACKWIDTH = 22.2;
   private static final double WHEELBASE = 24.0;
 
-  // private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(0.0);
-  // private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(0.0);
-  // private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(0.0);
-  // private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(0.0);
+//   private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(0.0);
+//   private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(0.0);
+//   private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(0.0);
+//   private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(0.0);
 
-  private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(212);
-  private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(72.0);
-  private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(337.0);
-  private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(166.0);
+  private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(358.8);
+  private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(70.4);
+  private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(344.6);
+  private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(340.0);
 
   private static DrivetrainSubsystem instance;
 
@@ -54,10 +54,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private final Gyroscope gyroscope = new NavX(I2C.Port.kOnboard);
 
   public DrivetrainSubsystem() {
-    Timer.delay(1.0);
+//     Timer.delay(1.0);
     gyroscope.calibrate();
     gyroscope.setInverted(true); // You might not need to invert the gyro
-    Timer.delay(1.0);
+//     Timer.delay(1.0);
      frontLeftModule = new Mk2SwerveModuleBuilder(
       new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0))
       .angleEncoder(new AnalogInput(DriveConstants.DRIVETRAIN_FRONT_LEFT_ANGLE_ENCODER),

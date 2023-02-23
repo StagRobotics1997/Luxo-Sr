@@ -83,7 +83,7 @@ public class RobotContainer {
         // hand, and turning controlled by the right.
         new RunCommand(
             () -> m_robotDrive.stickDrive(
-                m_primaryJoystick.getRawAxis(1),
+                -m_primaryJoystick.getRawAxis(1),
                 m_primaryJoystick.getRawAxis(0),
                 m_secondaryJoystick.getRawAxis(0)),
             m_robotDrive));

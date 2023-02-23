@@ -70,10 +70,10 @@ public class ClawSubsystem extends SubsystemBase {
 
   public void CloseClaw() {
     SmartDashboard.putString("Claw", "Close");
-    m_clawExtender.set(DoubleSolenoid.Value.kReverse);
+    m_clawExtender.set(DoubleSolenoid.Value.kForward);
   }
 
   public void OpenClaw() {
-    m_clawExtender.set(DoubleSolenoid.Value.kForward);
+    m_clawExtender.set(DoubleSolenoid.Value.kReverse);
   }
 }
