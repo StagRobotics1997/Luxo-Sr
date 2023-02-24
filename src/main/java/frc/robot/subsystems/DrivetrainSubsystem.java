@@ -28,15 +28,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private static final double TRACKWIDTH = 22.2;
   private static final double WHEELBASE = 24.0;
 
-//   private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(0.0);
-//   private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(0.0);
-//   private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(0.0);
-//   private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(0.0);
+  // private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(0.0);
+  // private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(0.0);
+  // private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(0.0);
+  // private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(0.0);
 
-  private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(358.8);
-  private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(70.4);
-  private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(344.6);
-  private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(340.0);
+  private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(341.5);
+  private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(74.4);
+  private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(163.5);
+  private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(339.1);
 
   private static DrivetrainSubsystem instance;
 
@@ -128,7 +128,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     frontRightModule.updateSensors();
     backLeftModule.updateSensors();
     backRightModule.updateSensors();
-
+   //  SmartDashboard.putString("offsets", frontLeftModule.getCurrentAngle().toString + "," )
     SmartDashboard.putNumber("Front Left Module Angle", Math.toDegrees(frontLeftModule.getCurrentAngle()));
     SmartDashboard.putNumber("Front Right Module Angle",
         Math.toDegrees(frontRightModule.getCurrentAngle()));
@@ -166,8 +166,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   public void stickDrive(double forward, double strafe, double rotation) {
     // double forward = -RobotgetOI.getPrimaryJoystick().getRawAxis(1);
-    forward = Utilities.deadband(-forward * 0.85);
-    // // Square the forward stick
+    // forward = Utilities.deadband(-forward * 0.85);
+    // // // Square the forward stick
     // forward = Math.copySign(Math.pow(forward, 3.0), forward);
 
     // //double strafe = -Robot.getOi().getPrimaryJoystick().getRawAxis(0);
@@ -180,11 +180,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // // Square the rotation stick
     // rotation = Math.copySign(Math.pow(rotation, 3.0), rotation);
 
-    forward = Utilities.joystickCubicScaledDeadband(-forward);
+    forward = Utilities.joystickCubicScaledDeadband(forward);
     strafe = Utilities.joystickCubicScaledDeadband(-strafe);
     rotation = Utilities.joystickCubicScaledDeadband(-rotation);
 
     drive(new Translation2d(forward, strafe), rotation, false);
+    // drive(new Translation2d(forward, 0), 0, false);
 
   }
 
