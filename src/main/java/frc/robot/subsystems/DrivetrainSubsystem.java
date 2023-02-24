@@ -28,15 +28,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private static final double TRACKWIDTH = 22.2;
   private static final double WHEELBASE = 24.0;
 
-  // private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(0.0);
-  // private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(0.0);
-  // private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(0.0);
-  // private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(0.0);
-
-  private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(341.0);
-  private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(75.9);
-  private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(166.7);
-  private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(337.4);
+  // The offsets are in Radians now. Copy the array from the dashbaord to assign
+  // new values
+  private double[] OFFSETS = { 3.68439, 7.335619, 2.738422, 5.93761 };
+  // private double[] OFFSETS = { 0.00, 0.00, 0.00, 0.00 };
 
   private static DrivetrainSubsystem instance;
 
@@ -44,6 +39,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private SwerveModule frontRightModule;
   private SwerveModule backLeftModule;
   private SwerveModule backRightModule;
+  
+  private int m_counter = 0; // counter used to throttle the updates to the dashboard
 
   private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
       new Translation2d(TRACKWIDTH / 2.0, WHEELBASE / 2.0),
@@ -61,7 +58,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
      frontLeftModule = new Mk2SwerveModuleBuilder(
       new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0))
       .angleEncoder(new AnalogInput(DriveConstants.DRIVETRAIN_FRONT_LEFT_ANGLE_ENCODER),
-          FRONT_LEFT_ANGLE_OFFSET)
+             -OFFSETS[0])
       .angleMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_FRONT_LEFT_ANGLE_MOTOR,
           CANSparkMaxLowLevel.MotorType.kBrushless),
           Mk2SwerveModuleBuilder.MotorType.NEO)
@@ -72,7 +69,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
    frontRightModule = new Mk2SwerveModuleBuilder(
       new Vector2(TRACKWIDTH / 2.0, -WHEELBASE / 2.0))
       .angleEncoder(new AnalogInput(DriveConstants.DRIVETRAIN_FRONT_RIGHT_ANGLE_ENCODER),
-          FRONT_RIGHT_ANGLE_OFFSET)
+           -OFFSETS[1])
       .angleMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_FRONT_RIGHT_ANGLE_MOTOR,
           CANSparkMaxLowLevel.MotorType.kBrushless),
           Mk2SwerveModuleBuilder.MotorType.NEO)
@@ -83,7 +80,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
    backLeftModule = new Mk2SwerveModuleBuilder(
       new Vector2(-TRACKWIDTH / 2.0, WHEELBASE / 2.0))
       .angleEncoder(new AnalogInput(DriveConstants.DRIVETRAIN_BACK_LEFT_ANGLE_ENCODER),
-          BACK_LEFT_ANGLE_OFFSET)
+           -OFFSETS[2])
       .angleMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_BACK_LEFT_ANGLE_MOTOR,
           CANSparkMaxLowLevel.MotorType.kBrushless),
           Mk2SwerveModuleBuilder.MotorType.NEO)
@@ -94,7 +91,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   backRightModule = new Mk2SwerveModuleBuilder(
       new Vector2(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0))
       .angleEncoder(new AnalogInput(DriveConstants.DRIVETRAIN_BACK_RIGHT_ANGLE_ENCODER),
-          BACK_RIGHT_ANGLE_OFFSET)
+          -OFFSETS[3])
       .angleMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_BACK_RIGHT_ANGLE_MOTOR,
           CANSparkMaxLowLevel.MotorType.kBrushless),
           Mk2SwerveModuleBuilder.MotorType.NEO)
@@ -137,7 +134,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("funniness", -Math.toRadians(0.0));
     SmartDashboard.putNumber("Gyroscope Angle", gyroscope.getAngle().toDegrees());
     SmartDashboard.putNumber("Gyroscope Raw degrees", gyroscope.getUnadjustedAngle().toDegrees());
-
+    m_counter++;
+    if (m_counter > 50) {
+      SmartDashboard.putString("offsets", String.format("%.4f, %.4f, %.4f, %.4f",
+          frontLeftModule.getCurrentAngle(),
+          frontRightModule.getCurrentAngle(),
+          backLeftModule.getCurrentAngle(),
+          backRightModule.getCurrentAngle()));
+      m_counter = 0;
+    }
     frontLeftModule.updateState(TimedRobot.kDefaultPeriod);
     frontRightModule.updateState(TimedRobot.kDefaultPeriod);
     backLeftModule.updateState(TimedRobot.kDefaultPeriod);
