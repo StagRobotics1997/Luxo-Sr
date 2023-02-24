@@ -13,8 +13,8 @@ public class ClawSubsystem extends SubsystemBase {
   private DoubleSolenoid m_clawExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ClawConstants.CLAW_EXTENDER_1,
       ClawConstants.CLAW_EXTENDER_2);
   private boolean m_clawExtended = false;
-  private boolean m_motorOn = false;
-  private VictorSPX m_motor = new VictorSPX(ClawConstants.CLAW_MOTOR);
+  // private boolean m_motorOn = false;
+  // private VictorSPX m_motor = new VictorSPX(ClawConstants.CLAW_MOTOR);
   public final DigitalInput clawLimitSwich = new DigitalInput(ClawConstants.CLAW_LIMITSWICH);
 
   public ClawSubsystem() {
@@ -31,21 +31,21 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   public void toggleClawMotor() {
-    if (m_motorOn == false) {
-      ClawMotorBackward();
-      m_motorOn = true;
-    } else {
-      ClawMotorOff();
-      m_motorOn = false;
-    }
+  //   if (m_motorOn == false) {
+  //     ClawMotorBackward();
+  //     m_motorOn = true;
+  //   } else {
+  //     ClawMotorOff();
+  //     m_motorOn = false;
+    // }
   }
 
   public void ClawMotorForward() {
-    m_motor.set(VictorSPXControlMode.PercentOutput, 0.85);
+    // m_motor.set(VictorSPXControlMode.PercentOutput, 0.85);
   }
 
   public void ClawMotorBackward() {
-    m_motor.set(VictorSPXControlMode.PercentOutput, -0.85);
+    // m_motor.set(VictorSPXControlMode.PercentOutput, -0.85);
   }
 
   public void grab() {
@@ -59,13 +59,13 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   public void ClawMotorOn() {
-    SmartDashboard.putNumber("Claw Motor", -0.8);
-    m_motor.set(VictorSPXControlMode.PercentOutput, -0.8);
+    // SmartDashboard.putNumber("Claw Motor", -0.8);
+    // m_motor.set(VictorSPXControlMode.PercentOutput, -0.8);
   }
 
   public void ClawMotorOff() {
-    SmartDashboard.putNumber("Claw Motor", 0.0);
-    m_motor.set(VictorSPXControlMode.PercentOutput, 0.0);
+    // SmartDashboard.putNumber("Claw Motor", 0.0);
+    // m_motor.set(VictorSPXControlMode.PercentOutput, 0.0);
   }
 
   public void CloseClaw() {

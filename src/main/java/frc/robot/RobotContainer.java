@@ -52,9 +52,8 @@ public class RobotContainer {
   // The autonomous routines
   // A simple auto routine that drives forward a specified distance, and then
   // stops.
-  // private final Command m_simpleAuto = Autos.simpleAuto(m_robotDrive);
-  // private final Command m_complexAuto = Autos.complexAuto(m_robotDrive,
-  // m_shooter);
+  private final Command m_simpleAuto = Autonomous.simpleCommand(m_robotDrive);
+  // private final Command m_complexAuto = Autonomous.complexAuto(m_robotDrive,mr);
   // A complex auto routine that drives forward, drops a hatch, and then drives
   // backward.
 
