@@ -25,12 +25,12 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 
 public class DrivetrainSubsystem extends SubsystemBase {
-  private static final double TRACKWIDTH = 22.2;
-  private static final double WHEELBASE = 24.0;
+  private static final double TRACKWIDTH = 22.25;
+  private static final double WHEELBASE = 24.44;
 
   // The offsets are in Radians now. Copy the array from the dashbaord to assign
   // new values
-  private double[] OFFSETS = { 3.68439, 7.335619, 2.738422, 5.93761 };
+  private double[] OFFSETS = {3.6486, 1.2838, 2.8949, 5.9312 };
   // private double[] OFFSETS = { 0.00, 0.00, 0.00, 0.00 };
 
   private static DrivetrainSubsystem instance;
@@ -135,7 +135,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Gyroscope Angle", gyroscope.getAngle().toDegrees());
     SmartDashboard.putNumber("Gyroscope Raw degrees", gyroscope.getUnadjustedAngle().toDegrees());
     m_counter++;
-    if (m_counter > 50) {
+    if (m_counter > 100) {
       SmartDashboard.putString("offsets", String.format("%.4f, %.4f, %.4f, %.4f",
           frontLeftModule.getCurrentAngle(),
           frontRightModule.getCurrentAngle(),
@@ -189,7 +189,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     strafe = Utilities.joystickCubicScaledDeadband(-strafe);
     rotation = Utilities.joystickCubicScaledDeadband(-rotation);
 
-    drive(new Translation2d(forward, strafe), rotation, false);
+    drive(new Translation2d(forward, strafe), rotation, true);
     // drive(new Translation2d(forward, 0), 0, false);
 
   }

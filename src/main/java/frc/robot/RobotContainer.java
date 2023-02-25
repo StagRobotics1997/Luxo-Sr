@@ -88,7 +88,7 @@ public class RobotContainer {
             m_robotDrive));
 
     // Add commands to the autonomous command chooser
-    // m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
+    m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
     // m_chooser.addOption("Complex Auto", m_complexAuto);
 
     // Put the chooser on the dashboard
@@ -159,7 +159,7 @@ public class RobotContainer {
     m_auxJoystick.button(2).onTrue(ClawCommands.ClawMotoroffCommand(m_claw));
     m_auxJoystick.button(3).onTrue(PositionCommands.startCommands(m_arm, m_leadScrew, m_drop));
     m_auxJoystick.button(4).onTrue(PositionCommands.pickupoffloorCommand(m_arm, m_leadScrew));
-    m_auxJoystick.button(5).onTrue(PositionCommands.midbarCommand(m_arm, m_leadScrew));
+    m_auxJoystick.button(5).onTrue(PositionCommands.shelfCommand(m_arm, m_leadScrew));
     m_auxJoystick.button(6).onTrue(PositionCommands.HighbarCommand(m_arm, m_leadScrew));
     m_auxJoystick.button(7).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_bottom(), m_leadScrew));
     m_auxJoystick.button(8).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_top(), m_leadScrew));
