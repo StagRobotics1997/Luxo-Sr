@@ -16,6 +16,7 @@ public class LeadScrewSubsystem extends SubsystemBase {
   private final VictorSPX m_motor_2 = new VictorSPX(LeadScrewConstants.MOTOR_2);
   public final DigitalInput sensor_1 = new DigitalInput(LeadScrewConstants.SENSOR_1);
   public final DigitalInput sensor_2 = new DigitalInput(LeadScrewConstants.SENSOR_2);
+  public final DigitalInput sensor_3 = new DigitalInput(LeadScrewConstants.SENSOR_3);
   public final DigitalInput sensor_bottom = new DigitalInput(LeadScrewConstants.SENSOR_BOTTOM);
   public final DigitalInput sensor_top = new DigitalInput(LeadScrewConstants.SENSOR_TOP);
   private CommandJoystick m_joystick;
@@ -25,6 +26,7 @@ public class LeadScrewSubsystem extends SubsystemBase {
     BOTTOM,
     POSITION_1,
     POSITION_2,
+    POSITION_3,
     TOP,
     MANUAL
   }
@@ -54,6 +56,10 @@ public class LeadScrewSubsystem extends SubsystemBase {
     return !sensor_2.get();
   }
 
+  public boolean is_sensor_3_on() {
+    return !sensor_3.get();
+  }
+
   public boolean is_sensor_top_on() {
     return !sensor_top.get();
   }
@@ -79,6 +85,12 @@ public class LeadScrewSubsystem extends SubsystemBase {
 
   public void move_to_position_2() {
     m_desiredPosition = Position.POSITION_2;
+    process();
+  }
+
+  
+  public void move_to_position_3() {
+    m_desiredPosition = Position.POSITION_3;
     process();
   }
 
@@ -115,6 +127,9 @@ public class LeadScrewSubsystem extends SubsystemBase {
     if (is_sensor_2_on())
       return Position.POSITION_2;
 
+      if (is_sensor_3_on())
+      return Position.POSITION_3;
+
     return Position.NONE;
   }
 
@@ -147,6 +162,7 @@ public class LeadScrewSubsystem extends SubsystemBase {
     SmartDashboard.putString("Desired Destination", m_desiredPosition.toString());
     SmartDashboard.putBoolean("Sensor1", sensor_1.get());
     SmartDashboard.putBoolean("Sensor2", sensor_2.get());
+    SmartDashboard.putBoolean("Sensor2", sensor_3.get());
     SmartDashboard.putBoolean("SensorTop", sensor_top.get());
     SmartDashboard.putBoolean("SensorBottom", sensor_bottom.get());
     failSafeCheck();

@@ -51,6 +51,7 @@ public final class Constants {
     // Sensors
     public static final int SENSOR_1 = 2;
     public static final int SENSOR_2 = 1;
+    public static final int SENSOR_3 = 1;
     public static final int SENSOR_TOP = 0;
     public static final int SENSOR_BOTTOM = 9;
     // Speeds
