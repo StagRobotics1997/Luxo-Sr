@@ -162,7 +162,7 @@ public class LeadScrewSubsystem extends SubsystemBase {
     SmartDashboard.putString("Desired Destination", m_desiredPosition.toString());
     SmartDashboard.putBoolean("Sensor1", sensor_1.get());
     SmartDashboard.putBoolean("Sensor2", sensor_2.get());
-    SmartDashboard.putBoolean("Sensor2", sensor_3.get());
+    SmartDashboard.putBoolean("Sensor3", sensor_3.get());
     SmartDashboard.putBoolean("SensorTop", sensor_top.get());
     SmartDashboard.putBoolean("SensorBottom", sensor_bottom.get());
     failSafeCheck();
