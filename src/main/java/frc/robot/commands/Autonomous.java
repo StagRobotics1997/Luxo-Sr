@@ -14,15 +14,23 @@ public final class Autonomous {
         
         return Commands.sequence(
                 new StartEndCommand(() -> drive.stickDrive(.25, .0, .0),
-                        () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(3),
+                        () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(7),
                         // Commands.runOnce(()-> Timer.delay(3.0)),
                 new StartEndCommand(() -> drive.stickDrive(.0, .25, .0),
-                        () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(3),
+                        () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(3));
                         // Commands.runOnce(()-> Timer.delay(3.0)),
-                new StartEndCommand(() -> drive.stickDrive(-.25, .0, .0),
-                        () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(3),
-                        // Commands.runOnce(()-> Timer.delay(3.0)),
-                new StartEndCommand(() -> drive.stickDrive(.0, -.25, .0),
-                        () -> drive.stickDrive(0.0, 0, .0), drive).withTimeout(3));
+
+
+                //         new StartEndCommand(() -> drive.stickDrive(.25, .0, .0),
+                //         () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(3),
+                //         // Commands.runOnce(()-> Timer.delay(3.0)),
+                // new StartEndCommand(() -> drive.stickDrive(.0, .25, .0),
+                //         () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(3),
+                //         // Commands.runOnce(()-> Timer.delay(3.0)),
+                // new StartEndCommand(() -> drive.stickDrive(-.25, .0, .0),
+                //         () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(3),
+                //         // Commands.runOnce(()-> Timer.delay(3.0)),
+                // new StartEndCommand(() -> drive.stickDrive(.0, -.25, .0),
+                //         () -> drive.stickDrive(0.0, 0, .0), drive).withTimeout(3));
     }
 }

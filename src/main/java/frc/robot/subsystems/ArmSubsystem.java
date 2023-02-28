@@ -66,10 +66,10 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void wristIn() {
-    m_wristExtender.set(DoubleSolenoid.Value.kReverse);
+    m_wristExtender.set(DoubleSolenoid.Value.kForward);
   }
 
   public void wristOut() {
-    m_wristExtender.set(DoubleSolenoid.Value.kForward);
+    m_wristExtender.set(DoubleSolenoid.Value.kReverse);
   }
 }
