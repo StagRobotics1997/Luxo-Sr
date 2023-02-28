@@ -30,7 +30,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   // The offsets are in Radians now. Copy the array from the dashbaord to assign
   // new values
-  private double[] OFFSETS = {3.6486, 1.2838, 2.8949, 5.9312 };
+  private double[] OFFSETS = {3.7237, 1.0496, 2.9973, 5.8909};
   // private double[] OFFSETS = { 0.00, 0.00, 0.00, 0.00 };
 
   private static DrivetrainSubsystem instance;
@@ -196,6 +196,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   public CommandBase resetGyroscope() {
     return new InstantCommand(() -> gyroscope.setAdjustmentAngle(gyroscope.getUnadjustedAngle()));
+  }
+
+  public void turnTo0() {
+    drive(new Translation2d(0, 0), 0, true);
+  }
+
+  public void turnTo180() {
+    drive(new Translation2d(0, 0), 180, true);
   }
 
 }

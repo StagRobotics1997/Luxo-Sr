@@ -148,14 +148,16 @@ public class RobotContainer {
     m_primaryJoystick.button(12).onTrue(Commands.runOnce(() -> m_arm.forearmOut(), m_arm));
 
     m_secondaryJoystick.button(1).onTrue(ClawCommands.closeClawCommand(m_claw));
-    m_secondaryJoystick.button(5).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendForearm(), m_arm));
+    // m_secondaryJoystick.button(5).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendForearm(), m_arm));
+    m_secondaryJoystick.button(3).onTrue(Commands.runOnce(() -> m_robotDrive.turnTo180(), m_robotDrive));
+    m_secondaryJoystick.button(5).onTrue(Commands.runOnce(() -> m_robotDrive.turnTo0(), m_robotDrive));
     m_secondaryJoystick.button(7).onTrue(Commands.runOnce(() -> m_drop.dropin(), m_drop));
     m_secondaryJoystick.button(8).onTrue(Commands.runOnce(() -> m_drop.dropout(), m_drop));
     m_secondaryJoystick.button(9).onTrue(Commands.runOnce(() -> m_arm.forearmIn(), m_arm));
-    
-    m_secondaryJoystick.button(12).onTrue(Commands.runOnce(() -> m_robotDrive.reset(), m_arm));
+    m_secondaryJoystick.button(12).onTrue(Commands.runOnce(() -> m_robotDrive.reset(), m_robotDrive));
 
-    m_auxJoystick.button(1).onTrue(Commands.runOnce(() -> m_claw.StartClaw(), m_claw));
+    // m_auxJoystick.button(1).onTrue(Commands.runOnce(() -> m_claw.StartClaw(), m_claw));
+    m_auxJoystick.button(1).onTrue(Commands.runOnce(() -> m_claw.ToggleClaw(), m_claw));
     m_auxJoystick.button(2).onTrue(ClawCommands.ClawMotoroffCommand(m_claw));
     m_auxJoystick.button(3).onTrue(PositionCommands.startCommands(m_arm, m_leadScrew, m_drop));
     m_auxJoystick.button(4).onTrue(PositionCommands.pickupoffloorCommand(m_arm, m_leadScrew));

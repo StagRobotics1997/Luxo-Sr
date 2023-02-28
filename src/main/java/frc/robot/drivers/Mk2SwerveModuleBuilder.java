@@ -145,7 +145,7 @@ public class Mk2SwerveModuleBuilder {
 
         controller.setP(constants.p);
         controller.setI(constants.i);
-        controller.setD(constants.i);
+        controller.setD(constants.d);
 
         targetAngleConsumer = targetAngle -> {
             double currentAngle = encoder.getPosition();
