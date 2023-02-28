@@ -114,7 +114,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     m_primaryJoystick
-        .button(1)
+        .button(7)
         .onTrue(m_robotDrive.resetGyroscope());
 
     // m_auxJoystick
