@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj.Timer;
 public final class PositionCommands {
   public static Command startCommands(ArmSubsystem arm, LeadScrewSubsystem leadScrew, DropSubsystem drop, ClawSubsystem claw) {
     return Commands.sequence(
-        Commands.runOnce(() -> arm.bicepIn(), arm),
+      Commands.runOnce(() -> arm.wristIn(), arm),    
+    Commands.runOnce(() -> arm.bicepIn(), arm),
         Commands.runOnce(() -> arm.forearmIn(), arm),
         Commands.runOnce(() -> leadScrew.move_to_bottom(), leadScrew),
         Commands.runOnce(() -> arm.wristIn(), arm),
@@ -23,7 +24,8 @@ public final class PositionCommands {
   public static Command pickupoffloorCommand(ArmSubsystem arm, LeadScrewSubsystem leadScrew) {
 
     return Commands.sequence(
-        Commands.runOnce(() -> arm.bicepIn(), arm),
+      Commands.runOnce(() -> arm.wristOut(), arm),    
+    Commands.runOnce(() -> arm.bicepIn(), arm),
         Commands.runOnce(() -> arm.forearmIn(), arm),
         Commands.runOnce(() -> arm.wristOut(), arm),
         Commands.runOnce(() -> leadScrew.move_to_bottom(), leadScrew));
@@ -40,7 +42,8 @@ public final class PositionCommands {
 
   public static Command shelfCommand(ArmSubsystem arm, LeadScrewSubsystem leadScrew) {
     return Commands.sequence(
-        Commands.runOnce(() -> arm.forearmOut(), arm),
+      Commands.runOnce(() -> arm.wristOut(), arm),    
+    Commands.runOnce(() -> arm.forearmOut(), arm),
         Commands.runOnce(() -> arm.bicepout(), arm),
         Commands.runOnce(() -> leadScrew.move_to_position_2(), leadScrew),
         Commands.runOnce(() -> arm.wristIn(), arm));
