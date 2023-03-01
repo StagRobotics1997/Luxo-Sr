@@ -6,11 +6,13 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
-  private DoubleSolenoid m_bicepExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ArmConstants.BICEP_EXTENDER_1,
+  private DoubleSolenoid m_bicepExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
+      ArmConstants.BICEP_EXTENDER_1,
       ArmConstants.BICEP_EXTENDER_2);
   private DoubleSolenoid m_forearmExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
       ArmConstants.FOREARM_EXTENDER_1, ArmConstants.FOREARM_EXTENDER_2);
-  private DoubleSolenoid m_wristExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ArmConstants.WRIST_EXTENDER_1,
+  private DoubleSolenoid m_wristExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
+      ArmConstants.WRIST_EXTENDER_1,
       ArmConstants.WRIST_EXTENDER_2);
   private boolean m_bicepExtended = false;
   private boolean m_wristExtended = false;
@@ -31,10 +33,10 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void ToggleExtendFront() {
     if (m_wristExtended == false) {
-      m_wristExtender.set(DoubleSolenoid.Value.kReverse);
+      m_wristExtender.set(DoubleSolenoid.Value.kForward);
       m_wristExtended = true;
     } else if (m_wristExtended = true) {
-      m_wristExtender.set(DoubleSolenoid.Value.kForward);
+      m_wristExtender.set(DoubleSolenoid.Value.kReverse);
       m_wristExtended = false;
     }
   }

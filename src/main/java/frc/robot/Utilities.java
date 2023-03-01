@@ -6,7 +6,8 @@ public class Utilities {
     }
 
     public static double deadband(double input, double buffer) {
-        if (Math.abs(input) < buffer) return 0;
+        if (Math.abs(input) < buffer)
+            return 0;
         return input;
     }
 
@@ -17,11 +18,12 @@ public class Utilities {
     public static double joystickCubicScaledDeadband(double input) {
         double deadbandCutoff = 0.1;
         double weight = 0.2;
-         
-        if(Math.abs(input) < deadbandCutoff) {
+
+        if (Math.abs(input) < deadbandCutoff) {
             return 0.0;
         } else {
-            return (Cubic(input, weight) - (Math.abs(input)/input) * Cubic(deadbandCutoff, weight)) / (1.0 - Cubic(deadbandCutoff, weight));
+            return (Cubic(input, weight) - (Math.abs(input) / input) * Cubic(deadbandCutoff, weight))
+                    / (1.0 - Cubic(deadbandCutoff, weight));
         }
     }
 }

@@ -78,10 +78,12 @@ public class Mk2SwerveModuleBuilder {
     }
 
     /**
-     * Configures the swerve module to use an analog encoder through one of the RoboRIO's analog input ports.
+     * Configures the swerve module to use an analog encoder through one of the
+     * RoboRIO's analog input ports.
      *
      * @param encoder The analog input handle to use for the encoder.
-     * @param offset  The offset of the encoder in radians. This value is added to the analog encoder reading to obtain
+     * @param offset  The offset of the encoder in radians. This value is added to
+     *                the analog encoder reading to obtain
      *                the true module angle.
      * @return The builder.
      */
@@ -101,14 +103,18 @@ public class Mk2SwerveModuleBuilder {
     }
 
     /**
-     * Configures the swerve module to use a CAN Spark MAX driving a NEO as it's angle motor.
+     * Configures the swerve module to use a CAN Spark MAX driving a NEO as it's
+     * angle motor.
      * <p>
-     * The default PID constants and angle reduction are used. These values have been determined to work with all Mk2
+     * The default PID constants and angle reduction are used. These values have
+     * been determined to work with all Mk2
      * modules controlled by this motor.
      * <p>
-     * To override this values see {@link #angleMotor(CANSparkMax, PidConstants, double)}
+     * To override this values see
+     * {@link #angleMotor(CANSparkMax, PidConstants, double)}
      *
-     * @param motor The CAN Spark MAX to use as the angle motor. The NEO's encoder is set to output the module's angle
+     * @param motor The CAN Spark MAX to use as the angle motor. The NEO's encoder
+     *              is set to output the module's angle
      *              in radians.
      * @return The builder.
      */
@@ -125,16 +131,23 @@ public class Mk2SwerveModuleBuilder {
     }
 
     /**
-     * Configures the swerve module to use a CAN Spark MAX driving a NEO as it's angle motor.
+     * Configures the swerve module to use a CAN Spark MAX driving a NEO as it's
+     * angle motor.
      * <p>
-     * This method is usually used when custom PID tuning is required. If using the standard angle reduction
-     * and a NEO, {@link #angleMotor(CANSparkMax)} uses already tuned constants so no tuning is required.
+     * This method is usually used when custom PID tuning is required. If using the
+     * standard angle reduction
+     * and a NEO, {@link #angleMotor(CANSparkMax)} uses already tuned constants so
+     * no tuning is required.
      *
-     * @param motor     The CAN Spark MAX to use as the angle motor. The NEO's encoder is set to output the module's
+     * @param motor     The CAN Spark MAX to use as the angle motor. The NEO's
+     *                  encoder is set to output the module's
      *                  angle in radians.
-     * @param constants The PID constants to use to control the module's angle (units are in radians).
-     * @param reduction The reduction of the angle motor. It should be specified so the number is greater than 1.
-     *                  For example, an 18:1 ratio should be specified by {@code 18.0 / 1.0}.
+     * @param constants The PID constants to use to control the module's angle
+     *                  (units are in radians).
+     * @param reduction The reduction of the angle motor. It should be specified so
+     *                  the number is greater than 1.
+     *                  For example, an 18:1 ratio should be specified by
+     *                  {@code 18.0 / 1.0}.
      * @return The builder.
      */
     public Mk2SwerveModuleBuilder angleMotor(CANSparkMax motor, PidConstants constants, double reduction) {
@@ -204,15 +217,18 @@ public class Mk2SwerveModuleBuilder {
 
             motor.set(TalonFXControlMode.Position, newTarget / sensorCoefficient);
         };
-        initializeAngleCallback = angle -> motor.getSensorCollection().setIntegratedSensorPosition(angle / sensorCoefficient, 50);
+        initializeAngleCallback = angle -> motor.getSensorCollection()
+                .setIntegratedSensorPosition(angle / sensorCoefficient, 50);
 
         return this;
     }
 
     /**
-     * Configures the swerve module to use a PWM Spark MAX driving a NEO as it's angle motor.
+     * Configures the swerve module to use a PWM Spark MAX driving a NEO as it's
+     * angle motor.
      * <p>
-     * The default PID constants are used. These values have been determined to work with all Mk2 modules
+     * The default PID constants are used. These values have been determined to work
+     * with all Mk2 modules
      * controlled by a NEO using the standard angle reduction.
      *
      * @param motor The PWM Spark MAX to use as the angle motor.
@@ -225,7 +241,8 @@ public class Mk2SwerveModuleBuilder {
     public Mk2SwerveModuleBuilder angleMotor(MotorController motor, MotorType motorType) {
         switch (motorType) {
             case CIM:
-                // Spark MAXs are special and drive brushed motors in the opposite direction of every other motor
+                // Spark MAXs are special and drive brushed motors in the opposite direction of
+                // every other motor
                 // controller
                 if (motor instanceof Spark || motor instanceof CANSparkMax) {
                     motor.setInverted(true);
@@ -233,7 +250,8 @@ public class Mk2SwerveModuleBuilder {
 
                 return angleMotor(motor, DEFAULT_ONBOARD_CIM_ANGLE_CONSTANTS);
             case MINI_CIM:
-                // Spark MAXs are special and drive brushed motors in the opposite direction of every other motor controller
+                // Spark MAXs are special and drive brushed motors in the opposite direction of
+                // every other motor controller
                 if (motor instanceof Spark || motor instanceof CANSparkMax) {
                     motor.setInverted(true);
                 }
@@ -247,12 +265,15 @@ public class Mk2SwerveModuleBuilder {
     }
 
     /**
-     * Configures the swerve module to use a generic speed controller as it's angle motor.
+     * Configures the swerve module to use a generic speed controller as it's angle
+     * motor.
      * <p>
-     * This method is usually used when custom PID tuning is required or a NEO is not used.
+     * This method is usually used when custom PID tuning is required or a NEO is
+     * not used.
      *
      * @param motor     The speed controller to use as the angle motor.
-     * @param constants The PID constants to use to control the module's angle (units are in radians).
+     * @param constants The PID constants to use to control the module's angle
+     *                  (units are in radians).
      * @return The builder.
      */
     public Mk2SwerveModuleBuilder angleMotor(MotorController motor, PidConstants constants) {
@@ -267,12 +288,16 @@ public class Mk2SwerveModuleBuilder {
     }
 
     /**
-     * Configures the swerve module to use a CAN Spark MAX driving a NEO as it's drive motor.
+     * Configures the swerve module to use a CAN Spark MAX driving a NEO as it's
+     * drive motor.
      * <p>
-     * The default reduction and wheel diameter are used. These will work with the recommended wheel and stock drive
-     * reduction. By default distance and velocity will be reported in inches and inches per second.
+     * The default reduction and wheel diameter are used. These will work with the
+     * recommended wheel and stock drive
+     * reduction. By default distance and velocity will be reported in inches and
+     * inches per second.
      *
-     * @param motor The CAN Spark MAX to use as the drive motor. The NEO's encoder is set to output the module's driven
+     * @param motor The CAN Spark MAX to use as the drive motor. The NEO's encoder
+     *              is set to output the module's driven
      *              distance and current velocity in inches and inches per second.
      * @return The builder.
      */
@@ -289,20 +314,27 @@ public class Mk2SwerveModuleBuilder {
     }
 
     /**
-     * Configures the swerve module to use a CAN Spark MAX driving a NEO as it's drive motor.
+     * Configures the swerve module to use a CAN Spark MAX driving a NEO as it's
+     * drive motor.
      *
-     * @param motor         The CAN Spark MAX to use as the drive motor. The NEO's encoder is set to output the module's driven
-     *                      distance and current velocity. Units are the same as the units used for the wheel diameter.
-     * @param reduction     The drive reduction of the module. It should be specified so the number is greater than 1.
-     *                      For example, an 18:1 ratio should be specified by {@code 18.0 / 1.0}.
-     * @param wheelDiameter The diameter of the module's wheel. By default this is {@value DEFAULT_WHEEL_DIAMETER}
+     * @param motor         The CAN Spark MAX to use as the drive motor. The NEO's
+     *                      encoder is set to output the module's driven
+     *                      distance and current velocity. Units are the same as the
+     *                      units used for the wheel diameter.
+     * @param reduction     The drive reduction of the module. It should be
+     *                      specified so the number is greater than 1.
+     *                      For example, an 18:1 ratio should be specified by
+     *                      {@code 18.0 / 1.0}.
+     * @param wheelDiameter The diameter of the module's wheel. By default this is
+     *                      {@value DEFAULT_WHEEL_DIAMETER}
      *                      inches.
      * @return The builder.
      */
     public Mk2SwerveModuleBuilder driveMotor(CANSparkMax motor, double reduction, double wheelDiameter) {
         RelativeEncoder encoder = motor.getEncoder();
         encoder.setPositionConversionFactor(wheelDiameter * Math.PI / reduction);
-        encoder.setVelocityConversionFactor(wheelDiameter * Math.PI / reduction * (1.0 / 60.0)); // RPM to units per second
+        encoder.setVelocityConversionFactor(wheelDiameter * Math.PI / reduction * (1.0 / 60.0)); // RPM to units per
+                                                                                                 // second
 
         currentDrawSupplier = motor::getOutputCurrent;
         distanceSupplier = encoder::getPosition;
@@ -322,22 +354,26 @@ public class Mk2SwerveModuleBuilder {
         motor.setNeutralMode(NeutralMode.Brake);
 
         currentDrawSupplier = motor::getSupplyCurrent;
-        distanceSupplier = () -> (Math.PI * wheelDiameter * motor.getSensorCollection().getIntegratedSensorPosition()) / (2048.0 * reduction);
-        velocitySupplier = () -> (10.0 * Math.PI * wheelDiameter * motor.getSensorCollection().getIntegratedSensorVelocity()) / (2048.0 * reduction);
+        distanceSupplier = () -> (Math.PI * wheelDiameter * motor.getSensorCollection().getIntegratedSensorPosition())
+                / (2048.0 * reduction);
+        velocitySupplier = () -> (10.0 * Math.PI * wheelDiameter
+                * motor.getSensorCollection().getIntegratedSensorVelocity()) / (2048.0 * reduction);
         driveOutputConsumer = output -> motor.set(TalonFXControlMode.PercentOutput, output);
 
         return this;
     }
 
     /**
-     * Configures the swerve module to use a generic speed controller driving the specified motor.
+     * Configures the swerve module to use a generic speed controller driving the
+     * specified motor.
      *
      * @param motor     The speed controller to use.
      * @param motorType The type of motor used.
      * @return The builder.
      */
     public Mk2SwerveModuleBuilder driveMotor(MotorController motor, MotorType motorType) {
-        // Spark MAXs are special and drive brushed motors in the opposite direction of every other motor controller
+        // Spark MAXs are special and drive brushed motors in the opposite direction of
+        // every other motor controller
         if (motorType != MotorType.NEO && (motor instanceof Spark || motor instanceof CANSparkMax)) {
             motor.setInverted(true);
         }
@@ -356,13 +392,16 @@ public class Mk2SwerveModuleBuilder {
         // Verify everything is populated
         if (angleSupplier == null) {
             // Absolute angle encoder not configured
-            throw new IllegalStateException("No absolute encoder has been configured! See Mk2SwerveModuleBuilder.angleEncoder");
+            throw new IllegalStateException(
+                    "No absolute encoder has been configured! See Mk2SwerveModuleBuilder.angleEncoder");
         } else if (driveOutputConsumer == null) {
             // Drive motor not configured
-            throw new IllegalStateException("No drive motor has been configured! See Mk2SwerveModuleBuilder.driveMotor");
+            throw new IllegalStateException(
+                    "No drive motor has been configured! See Mk2SwerveModuleBuilder.driveMotor");
         } else if (targetAngleConsumer == null) {
             // Angle motor not configured
-            throw new IllegalStateException("No angle motor has been configured! See Mk2SwerveModuleBuilder.angleMotor");
+            throw new IllegalStateException(
+                    "No angle motor has been configured! See Mk2SwerveModuleBuilder.angleMotor");
         }
 
         return new SwerveModuleImpl();

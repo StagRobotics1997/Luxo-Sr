@@ -10,7 +10,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ClawSubsystem extends SubsystemBase {
-  private DoubleSolenoid m_clawExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ClawConstants.CLAW_EXTENDER_1,
+  private DoubleSolenoid m_clawExtender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
+      ClawConstants.CLAW_EXTENDER_1,
       ClawConstants.CLAW_EXTENDER_2);
   private boolean m_clawExtended = false;
   private boolean m_claw_open = false;
@@ -83,8 +84,7 @@ public class ClawSubsystem extends SubsystemBase {
   public void ToggleClaw() {
     if (m_claw_open) {
       CloseClaw();
-    }
-    else {
+    } else {
       OpenClaw();
     }
   }

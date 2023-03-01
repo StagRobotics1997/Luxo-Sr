@@ -12,14 +12,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.*;
-import frc.robot.commands.*;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 // import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.*;
+import frc.robot.commands.*;
+import frc.robot.commands.auto2;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -52,8 +53,10 @@ public class RobotContainer {
   // The autonomous routines
   // A simple auto routine that drives forward a specified distance, and then
   // stops.
-  private final Command m_simpleAuto = Autonomous.simpleCommand(m_robotDrive);
-  // private final Command m_complexAuto = Autonomous.complexAuto(m_robotDrive,mr);
+  //private final Command m_simpleAuto2 = new auto2(m_robotDrive, m_drop, m_claw);
+  private final Command m_simpleAuto = Autonomous.simpleCommand(m_robotDrive, m_drop, m_claw, m_arm,m_leadScrew);
+  // private final Command m_complexAuto =
+  // Autonomous.complexAuto(m_robotDrive,mr);
   // A complex auto routine that drives forward, drops a hatch, and then drives
   // backward.
 
@@ -76,10 +79,9 @@ public class RobotContainer {
     m_camera_0 = CameraServer.startAutomaticCapture(0);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
     // Configure default commands
-    // Set the default drive command to split-stick arcade drive
+    // A split-stick arcade command, with forward/backward controlled by the left
+    // hand, and turning controlled by the right.
     m_robotDrive.setDefaultCommand(
-        // A split-stick arcade command, with forward/backward controlled by the left
-        // hand, and turning controlled by the right.
         new RunCommand(
             () -> m_robotDrive.stickDrive(
                 -m_primaryJoystick.getRawAxis(1),
@@ -89,6 +91,7 @@ public class RobotContainer {
 
     // Add commands to the autonomous command chooser
     m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
+    // m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
     // m_chooser.addOption("Complex Auto", m_complexAuto);
 
     // Put the chooser on the dashboard
@@ -116,31 +119,6 @@ public class RobotContainer {
     m_primaryJoystick
         .button(7)
         .onTrue(m_robotDrive.resetGyroscope());
-
-    // m_auxJoystick
-    // .button(7)
-    // .onTrue((PositonCommands.startCommands(arm)));
-
-    // m_auxJoystick
-    // .button(8)
-    // .onTrue((PositonCommands.pickupoffloorCommand(arm)));
-
-    // m_auxJoystick
-    // .button(9)
-    // .onTrue((PositonCommands.midbarCommand(arm)));
-
-    // m_auxJoystick
-    // .button(10)
-    // .onTrue(PositonCommands.shelfCommand(arm));
-
-    // m_auxJoystick
-    // .button(11)
-    // .onTrue(PositonCommands.HighbarCommand(arm));
-
-    // m_auxJoystick
-    // .button(12)
-    // .onTrue(ClawCommands.ClawstartCommands(claw));
-
     m_primaryJoystick.button(3).onTrue(StartupCommands.startCommands(m_arm, m_leadScrew, m_drop, m_kickstand));
     m_primaryJoystick.button(8).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendBicep(), m_arm));
     m_primaryJoystick.button(9).onTrue(Commands.runOnce(() -> m_arm.bicepout(), m_arm));
@@ -148,7 +126,8 @@ public class RobotContainer {
     m_primaryJoystick.button(12).onTrue(Commands.runOnce(() -> m_arm.forearmOut(), m_arm));
 
     m_secondaryJoystick.button(1).onTrue(ClawCommands.closeClawCommand(m_claw));
-    // m_secondaryJoystick.button(5).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendForearm(), m_arm));
+    // m_secondaryJoystick.button(5).onTrue(Commands.runOnce(() ->
+    // m_arm.ToggleExtendForearm(), m_arm));
     m_secondaryJoystick.button(3).onTrue(Commands.runOnce(() -> m_robotDrive.turnTo180(), m_robotDrive));
     m_secondaryJoystick.button(5).onTrue(Commands.runOnce(() -> m_robotDrive.turnTo0(), m_robotDrive));
     m_secondaryJoystick.button(7).onTrue(Commands.runOnce(() -> m_drop.dropin(), m_drop));
@@ -156,10 +135,11 @@ public class RobotContainer {
     m_secondaryJoystick.button(9).onTrue(Commands.runOnce(() -> m_arm.forearmIn(), m_arm));
     m_secondaryJoystick.button(12).onTrue(Commands.runOnce(() -> m_robotDrive.reset(), m_robotDrive));
 
-    // m_auxJoystick.button(1).onTrue(Commands.runOnce(() -> m_claw.StartClaw(), m_claw));
+    // m_auxJoystick.button(1).onTrue(Commands.runOnce(() -> m_claw.StartClaw(),
+    // m_claw));
     m_auxJoystick.button(1).onTrue(Commands.runOnce(() -> m_claw.ToggleClaw(), m_claw));
     m_auxJoystick.button(2).onTrue(ClawCommands.ClawMotoroffCommand(m_claw));
-    m_auxJoystick.button(3).onTrue(PositionCommands.startCommands(m_arm, m_leadScrew, m_drop));
+    m_auxJoystick.button(3).onTrue(PositionCommands.startCommands(m_arm, m_leadScrew, m_drop,m_claw));
     m_auxJoystick.button(4).onTrue(PositionCommands.pickupoffloorCommand(m_arm, m_leadScrew));
     m_auxJoystick.button(5).onTrue(PositionCommands.shelfCommand(m_arm, m_leadScrew));
     m_auxJoystick.button(6).onTrue(PositionCommands.HighbarCommand(m_arm, m_leadScrew));
@@ -189,10 +169,14 @@ public class RobotContainer {
     sensor2Trigger
         .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew))
         .onFalse(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
+    Trigger sensor3Trigger = new Trigger(m_leadScrew.sensor_3::get);
+    sensor3Trigger
+        .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew))
+        .onFalse(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
     Trigger clawLimitTrigger = new Trigger(m_claw.clawLimitSwich::get);
     clawLimitTrigger
         .onFalse(Commands.runOnce(() -> m_claw.grab(), m_claw));
-       
+
   }
 
   /**

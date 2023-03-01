@@ -88,7 +88,6 @@ public class LeadScrewSubsystem extends SubsystemBase {
     process();
   }
 
-  
   public void move_to_position_3() {
     m_desiredPosition = Position.POSITION_3;
     process();
@@ -127,7 +126,7 @@ public class LeadScrewSubsystem extends SubsystemBase {
     if (is_sensor_2_on())
       return Position.POSITION_2;
 
-      if (is_sensor_3_on())
+    if (is_sensor_3_on())
       return Position.POSITION_3;
 
     return Position.NONE;

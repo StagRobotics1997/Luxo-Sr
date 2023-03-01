@@ -12,15 +12,19 @@ public final class NavX extends Gyroscope {
     public NavX(SPI.Port port) {
         this(port, (byte) 50);
     }
+
     public NavX(I2C.Port port) {
         this(port, (byte) 50);
     }
+
     public NavX(I2C.Port port, byte updateRate) {
         navX = new AHRS(port, updateRate);
     }
+
     public NavX(SPI.Port port, byte updateRate) {
-        navX = new AHRS(port, updateRate); 
+        navX = new AHRS(port, updateRate);
     }
+
     @Override
     public void calibrate() {
         navX.reset();

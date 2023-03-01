@@ -30,16 +30,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   // The offsets are in Radians now. Copy the array from the dashbaord to assign
   // new values
-  private double[] OFFSETS = {3.7237, 1.0496, 2.9973, 5.8909};
+  private double[] OFFSETS = { 3.7237, 1.0496, 2.9973, 5.8909 };
   // private double[] OFFSETS = { 0.00, 0.00, 0.00, 0.00 };
 
   private static DrivetrainSubsystem instance;
 
-  private SwerveModule frontLeftModule ;
+  private SwerveModule frontLeftModule;
   private SwerveModule frontRightModule;
   private SwerveModule backLeftModule;
   private SwerveModule backRightModule;
-  
+
   private int m_counter = 0; // counter used to throttle the updates to the dashboard
 
   private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
@@ -51,60 +51,59 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private final Gyroscope gyroscope = new NavX(I2C.Port.kOnboard);
 
   public DrivetrainSubsystem() {
-//     Timer.delay(1.0);
+    // Timer.delay(1.0);
     gyroscope.calibrate();
     gyroscope.setInverted(true); // You might not need to invert the gyro
-//     Timer.delay(1.0);
-     frontLeftModule = new Mk2SwerveModuleBuilder(
-      new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0))
-      .angleEncoder(new AnalogInput(DriveConstants.DRIVETRAIN_FRONT_LEFT_ANGLE_ENCODER),
-             -OFFSETS[0])
-      .angleMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_FRONT_LEFT_ANGLE_MOTOR,
-          CANSparkMaxLowLevel.MotorType.kBrushless),
-          Mk2SwerveModuleBuilder.MotorType.NEO)
-      .driveMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR,
-          CANSparkMaxLowLevel.MotorType.kBrushless),
-          Mk2SwerveModuleBuilder.MotorType.NEO)
-      .build();
-   frontRightModule = new Mk2SwerveModuleBuilder(
-      new Vector2(TRACKWIDTH / 2.0, -WHEELBASE / 2.0))
-      .angleEncoder(new AnalogInput(DriveConstants.DRIVETRAIN_FRONT_RIGHT_ANGLE_ENCODER),
-           -OFFSETS[1])
-      .angleMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_FRONT_RIGHT_ANGLE_MOTOR,
-          CANSparkMaxLowLevel.MotorType.kBrushless),
-          Mk2SwerveModuleBuilder.MotorType.NEO)
-      .driveMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_FRONT_RIGHT_DRIVE_MOTOR,
-          CANSparkMaxLowLevel.MotorType.kBrushless),
-          Mk2SwerveModuleBuilder.MotorType.NEO)
-      .build();
-   backLeftModule = new Mk2SwerveModuleBuilder(
-      new Vector2(-TRACKWIDTH / 2.0, WHEELBASE / 2.0))
-      .angleEncoder(new AnalogInput(DriveConstants.DRIVETRAIN_BACK_LEFT_ANGLE_ENCODER),
-           -OFFSETS[2])
-      .angleMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_BACK_LEFT_ANGLE_MOTOR,
-          CANSparkMaxLowLevel.MotorType.kBrushless),
-          Mk2SwerveModuleBuilder.MotorType.NEO)
-      .driveMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_BACK_LEFT_DRIVE_MOTOR,
-          CANSparkMaxLowLevel.MotorType.kBrushless),
-          Mk2SwerveModuleBuilder.MotorType.NEO)
-      .build();
-  backRightModule = new Mk2SwerveModuleBuilder(
-      new Vector2(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0))
-      .angleEncoder(new AnalogInput(DriveConstants.DRIVETRAIN_BACK_RIGHT_ANGLE_ENCODER),
-          -OFFSETS[3])
-      .angleMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_BACK_RIGHT_ANGLE_MOTOR,
-          CANSparkMaxLowLevel.MotorType.kBrushless),
-          Mk2SwerveModuleBuilder.MotorType.NEO)
-      .driveMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_BACK_RIGHT_DRIVE_MOTOR,
-          CANSparkMaxLowLevel.MotorType.kBrushless),
-          Mk2SwerveModuleBuilder.MotorType.NEO)
-      .build();
+    // Timer.delay(1.0);
+    frontLeftModule = new Mk2SwerveModuleBuilder(
+        new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0))
+        .angleEncoder(new AnalogInput(DriveConstants.DRIVETRAIN_FRONT_LEFT_ANGLE_ENCODER),
+            -OFFSETS[0])
+        .angleMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_FRONT_LEFT_ANGLE_MOTOR,
+            CANSparkMaxLowLevel.MotorType.kBrushless),
+            Mk2SwerveModuleBuilder.MotorType.NEO)
+        .driveMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR,
+            CANSparkMaxLowLevel.MotorType.kBrushless),
+            Mk2SwerveModuleBuilder.MotorType.NEO)
+        .build();
+    frontRightModule = new Mk2SwerveModuleBuilder(
+        new Vector2(TRACKWIDTH / 2.0, -WHEELBASE / 2.0))
+        .angleEncoder(new AnalogInput(DriveConstants.DRIVETRAIN_FRONT_RIGHT_ANGLE_ENCODER),
+            -OFFSETS[1])
+        .angleMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_FRONT_RIGHT_ANGLE_MOTOR,
+            CANSparkMaxLowLevel.MotorType.kBrushless),
+            Mk2SwerveModuleBuilder.MotorType.NEO)
+        .driveMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_FRONT_RIGHT_DRIVE_MOTOR,
+            CANSparkMaxLowLevel.MotorType.kBrushless),
+            Mk2SwerveModuleBuilder.MotorType.NEO)
+        .build();
+    backLeftModule = new Mk2SwerveModuleBuilder(
+        new Vector2(-TRACKWIDTH / 2.0, WHEELBASE / 2.0))
+        .angleEncoder(new AnalogInput(DriveConstants.DRIVETRAIN_BACK_LEFT_ANGLE_ENCODER),
+            -OFFSETS[2])
+        .angleMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_BACK_LEFT_ANGLE_MOTOR,
+            CANSparkMaxLowLevel.MotorType.kBrushless),
+            Mk2SwerveModuleBuilder.MotorType.NEO)
+        .driveMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_BACK_LEFT_DRIVE_MOTOR,
+            CANSparkMaxLowLevel.MotorType.kBrushless),
+            Mk2SwerveModuleBuilder.MotorType.NEO)
+        .build();
+    backRightModule = new Mk2SwerveModuleBuilder(
+        new Vector2(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0))
+        .angleEncoder(new AnalogInput(DriveConstants.DRIVETRAIN_BACK_RIGHT_ANGLE_ENCODER),
+            -OFFSETS[3])
+        .angleMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_BACK_RIGHT_ANGLE_MOTOR,
+            CANSparkMaxLowLevel.MotorType.kBrushless),
+            Mk2SwerveModuleBuilder.MotorType.NEO)
+        .driveMotor(new CANSparkMax(DriveConstants.DRIVETRAIN_BACK_RIGHT_DRIVE_MOTOR,
+            CANSparkMaxLowLevel.MotorType.kBrushless),
+            Mk2SwerveModuleBuilder.MotorType.NEO)
+        .build();
     frontLeftModule.setName("Front Left");
     frontRightModule.setName("Front Right");
     backLeftModule.setName("Back Left");
     backRightModule.setName("Back Right");
 
-  
     // frontLeftModule.resetKinematics();
     // frontRightModule.resetKinematics();
     // backLeftModule.resetKinematics();
@@ -125,7 +124,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     frontRightModule.updateSensors();
     backLeftModule.updateSensors();
     backRightModule.updateSensors();
-   //  SmartDashboard.putString("offsets", frontLeftModule.getCurrentAngle().toString + "," )
+    // SmartDashboard.putString("offsets",
+    // frontLeftModule.getCurrentAngle().toString + "," )
     SmartDashboard.putNumber("Front Left Module Angle", Math.toDegrees(frontLeftModule.getCurrentAngle()));
     SmartDashboard.putNumber("Front Right Module Angle",
         Math.toDegrees(frontRightModule.getCurrentAngle()));
