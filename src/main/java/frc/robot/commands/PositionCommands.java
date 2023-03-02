@@ -12,13 +12,13 @@ import edu.wpi.first.wpilibj.Timer;
 public final class PositionCommands {
   public static Command startCommands(ArmSubsystem arm, LeadScrewSubsystem leadScrew, DropSubsystem drop, ClawSubsystem claw) {
     return Commands.sequence(
-      Commands.runOnce(() -> arm.wristIn(), arm),    
+      // Commands.runOnce(() -> arm.wristIn(), arm),    
     Commands.runOnce(() -> arm.bicepIn(), arm),
         Commands.runOnce(() -> arm.forearmIn(), arm),
         Commands.runOnce(() -> leadScrew.move_to_bottom(), leadScrew),
         Commands.runOnce(() -> arm.wristIn(), arm),
-        Commands.runOnce(() -> drop.dropin(), drop),
-        Commands.runOnce(()->claw.CloseClaw(), claw));
+        Commands.runOnce(() -> drop.dropout(), drop),
+        Commands.runOnce(()->claw.OpenClaw(), claw));
   }
 
   public static Command pickupoffloorCommand(ArmSubsystem arm, LeadScrewSubsystem leadScrew) {

@@ -16,11 +16,11 @@ public final class Autonomous {
   public static Command simpleCommand(DrivetrainSubsystem drive, DropSubsystem drop, ClawSubsystem claw, ArmSubsystem arm, LeadScrewSubsystem leadscrew) {
 
     return Commands.sequence(
-      new StartEndCommand(() -> drive.resetGyroscope(),()->drive.resetGyroscope(),drive).withTimeout(1),
-      PositionCommands.startCommands(arm ,leadscrew, drop, claw),
+      // new StartEndCommand(() -> drive.resetGyroscope(),()->drive.resetGyroscope(),drive).withTimeout(1),
+      // PositionCommands.startCommands(arm ,leadscrew, drop, claw),
       
-        //Commands.runOnce(() -> drive.resetGyroscope(), drive),
-        Commands.waitSeconds(1),
+      //   //Commands.runOnce(() -> drive.resetGyroscope(), drive),
+      //   Commands.waitSeconds(1),
         // new StartEndCommand(() -> drop.dropin(), () -> drop.dropin(), drop).withTimeout(1.0),
         //Commands.waitSeconds(1),
         // new StartEndCommand(() -> claw.OpenClaw(), () -> claw.CloseClaw(), claw).withTimeout(2.0),

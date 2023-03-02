@@ -134,12 +134,13 @@ public class RobotContainer {
     m_secondaryJoystick.button(8).onTrue(Commands.runOnce(() -> m_drop.dropout(), m_drop));
     m_secondaryJoystick.button(9).onTrue(Commands.runOnce(() -> m_arm.forearmIn(), m_arm));
     m_secondaryJoystick.button(12).onTrue(Commands.runOnce(() -> m_robotDrive.reset(), m_robotDrive));
+    m_auxJoystick.button(3).onTrue(PositionCommands.startCommands(m_arm, m_leadScrew, m_drop,m_claw));
 
     // m_auxJoystick.button(1).onTrue(Commands.runOnce(() -> m_claw.StartClaw(),
     // m_claw));
     m_auxJoystick.button(1).onTrue(Commands.runOnce(() -> m_claw.ToggleClaw(), m_claw));
     m_auxJoystick.button(2).onTrue(ClawCommands.ClawMotoroffCommand(m_claw));
-    m_auxJoystick.button(3).onTrue(PositionCommands.startCommands(m_arm, m_leadScrew, m_drop,m_claw));
+    m_auxJoystick.button(3).onTrue(StartupCommands.startCommands(m_arm, m_leadScrew, m_drop,m_kickstand));
     m_auxJoystick.button(4).onTrue(PositionCommands.pickupoffloorCommand(m_arm, m_leadScrew));
     m_auxJoystick.button(5).onTrue(PositionCommands.shelfCommand(m_arm, m_leadScrew));
     m_auxJoystick.button(6).onTrue(PositionCommands.HighbarCommand(m_arm, m_leadScrew));
