@@ -53,8 +53,8 @@ public class RobotContainer {
   // The autonomous routines
   // A simple auto routine that drives forward a specified distance, and then
   // stops.
-  //private final Command m_simpleAuto2 = new auto2(m_robotDrive, m_drop, m_claw);
-  private final Command m_simpleAuto = Autonomous.simpleCommand(m_robotDrive, m_drop, m_claw, m_arm,m_leadScrew);
+  // private final Command m_auto2 =auto2.simpleCommand(m_robotDrive, m_drop, m_claw, m_arm, m_leadScrew); 
+    private final Command m_simpleAuto = Autonomous.simpleCommand(m_robotDrive, m_drop, m_claw, m_arm,m_leadScrew);
   // private final Command m_complexAuto =
   // Autonomous.complexAuto(m_robotDrive,mr);
   // A complex auto routine that drives forward, drops a hatch, and then drives
@@ -92,7 +92,7 @@ public class RobotContainer {
     // Add commands to the autonomous command chooser
     m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
     // m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
-    // m_chooser.addOption("Complex Auto", m_complexAuto);
+    // m_chooser.addOption("auto2", m_auto2);
 
     // Put the chooser on the dashboard
     Shuffleboard.getTab("Autonomous").add(m_chooser);
@@ -130,8 +130,8 @@ public class RobotContainer {
     // m_arm.ToggleExtendForearm(), m_arm));
     m_secondaryJoystick.button(3).onTrue(Commands.runOnce(() -> m_robotDrive.turnTo180(), m_robotDrive));
     m_secondaryJoystick.button(5).onTrue(Commands.runOnce(() -> m_robotDrive.turnTo0(), m_robotDrive));
-    m_secondaryJoystick.button(7).onTrue(Commands.runOnce(() -> m_drop.dropin(), m_drop));
-    m_secondaryJoystick.button(8).onTrue(Commands.runOnce(() -> m_drop.dropout(), m_drop));
+    m_secondaryJoystick.button(7).onTrue(Commands.runOnce(() -> m_arm.wristIn(),m_arm));
+    m_secondaryJoystick.button(8).onTrue(Commands.runOnce(() -> m_arm.wristOut(),m_arm));
     m_secondaryJoystick.button(9).onTrue(Commands.runOnce(() -> m_arm.forearmIn(), m_arm));
     m_secondaryJoystick.button(12).onTrue(Commands.runOnce(() -> m_robotDrive.reset(), m_robotDrive));
     m_auxJoystick.button(3).onTrue(PositionCommands.startCommands(m_arm, m_leadScrew, m_drop,m_claw));

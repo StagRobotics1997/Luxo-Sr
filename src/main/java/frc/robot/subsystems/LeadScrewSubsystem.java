@@ -37,7 +37,7 @@ public class LeadScrewSubsystem extends SubsystemBase {
 
   public LeadScrewSubsystem() {
     if (!is_sensor_bottom_on()) {
-      m_lastPosition = Position.POSITION_1;
+      m_lastPosition = Position.BOTTOM;
     }
     setMotorSpeed(0.0);
   }

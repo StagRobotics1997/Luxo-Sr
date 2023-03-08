@@ -30,7 +30,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   // The offsets are in Radians now. Copy the array from the dashbaord to assign
   // new values
-  private double[] OFFSETS = { 3.7237, 1.0496, 2.9973, 5.8909 };
+  private double[] OFFSETS = {3.6927, 1.2436, 2.5644, 5.8660};
   // private double[] OFFSETS = { 0.00, 0.00, 0.00, 0.00 };
 
   private static DrivetrainSubsystem instance;

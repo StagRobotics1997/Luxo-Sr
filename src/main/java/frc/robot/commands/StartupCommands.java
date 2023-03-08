@@ -16,9 +16,9 @@ public final class StartupCommands {
         Commands.runOnce(() -> arm.forearmIn(), arm),
         Commands.runOnce(() -> arm.wristIn(), arm),
         Commands.runOnce(() -> drop.dropout(), drop),
-        Commands.runOnce(() -> kick.KickerIn(), kick),
+        Commands.runOnce(() -> kick.KickerOut(), kick),
         Commands.runOnce(() -> leadScrew.move_to_bottom(), leadScrew));
 
   }
-
+ 
 }
