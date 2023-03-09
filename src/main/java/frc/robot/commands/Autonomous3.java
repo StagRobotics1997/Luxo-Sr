@@ -8,15 +8,17 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.PositionCommands;
 
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.Timer;
 
-public class auto2 extends SequentialCommandGroup {
+public class Autonomous3 extends SequentialCommandGroup {
     public static Command simpleCommand(DrivetrainSubsystem drive, DropSubsystem drop, ClawSubsystem claw, ArmSubsystem arm, LeadScrewSubsystem leadscrew) {
     return Commands.sequence(
         Commands.runOnce(() -> drive.resetGyroscope(),drive),
-        PositionCommands.startCommands(arm,leadscrew,drop,claw),
-        Commands.runOnce(()-> drop.dropin(),drop),
+     
         new StartEndCommand(() -> drive.stickDrive(1, .0, .0),
+            () -> drive.stickDrive(0.0, .0, .0), drive));
+            new StartEndCommand(() -> drive.stickDrive(1, .0, .0),
             () -> drive.stickDrive(0.0, .0, .0), drive));
 }
 

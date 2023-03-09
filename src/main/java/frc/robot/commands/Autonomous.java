@@ -8,6 +8,7 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.PositionCommands;
 
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.Timer;
 
 public final class Autonomous {
@@ -25,9 +26,10 @@ public final class Autonomous {
         // Commands.waitSeconds(1),
         // new StartEndCommand(() -> claw.OpenClaw(), () -> claw.CloseClaw(), claw).withTimeout(2.0),
         // Commands.waitSeconds(2),
-      
+        Commands.runOnce(()-> new WaitCommand(1.0)),
+        Commands.waitSeconds(1.0).andThen(
         new StartEndCommand(() -> drive.stickDrive(.5, .0, .0),
-            () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(2));
+            () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(2)));
             // Commands.runOnce(() -> claw.OpenClaw(), claw));
 
     // new StartEndCommand(() -> drive.stickDrive(.25, .0, .0),

@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
-import frc.robot.commands.auto2;
+import frc.robot.commands.Autonomous2;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
