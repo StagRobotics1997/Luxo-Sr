@@ -53,8 +53,9 @@ public class RobotContainer {
   // The autonomous routines
   // A simple auto routine that drives forward a specified distance, and then
   // stops.
-  // private final Command m_auto2 =auto2.simpleCommand(m_robotDrive, m_drop, m_claw, m_arm, m_leadScrew); 
-    private final Command m_simpleAuto = Autonomous.simpleCommand(m_robotDrive, m_drop, m_claw, m_arm,m_leadScrew);
+  // private final Command m_auto2 =auto2.simpleCommand(m_robotDrive, m_drop,
+  // m_claw, m_arm, m_leadScrew);
+  private final Command m_simpleAuto = Autonomous.simpleCommand(m_robotDrive, m_drop, m_claw, m_arm, m_leadScrew);
   // private final Command m_complexAuto =
   // Autonomous.complexAuto(m_robotDrive,mr);
   // A complex auto routine that drives forward, drops a hatch, and then drives
@@ -126,28 +127,24 @@ public class RobotContainer {
     m_primaryJoystick.button(12).onTrue(Commands.runOnce(() -> m_arm.forearmOut(), m_arm));
 
     m_secondaryJoystick.button(1).onTrue(ClawCommands.closeClawCommand(m_claw));
-    // m_secondaryJoystick.button(5).onTrue(Commands.runOnce(() ->
-    // m_arm.ToggleExtendForearm(), m_arm));
     m_secondaryJoystick.button(3).onTrue(Commands.runOnce(() -> m_robotDrive.turnTo180(), m_robotDrive));
     m_secondaryJoystick.button(5).onTrue(Commands.runOnce(() -> m_robotDrive.turnTo0(), m_robotDrive));
-    m_secondaryJoystick.button(7).onTrue(Commands.runOnce(() -> m_arm.wristIn(),m_arm));
-    m_secondaryJoystick.button(8).onTrue(Commands.runOnce(() -> m_arm.wristOut(),m_arm));
+    m_secondaryJoystick.button(7).onTrue(Commands.runOnce(() -> m_arm.wristIn(), m_arm));
+    m_secondaryJoystick.button(8).onTrue(Commands.runOnce(() -> m_arm.wristOut(), m_arm));
     m_secondaryJoystick.button(9).onTrue(Commands.runOnce(() -> m_arm.forearmIn(), m_arm));
     m_secondaryJoystick.button(12).onTrue(Commands.runOnce(() -> m_robotDrive.reset(), m_robotDrive));
-    m_auxJoystick.button(3).onTrue(PositionCommands.startCommands(m_arm, m_leadScrew, m_drop,m_claw));
+    m_auxJoystick.button(3).onTrue(PositionCommands.startCommands(m_arm, m_leadScrew, m_drop, m_claw));
 
-    // m_auxJoystick.button(1).onTrue(Commands.runOnce(() -> m_claw.StartClaw(),
-    // m_claw));
     m_auxJoystick.button(1).onTrue(Commands.runOnce(() -> m_claw.ToggleClaw(), m_claw));
     m_auxJoystick.button(2).onTrue(ClawCommands.ClawMotoroffCommand(m_claw));
-    m_auxJoystick.button(3).onTrue(StartupCommands.startCommands(m_arm, m_leadScrew, m_drop,m_kickstand));
+    m_auxJoystick.button(3).onTrue(StartupCommands.startCommands(m_arm, m_leadScrew, m_drop, m_kickstand));
     m_auxJoystick.button(4).onTrue(PositionCommands.pickupoffloorCommand(m_arm, m_leadScrew));
     m_auxJoystick.button(5).onTrue(PositionCommands.shelfCommand(m_arm, m_leadScrew));
     m_auxJoystick.button(6).onTrue(PositionCommands.HighbarCommand(m_arm, m_leadScrew));
     m_auxJoystick.button(7).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_bottom(), m_leadScrew));
     m_auxJoystick.button(8).onTrue(Commands.runOnce(() -> m_leadScrew.move_to_top(), m_leadScrew));
     m_auxJoystick.button(9).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendFront(), m_arm));
-    m_auxJoystick.button(10).onTrue(KickstandCommands.toggleKickerCommand(m_kickstand));
+    // m_auxJoystick.button(10).onTrue(KickstandCommands.toggleKickerCommand(m_kickstand));
     m_auxJoystick.button(11).onTrue(Commands.runOnce(() -> m_leadScrew.toggle_manual_mode(m_auxJoystick), m_leadScrew));
     m_auxJoystick.button(12).onTrue(DropCommands.toggleDropCommand(m_drop));
 
