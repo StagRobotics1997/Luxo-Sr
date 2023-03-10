@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.Timer;
 
 public class Autonomous2 extends SequentialCommandGroup {
-    public static Command simpleCommand(DrivetrainSubsystem drive, DropSubsystem drop, ClawSubsystem claw,
+    public static Command simpleCommand2Command(DrivetrainSubsystem drive, DropSubsystem drop, ClawSubsystem claw,
             ArmSubsystem arm, LeadScrewSubsystem leadscrew) {
         return Commands.sequence(
                 Commands.runOnce(() -> drive.resetGyroscope(), drive),
