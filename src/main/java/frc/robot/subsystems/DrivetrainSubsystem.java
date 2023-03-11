@@ -12,7 +12,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Utilities;
 import frc.robot.drivers.Gyroscope;
 import frc.robot.drivers.SwerveModule;
@@ -104,10 +103,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     backLeftModule.setName("Back Left");
     backRightModule.setName("Back Right");
 
-    // frontLeftModule.resetKinematics();
-    // frontRightModule.resetKinematics();
-    // backLeftModule.resetKinematics();
-    // backRightModule.resetKinematics();
   }
 
   public static DrivetrainSubsystem getInstance() {
@@ -124,18 +119,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
     frontRightModule.updateSensors();
     backLeftModule.updateSensors();
     backRightModule.updateSensors();
-    // SmartDashboard.putString("offsets",
-    // frontLeftModule.getCurrentAngle().toString + "," )
     SmartDashboard.putNumber("Front Left Module Angle", Math.toDegrees(frontLeftModule.getCurrentAngle()));
     SmartDashboard.putNumber("Front Right Module Angle",
         Math.toDegrees(frontRightModule.getCurrentAngle()));
     SmartDashboard.putNumber("Back Left Module Angle", Math.toDegrees(backLeftModule.getCurrentAngle()));
     SmartDashboard.putNumber("Back Right Module Angle", Math.toDegrees(backRightModule.getCurrentAngle()));
-    SmartDashboard.putNumber("funniness", -Math.toRadians(0.0));
     SmartDashboard.putNumber("Gyroscope Angle", gyroscope.getAngle().toDegrees());
     SmartDashboard.putNumber("Gyroscope Raw degrees", gyroscope.getUnadjustedAngle().toDegrees());
-    m_counter++;
-    if (m_counter > 100) {
+    if (m_counter++ > 100) { // only update occasionally, to allow user time to copy
       SmartDashboard.putString("offsets", String.format("%.4f, %.4f, %.4f, %.4f",
           frontLeftModule.getCurrentAngle(),
           frontRightModule.getCurrentAngle(),
@@ -143,7 +134,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
           backRightModule.getCurrentAngle()));
       m_counter = 0;
     }
-    
     frontLeftModule.updateState(TimedRobot.kDefaultPeriod);
     frontRightModule.updateState(TimedRobot.kDefaultPeriod);
     backLeftModule.updateState(TimedRobot.kDefaultPeriod);
@@ -171,20 +161,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   public void stickDrive(double forward, double strafe, double rotation) {
-    // double forward = -RobotgetOI.getPrimaryJoystick().getRawAxis(1);
-    // forward = Utilities.deadband(-forward * 0.85);
-    // // // Square the forward stick
-    // forward = Math.copySign(Math.pow(forward, 3.0), forward);
-
-    // //double strafe = -Robot.getOi().getPrimaryJoystick().getRawAxis(0);
-    // strafe = Utilities.deadband(-strafe * 0.85);
-    // // Square the strafe stick
-    // strafe = Math.copySign(Math.pow(strafe, 3.0), strafe);
-
-    // //double rotation = -Robot.getOi().getPrimaryJoystick().getRawAxis(4);
-    // rotation = Utilities.deadband(-rotation *0.85);
-    // // Square the rotation stick
-    // rotation = Math.copySign(Math.pow(rotation, 3.0), rotation);
 
     forward = Utilities.joystickCubicScaledDeadband(forward);
     strafe = Utilities.joystickCubicScaledDeadband(-strafe);

@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
+// import edu.wpi.first.cameraserver.CameraServer;
+// import edu.wpi.first.cscore.UsbCamera;
 // import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -34,33 +34,19 @@ import frc.robot.commands.Autonomous2;
 public class RobotContainer {
   // The robot's subsystems
   private final DrivetrainSubsystem m_robotDrive = new DrivetrainSubsystem();
-  // private final frc.robot.commands.PositonCommands PositonCommands = new
-  // PositonCommands();
   private final frc.robot.subsystems.ArmSubsystem m_arm = new ArmSubsystem();
-  // public static UsbCamera m_camera_0;
   private final frc.robot.subsystems.ClawSubsystem m_claw = new ClawSubsystem();
   private final frc.robot.subsystems.KickstandSubsystem m_kickstand = new KickstandSubsystem();
   private final frc.robot.subsystems.DropSubsystem m_drop = new DropSubsystem();
   private final frc.robot.subsystems.LeadScrewSubsystem m_leadScrew = new LeadScrewSubsystem();
 
-  // private final frc.robot.commands.PositonCommands PositonCommands = new
-  // PositonCommands();
-  // private final frc.robot.subsystems.KickstandSubsystem kicker= new
-  // KickstandSubsystem();
-
-  // Retained command handles
-
-  // The autonomous routines
+   // The autonomous routines
   // A simple auto routine that drives forward a specified distance, and then
   // stops.
-  private final Command m_Autonomous2 =Autonomous2.simple2Command(m_robotDrive, m_drop,
-  m_claw, m_arm, m_leadScrew);
+  private final Command m_Autonomous2 = Autonomous2.simple2Command(m_robotDrive, m_drop,
+      m_claw, m_arm, m_leadScrew);
   private final Command m_Autonomous3 = Autonomous3.simple3Command(m_robotDrive, m_drop, m_claw, m_arm, m_leadScrew);
   private final Command m_simpleAuto = Autonomous.simpleCommand(m_robotDrive, m_drop, m_claw, m_arm, m_leadScrew);
-  // private final Command m_complexAuto =
-  // Autonomous.complexAuto(m_robotDrive,mr);
-  // A complex auto routine that drives forward, drops a hatch, and then drives
-  // backward.
 
   // A chooser for autonomous commands
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -74,30 +60,12 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Configure the button and arbitrary trigger bindings
-    configureButtonBindings();
-    configureTriggers();
-
-    // m_camera_0 = CameraServer.startAutomaticCapture(0);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
-    // Configure default commands
-    // A split-stick arcade command, with forward/backward controlled by the left
-    // hand, and turning controlled by the right.
-    m_robotDrive.setDefaultCommand(
-        new RunCommand(
-            () -> m_robotDrive.stickDrive(
-                -m_primaryJoystick.getRawAxis(1),
-                m_primaryJoystick.getRawAxis(0),
-                m_secondaryJoystick.getRawAxis(0)),
-            m_robotDrive));
 
     // Add commands to the autonomous command chooser
     m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
-    // m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
-    m_chooser.addOption("Autonomous2",m_Autonomous2);
-    m_chooser.addOption("Autonomous3",m_Autonomous3);
-
-    
+    m_chooser.addOption("Autonomous2", m_Autonomous2);
+    m_chooser.addOption("Autonomous3", m_Autonomous3);
 
     // Put the chooser on the dashboard
     Shuffleboard.getTab("Autonomous").add(m_chooser);
@@ -120,7 +88,16 @@ public class RobotContainer {
    * it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {
+  public void configureButtonBindings() {
+    // Configure default command for drive subsystem
+    m_robotDrive.setDefaultCommand(
+        new RunCommand(
+            () -> m_robotDrive.stickDrive(
+                -m_primaryJoystick.getRawAxis(1),
+                m_primaryJoystick.getRawAxis(0),
+                m_secondaryJoystick.getRawAxis(0)),
+            m_robotDrive));
+
     m_primaryJoystick
         .button(7)
         .onTrue(m_robotDrive.resetGyroscope());
@@ -154,31 +131,15 @@ public class RobotContainer {
 
   }
 
-  public void configureTriggers() {
-    Trigger sensorTopTrigger = new Trigger(m_leadScrew.sensor_top::get);
-    sensorTopTrigger
-        .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew))
-        .onFalse(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
-    Trigger sensorBottomTrigger = new Trigger(m_leadScrew.sensor_bottom::get);
-    // sensorBottomTrigger
-    //     .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew))
-    //     .onFalse(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
-    // Trigger sensor1Trigger = new Trigger(m_leadScrew.sensor_1::get);
-    // sensor1Trigger
-    //     .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew))
-    //     .onFalse(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
-    Trigger sensor2Trigger = new Trigger(m_leadScrew.sensor_2::get);
-    sensor2Trigger
-        .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew))
-        .onFalse(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
-    Trigger sensor3Trigger = new Trigger(m_leadScrew.sensor_3::get);
-    sensor3Trigger
-        .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew))
-        .onFalse(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
-    Trigger clawLimitTrigger = new Trigger(m_claw.clawLimitSwich::get);
-    clawLimitTrigger
-        .onFalse(Commands.runOnce(() -> m_claw.grab(), m_claw));
-
+  public void configureSensorTriggers() {
+    new Trigger(m_leadScrew::is_sensor_top_on)
+        .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
+    new Trigger(m_leadScrew::is_sensor_bottom_on)
+        .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
+    new Trigger(m_leadScrew::is_sensor_2_on)
+        .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
+    new Trigger(m_leadScrew::is_sensor_3_on)
+        .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
   }
 
   /**

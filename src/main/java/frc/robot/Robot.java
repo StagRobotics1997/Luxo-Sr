@@ -94,6 +94,9 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+        // Configure the button and arbitrary trigger bindings
+        m_robotContainer.configureSensorTriggers();
+        m_robotContainer.configureButtonBindings();  
     }
 
     /** This function is called periodically during operator control. */
