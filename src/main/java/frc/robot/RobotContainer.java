@@ -37,7 +37,7 @@ public class RobotContainer {
   // private final frc.robot.commands.PositonCommands PositonCommands = new
   // PositonCommands();
   private final frc.robot.subsystems.ArmSubsystem m_arm = new ArmSubsystem();
-  public static UsbCamera m_camera_0;
+  // public static UsbCamera m_camera_0;
   private final frc.robot.subsystems.ClawSubsystem m_claw = new ClawSubsystem();
   private final frc.robot.subsystems.KickstandSubsystem m_kickstand = new KickstandSubsystem();
   private final frc.robot.subsystems.DropSubsystem m_drop = new DropSubsystem();
@@ -53,8 +53,9 @@ public class RobotContainer {
   // The autonomous routines
   // A simple auto routine that drives forward a specified distance, and then
   // stops.
-  // private final Command m_auto2 =auto2.simpleCommand(m_robotDrive, m_drop,
-  // m_claw, m_arm, m_leadScrew);
+  private final Command m_Autonomous2 =Autonomous2.simple2Command(m_robotDrive, m_drop,
+  m_claw, m_arm, m_leadScrew);
+  private final Command m_Autonomous3 = Autonomous3.simple3Command(m_robotDrive, m_drop, m_claw, m_arm, m_leadScrew);
   private final Command m_simpleAuto = Autonomous.simpleCommand(m_robotDrive, m_drop, m_claw, m_arm, m_leadScrew);
   // private final Command m_complexAuto =
   // Autonomous.complexAuto(m_robotDrive,mr);
@@ -77,7 +78,7 @@ public class RobotContainer {
     configureButtonBindings();
     configureTriggers();
 
-    m_camera_0 = CameraServer.startAutomaticCapture(0);
+    // m_camera_0 = CameraServer.startAutomaticCapture(0);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
     // Configure default commands
     // A split-stick arcade command, with forward/backward controlled by the left
@@ -93,7 +94,10 @@ public class RobotContainer {
     // Add commands to the autonomous command chooser
     m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
     // m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
-    // m_chooser.addOption("auto2", m_auto2);
+    m_chooser.addOption("Autonomous2",m_Autonomous2);
+    m_chooser.addOption("Autonomous3",m_Autonomous3);
+
+    
 
     // Put the chooser on the dashboard
     Shuffleboard.getTab("Autonomous").add(m_chooser);
@@ -156,13 +160,13 @@ public class RobotContainer {
         .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew))
         .onFalse(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
     Trigger sensorBottomTrigger = new Trigger(m_leadScrew.sensor_bottom::get);
-    sensorBottomTrigger
-        .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew))
-        .onFalse(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
-    Trigger sensor1Trigger = new Trigger(m_leadScrew.sensor_1::get);
-    sensor1Trigger
-        .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew))
-        .onFalse(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
+    // sensorBottomTrigger
+    //     .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew))
+    //     .onFalse(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
+    // Trigger sensor1Trigger = new Trigger(m_leadScrew.sensor_1::get);
+    // sensor1Trigger
+    //     .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew))
+    //     .onFalse(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
     Trigger sensor2Trigger = new Trigger(m_leadScrew.sensor_2::get);
     sensor2Trigger
         .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew))

@@ -17,11 +17,11 @@ public final class Autonomous {
       ArmSubsystem arm, LeadScrewSubsystem leadscrew) {
 
     return Commands.sequence(
-        new StartEndCommand(() -> drive.resetGyroscope(), () -> drive.resetGyroscope(), drive).withTimeout(1),
-        PositionCommands.startCommands(arm, leadscrew, drop, claw).withTimeout(2),
+        new StartEndCommand(() -> drive.resetGyroscope(), () -> drive.resetGyroscope(), drive).withTimeout(1.0),
+        PositionCommands.startCommands(arm, leadscrew, drop, claw).withTimeout(2.0),
         new WaitCommand(1.0),
         new StartEndCommand(() -> drive.stickDrive(.5, .0, .0),
-            () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(2),
+            () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(2.0),
         Commands.runOnce(() -> claw.OpenClaw(), claw));
   }
 }

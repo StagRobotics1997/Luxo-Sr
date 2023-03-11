@@ -143,6 +143,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
           backRightModule.getCurrentAngle()));
       m_counter = 0;
     }
+    
     frontLeftModule.updateState(TimedRobot.kDefaultPeriod);
     frontRightModule.updateState(TimedRobot.kDefaultPeriod);
     backLeftModule.updateState(TimedRobot.kDefaultPeriod);

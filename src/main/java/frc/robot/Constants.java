@@ -36,12 +36,12 @@ public final class Constants {
 
   public static final class ArmConstants {
     // Solenoids
-    public static final int BICEP_EXTENDER_1 = 1;
-    public static final int BICEP_EXTENDER_2 = 0;
+    public static final int BICEP_EXTENDER_1 = 0;
+    public static final int BICEP_EXTENDER_2 = 1;
     public static final int WRIST_EXTENDER_1 = 5;
     public static final int WRIST_EXTENDER_2 = 4;
-    public static final int FOREARM_EXTENDER_1 = 3;
-    public static final int FOREARM_EXTENDER_2 = 2;
+    public static final int FOREARM_EXTENDER_1 = 2;
+    public static final int FOREARM_EXTENDER_2 = 3;
   }
 
   public static final class LeadScrewConstants {
@@ -67,8 +67,8 @@ public final class Constants {
 
   public static final class DropConstants {
     // solenoids
-    public static final int DROP_EXTENDER_1 = 3;
-    public static final int DROP_EXTENDER_2 = 2;
+    public static final int DROP_EXTENDER_1 = 2;
+    public static final int DROP_EXTENDER_2 = 3;
   }
 
   public static final class ClawConstants {

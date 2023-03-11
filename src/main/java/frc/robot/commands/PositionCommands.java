@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.DropSubsystem;
@@ -18,7 +19,7 @@ public final class PositionCommands {
         Commands.runOnce(() -> arm.forearmIn(), arm),
         Commands.runOnce(() -> leadScrew.move_to_position_1(), leadScrew),
         Commands.runOnce(() -> arm.wristIn(), arm),
-        Commands.runOnce(() -> drop.dropout(), drop),
+        Commands.runOnce(() -> drop.dropin(), drop),
         Commands.runOnce(() -> claw.CloseClaw(), claw));
   }
 
@@ -49,4 +50,12 @@ public final class PositionCommands {
         Commands.runOnce(() -> leadScrew.move_to_position_3(), leadScrew));
   }
 
+  public static Command position1Command(LeadScrewSubsystem leadScrew) {
+    return new FunctionalCommand(
+        leadScrew::stopMotor,
+        leadScrew::move_to_position_1,
+        leadScrew::stopMotor2,
+        leadScrew::is_sensor_1_on,
+        leadScrew);
+  }
 }
