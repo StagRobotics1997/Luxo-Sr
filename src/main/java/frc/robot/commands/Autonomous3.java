@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.*;
 import frc.robot.commands.PositionCommands;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -16,15 +17,40 @@ public class Autonomous3 {
     public static Command simple3Command(DrivetrainSubsystem drive, DropSubsystem drop, ClawSubsystem claw,
     ArmSubsystem arm, LeadScrewSubsystem leadscrew) {
 
-  return Commands.sequence(
-      new StartEndCommand(() -> drive.resetGyroscope(), () -> drive.resetGyroscope(), drive).withTimeout(1.0),
-      PositionCommands.startCommands(arm, leadscrew, drop, claw).withTimeout(2.0),
-      new WaitCommand(1.0).withTimeout(1.0),
-      new StartEndCommand(() -> drive.stickDrive(-.5, .0, .0),
-          () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(2.0),
-          new StartEndCommand(() -> drive.stickDrive(0.0, .0, .0),
-          () -> drive.stickDrive(0.0, .0, 180.0), drive).withTimeout(2.0),
-      Commands.runOnce(() -> claw.OpenClaw(), claw));
+        return new ParallelCommandGroup(
+            Commands.runOnce(() -> arm.bicepIn(), arm),
+            new WaitCommand(2))
+            .andThen(
+                new ParallelCommandGroup(
+                    Commands.runOnce(() -> arm.forearmIn(), arm),
+                    new WaitCommand(2)))
+            .andThen(
+                new ParallelCommandGroup(
+                    PositionCommands.position1Command(leadscrew),
+                    new WaitCommand(3)))
+            .andThen(
+                // Commands.runOnce(() -> arm.wristIn(), arm),
+                new ParallelCommandGroup(
+                    Commands.runOnce(() -> drop.dropin(), drop),
+                    new WaitCommand(3)))
+            .andThen(
+                // Commands.runOnce(() -> drop.dropout(), drop),
+                // Commands.runOnce(() -> drop.dropin(), drop),
+                // Commands.runOnce(() -> drop.dropout(), drop),
+                Commands.runOnce(() -> claw.CloseClaw(), claw))
+            .andThen(
+                // // Commands.runOnce(() -> drive.resetGyroscope(), drive).withTimeout(2.0),
+                // PositionCommands.startCommands(arm, leadscrew, drop, claw).withTimeout(2.0),
+                // // Commands.runOnce(() -> drop.dropin(), drop).withTimeout(2.0),
+                // // new WaitCommand(1.0).withTimeout(1.0),
+                // // Commands.runOnce(() -> drive.stickDrive(-.5, .0, .0)).withTimeout(2.0),
+                new WaitCommand(2.0))
+            .andThen(
+                // Commands.print("************************** WMA 2
+                // *************************"),
+                // Commands.runOnce(() -> drive.stickDrive(-0, .0, .0)).withTimeout(2.0)
+                new StartEndCommand(() -> drive.stickDrive(-.5, .0, .0),
+                    () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(2.0));
 
 }
 }

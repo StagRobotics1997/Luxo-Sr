@@ -2,11 +2,14 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -19,6 +22,9 @@ import frc.robot.drivers.Mk2SwerveModuleBuilder;
 import frc.robot.drivers.NavX;
 import frc.robot.math.Vector2;
 import frc.robot.Constants.DriveConstants;
+
+import java.nio.channels.Channel;
+import java.nio.file.StandardOpenOption;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -48,11 +54,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
       new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
 
   private final Gyroscope gyroscope = new NavX(I2C.Port.kOnboard);
-
+  private final ADXRS450_Gyro gyroscope1 = new  ADXRS450_Gyro(SPI.Port.kOnboardCS0);
   public DrivetrainSubsystem() {
     // Timer.delay(1.0);
     gyroscope.calibrate();
-    gyroscope.setInverted(true); // You might not need to invert the gyro
+    // gyroscope.setInverted(true); // You might not need to invert the gyro
     // Timer.delay(1.0);
     frontLeftModule = new Mk2SwerveModuleBuilder(
         new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0))
@@ -125,7 +131,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Back Left Module Angle", Math.toDegrees(backLeftModule.getCurrentAngle()));
     SmartDashboard.putNumber("Back Right Module Angle", Math.toDegrees(backRightModule.getCurrentAngle()));
     SmartDashboard.putNumber("Gyroscope Angle", gyroscope.getAngle().toDegrees());
-    SmartDashboard.putNumber("Gyroscope Raw degrees", gyroscope.getUnadjustedAngle().toDegrees());
+    // SmartDashboard.putNumber("Gyroscope Raw degrees", gyroscope.getUnadjustedAngle().toDegrees());
     if (m_counter++ > 100) { // only update occasionally, to allow user time to copy
       SmartDashboard.putString("offsets", String.format("%.4f, %.4f, %.4f, %.4f",
           frontLeftModule.getCurrentAngle(),
@@ -172,7 +178,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   public CommandBase resetGyroscope() {
-    return new InstantCommand(() -> gyroscope.setAdjustmentAngle(gyroscope.getUnadjustedAngle()));
+   // return Commands.runOnce(() -> {});
+    return new InstantCommand(() -> gyroscope.setAdjustmentAngle(gyroscope.getAngle()));
   }
 
   public void turnTo0() {
@@ -181,6 +188,26 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   public void turnTo180() {
     drive(new Translation2d(0, 0), 180, true);
+  }
+
+  public void turn() {
+    double startHeading = gyroscope.getAngle().toDegrees();
+    double newHeading = startHeading + 180;
+    int loops = 0;
+    if (newHeading > 360) {
+      newHeading = newHeading - 360;
+    }
+    SmartDashboard.putNumber("Turning to", newHeading);
+    //drive(new Translation2d(0, 0), .5, true);
+    do {
+      SmartDashboard.putNumber("Loops", loops++);
+      SmartDashboard.putNumber("error", Math.abs(newHeading - gyroscope.getAngle().toDegrees()));
+      // Thread.sleep(100);
+      drive(new Translation2d(0, 0), -.5, true);
+    } while (Math.abs(newHeading - gyroscope.getAngle().toDegrees()) > 20);
+    drive(new Translation2d(0, 0), 0.0, true);
+    SmartDashboard.putNumber("Done turning", loops);
+
   }
 
 }
