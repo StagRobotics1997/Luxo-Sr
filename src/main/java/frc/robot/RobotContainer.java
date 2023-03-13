@@ -40,7 +40,7 @@ public class RobotContainer {
   private final frc.robot.subsystems.DropSubsystem m_drop = new DropSubsystem();
   private final frc.robot.subsystems.LeadScrewSubsystem m_leadScrew = new LeadScrewSubsystem();
 
-   // The autonomous routines
+  // The autonomous routines
   // A simple auto routine that drives forward a specified distance, and then
   // stops.
   private final Command m_Autonomous2 = Autonomous2.simple2Command(m_robotDrive, m_drop,
@@ -102,6 +102,7 @@ public class RobotContainer {
         .button(7)
         .onTrue(m_robotDrive.resetGyroscope());
     m_primaryJoystick.button(3).onTrue(StartupCommands.startCommands(m_arm, m_leadScrew, m_drop, m_kickstand));
+    m_primaryJoystick.button(4).onTrue(Commands.runOnce(() ->m_robotDrive.turn(),m_robotDrive));
     m_primaryJoystick.button(8).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendBicep(), m_arm));
     m_primaryJoystick.button(9).onTrue(Commands.runOnce(() -> m_arm.bicepout(), m_arm));
     m_primaryJoystick.button(11).onTrue(Commands.runOnce(() -> m_arm.bicepIn(), m_arm));
@@ -135,6 +136,8 @@ public class RobotContainer {
     new Trigger(m_leadScrew::is_sensor_top_on)
         .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
     new Trigger(m_leadScrew::is_sensor_bottom_on)
+        .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
+    new Trigger(m_leadScrew::is_sensor_1_on)
         .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
     new Trigger(m_leadScrew::is_sensor_2_on)
         .onTrue(Commands.runOnce(() -> m_leadScrew.process(), m_leadScrew));
