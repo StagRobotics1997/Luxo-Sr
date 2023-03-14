@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,6 +27,7 @@ import frc.robot.Constants.DriveConstants;
 import java.nio.channels.Channel;
 import java.nio.file.StandardOpenOption;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 
@@ -53,8 +55,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
       new Translation2d(-TRACKWIDTH / 2.0, WHEELBASE / 2.0),
       new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
 
-  private final Gyroscope gyroscope = new NavX(I2C.Port.kOnboard);
-  private final ADXRS450_Gyro gyroscope1 = new  ADXRS450_Gyro(SPI.Port.kOnboardCS0);
+  private final AHRS gyroscope = new AHRS(SerialPort.Port.kUSB1);
+  // private final ADXRS450_Gyro gyroscope1 = new  ADXRS450_Gyro(SPI.Port.kOnboardCS0);
   public DrivetrainSubsystem() {
     // Timer.delay(1.0);
     gyroscope.calibrate();
@@ -130,8 +132,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
         Math.toDegrees(frontRightModule.getCurrentAngle()));
     SmartDashboard.putNumber("Back Left Module Angle", Math.toDegrees(backLeftModule.getCurrentAngle()));
     SmartDashboard.putNumber("Back Right Module Angle", Math.toDegrees(backRightModule.getCurrentAngle()));
-    SmartDashboard.putNumber("Gyroscope Angle", gyroscope.getAngle().toDegrees());
-    // SmartDashboard.putNumber("Gyroscope Raw degrees", gyroscope.getUnadjustedAngle().toDegrees());
+    SmartDashboard.putNumber("Gyroscope Angle", gyroscope.getAngle());
+    SmartDashboard.putNumber("Gyroscope Raw degrees", gyroscope.getYaw());
     if (m_counter++ > 100) { // only update occasionally, to allow user time to copy
       SmartDashboard.putString("offsets", String.format("%.4f, %.4f, %.4f, %.4f",
           frontLeftModule.getCurrentAngle(),
@@ -154,7 +156,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     ChassisSpeeds speeds;
     if (fieldOriented) {
       speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation,
-          Rotation2d.fromDegrees(gyroscope.getAngle().toDegrees()));
+          Rotation2d.fromDegrees(gyroscope.getAngle()));
     } else {
       speeds = new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
     }
@@ -179,7 +181,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   public CommandBase resetGyroscope() {
    // return Commands.runOnce(() -> {});
-    return new InstantCommand(() -> gyroscope.setAdjustmentAngle(gyroscope.getAngle()));
+    return new InstantCommand(() -> gyroscope.setAngleAdjustment(gyroscope.getAngle()));
   }
 
   public void turnTo0() {
@@ -191,7 +193,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   public void turn() {
-    double startHeading = gyroscope.getAngle().toDegrees();
+    double startHeading = gyroscope.getAngle();
     double newHeading = startHeading + 180;
     int loops = 0;
     if (newHeading > 360) {
@@ -201,10 +203,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     //drive(new Translation2d(0, 0), .5, true);
     do {
       SmartDashboard.putNumber("Loops", loops++);
-      SmartDashboard.putNumber("error", Math.abs(newHeading - gyroscope.getAngle().toDegrees()));
+      SmartDashboard.putNumber("error", Math.abs(newHeading - gyroscope.getAngle()));
       // Thread.sleep(100);
       drive(new Translation2d(0, 0), -.5, true);
-    } while (Math.abs(newHeading - gyroscope.getAngle().toDegrees()) > 20);
+    } while (Math.abs(newHeading - gyroscope.getAngle()) > 20);
     drive(new Translation2d(0, 0), 0.0, true);
     SmartDashboard.putNumber("Done turning", loops);
 
