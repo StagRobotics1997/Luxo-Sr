@@ -23,7 +23,8 @@ import frc.robot.drivers.Mk2SwerveModuleBuilder;
 import frc.robot.drivers.NavX;
 import frc.robot.math.Vector2;
 import frc.robot.Constants.DriveConstants;
-
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.MathUtil;
 import java.nio.channels.Channel;
 import java.nio.file.StandardOpenOption;
 
@@ -34,7 +35,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 public class DrivetrainSubsystem extends SubsystemBase {
   private static final double TRACKWIDTH = 22.25;
   private static final double WHEELBASE = 24.44;
-
+  PIDController turnController;
   // The offsets are in Radians now. Copy the array from the dashbaord to assign
   // new values
   private double[] OFFSETS = { 3.6927, 1.2436, 2.5644, 5.8660 };
@@ -56,9 +57,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
       new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
 
   private final AHRS gyroscope = new AHRS(SerialPort.Port.kUSB1);
-  // private final ADXRS450_Gyro gyroscope1 = new  ADXRS450_Gyro(SPI.Port.kOnboardCS0);
+
+  // private final ADXRS450_Gyro gyroscope1 = new
+  // ADXRS450_Gyro(SPI.Port.kOnboardCS0);
   public DrivetrainSubsystem() {
     // Timer.delay(1.0);
+    turnController = new PIDController(0.1, 0, 0);
     gyroscope.calibrate();
     // gyroscope.setInverted(true); // You might not need to invert the gyro
     // Timer.delay(1.0);
@@ -180,7 +184,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   public CommandBase resetGyroscope() {
-   // return Commands.runOnce(() -> {});
+    // return Commands.runOnce(() -> {});
     return new InstantCommand(() -> gyroscope.setAngleAdjustment(gyroscope.getAngle()));
   }
 
@@ -200,14 +204,23 @@ public class DrivetrainSubsystem extends SubsystemBase {
       newHeading = newHeading - 360;
     }
     SmartDashboard.putNumber("Turning to", newHeading);
-    //drive(new Translation2d(0, 0), .5, true);
+    // drive(new Translation2d(0, 0), .5, true);
     do {
       SmartDashboard.putNumber("Loops", loops++);
       SmartDashboard.putNumber("error", Math.abs(newHeading - gyroscope.getAngle()));
       // Thread.sleep(100);
-      drive(new Translation2d(0, 0), -.5, true);
+      double turnSpeed = MathUtil.clamp(turnController.calculate(gyroscope.getAngle(),
+          newHeading), -0.5, 0.5);
+      ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.0, 0.0, turnSpeed, gyroscope.getRotation2d());
+      SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
+      frontLeftModule.setTargetVelocity(states[0].speedMetersPerSecond, states[0].angle.getRadians());
+      frontRightModule.setTargetVelocity(states[1].speedMetersPerSecond, states[1].angle.getRadians());
+      backLeftModule.setTargetVelocity(states[2].speedMetersPerSecond, states[2].angle.getRadians());
+      backRightModule.setTargetVelocity(states[3].speedMetersPerSecond, states[3].angle.getRadians());
+      // drive(new Translation2d(0, 0),turnSpeed, true);
     } while (Math.abs(newHeading - gyroscope.getAngle()) > 20);
-    drive(new Translation2d(0, 0), 0.0, true);
+
+    // drive(new Translation2d(0, 0), 0.0, true);
     SmartDashboard.putNumber("Done turning", loops);
 
   }
