@@ -34,8 +34,8 @@ public final class PositionCommands {
 
   public static Command shelfCommand(ArmSubsystem arm, LeadScrewSubsystem leadScrew) {
     return Commands.sequence(
-        Commands.runOnce(() -> arm.wristOut(), arm),
         Commands.runOnce(() -> arm.forearmOut(), arm),
+        Commands.runOnce(() -> arm.wristOut(), arm),
         Commands.runOnce(() -> arm.bicepout(), arm),
         Commands.runOnce(() -> leadScrew.move_to_position_2(), leadScrew));
 

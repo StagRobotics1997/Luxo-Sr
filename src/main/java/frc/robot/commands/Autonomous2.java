@@ -23,16 +23,16 @@ public class Autonomous2 extends SequentialCommandGroup {
         .andThen(
             new ParallelCommandGroup(
                 Commands.runOnce(() -> arm.forearmIn(), arm),
-                new WaitCommand(2)))
+                new WaitCommand(1)))
         .andThen(
             new ParallelCommandGroup(
                 PositionCommands.position1Command(leadscrew),
-                new WaitCommand(3)))
+                new WaitCommand(1)))
         .andThen(
             // Commands.runOnce(() -> arm.wristIn(), arm),
             new ParallelCommandGroup(
                 Commands.runOnce(() -> drop.dropin(), drop),
-                new WaitCommand(3)))
+                new WaitCommand(1)))
         .andThen(
             // Commands.runOnce(() -> drop.dropout(), drop),
             // Commands.runOnce(() -> drop.dropin(), drop),
@@ -44,12 +44,12 @@ public class Autonomous2 extends SequentialCommandGroup {
             // // Commands.runOnce(() -> drop.dropin(), drop).withTimeout(2.0),
             // // new WaitCommand(1.0).withTimeout(1.0),
             // // Commands.runOnce(() -> drive.stickDrive(-.5, .0, .0)).withTimeout(2.0),
-            new WaitCommand(2.0))
+            new WaitCommand(1.0))
         .andThen(
             // Commands.print("************************** WMA 2
             // *************************"),
             // Commands.runOnce(() -> drive.stickDrive(-0, .0, .0)).withTimeout(2.0)
-            new StartEndCommand(() -> drive.stickDrive(-.5, .0, .0),
+            new StartEndCommand(() -> drive.stickDrive(-.6, .0, .0),
                 () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(2.0));
     // new StartEndCommand(() -> drive.drive(new Translation2d(-.5, 0.0), .0, true),
     // () -> drive.drive(new Translation2d(0.0, 0.0), .0, true)).withTimeout(2.0)
