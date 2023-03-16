@@ -58,4 +58,12 @@ public final class PositionCommands {
         leadScrew::is_sensor_1_on,
         leadScrew);
   }
+  public static Command position2Command(LeadScrewSubsystem leadScrew) {
+    return new FunctionalCommand(
+        leadScrew::stopMotor,
+        leadScrew::move_to_position_2,
+        leadScrew::stopMotor2,
+        leadScrew::is_sensor_2_on,
+        leadScrew);
+  }
 }

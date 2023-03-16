@@ -19,19 +19,19 @@ public final class Constants {
   public static final class DriveConstants {
     public static final int DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR = 5; // CAN
     public static final int DRIVETRAIN_FRONT_LEFT_ANGLE_MOTOR = 6; // CAN
-    public static final int DRIVETRAIN_FRONT_LEFT_ANGLE_ENCODER = 2; // Analog
+    public static final int DRIVETRAIN_FRONT_LEFT_ANGLE_ENCODER = 4; // Analog
 
     public static final int DRIVETRAIN_FRONT_RIGHT_DRIVE_MOTOR = 1; // CAN
-    public static final int DRIVETRAIN_FRONT_RIGHT_ANGLE_MOTOR = 2; // CAN
-    public static final int DRIVETRAIN_FRONT_RIGHT_ANGLE_ENCODER = 0; // Analog
+    public static final int DRIVETRAIN_FRONT_RIGHT_ANGLE_MOTOR = 2; // CAN    
+    public static final int DRIVETRAIN_FRONT_RIGHT_ANGLE_ENCODER = 6; // Analog
 
-    public static final int DRIVETRAIN_BACK_LEFT_ANGLE_ENCODER = 3; // Analog
+    public static final int DRIVETRAIN_BACK_LEFT_ANGLE_ENCODER = 7; // Analog
     public static final int DRIVETRAIN_BACK_LEFT_ANGLE_MOTOR = 8; // CAN
     public static final int DRIVETRAIN_BACK_LEFT_DRIVE_MOTOR = 7; // CAN
 
     public static final int DRIVETRAIN_BACK_RIGHT_DRIVE_MOTOR = 3; // CAN
     public static final int DRIVETRAIN_BACK_RIGHT_ANGLE_MOTOR = 4; // CAN
-    public static final int DRIVETRAIN_BACK_RIGHT_ANGLE_ENCODER = 1; // Analog
+    public static final int DRIVETRAIN_BACK_RIGHT_ANGLE_ENCODER = 5; // Analog
   }
 
   public static final class ArmConstants {
@@ -49,11 +49,11 @@ public final class Constants {
     public static final int MOTOR_1 = 9;
     public static final int MOTOR_2 = 10;
     // Sensors
-    public static final int SENSOR_1 = 1;
-    public static final int SENSOR_2 = 2;
-    public static final int SENSOR_3 = 3;
-    public static final int SENSOR_TOP = 5;
-    public static final int SENSOR_BOTTOM = 0;
+    public static final int SENSOR_1 = 11;
+    public static final int SENSOR_2 = 12;
+    public static final int SENSOR_3 = 13;
+    public static final int SENSOR_TOP = 15;
+    public static final int SENSOR_BOTTOM = 10;
     // Speeds
     public static final double UP_SPEED = 0.5;
     public static final double DOWN_SPEED = -0.5;

@@ -100,7 +100,7 @@ public class RobotContainer {
 
     m_primaryJoystick
         .button(7)
-        .onTrue(m_robotDrive.resetGyroscope());
+        .onTrue(Commands.runOnce(() -> m_robotDrive.resetGyroscope(), m_robotDrive));
     m_primaryJoystick.button(3).onTrue(StartupCommands.startCommands(m_arm, m_leadScrew, m_drop, m_kickstand));
     m_primaryJoystick.button(4).onTrue(Commands.runOnce(() ->m_robotDrive.turn(),m_robotDrive));
     m_primaryJoystick.button(8).onTrue(Commands.runOnce(() -> m_arm.ToggleExtendBicep(), m_arm));

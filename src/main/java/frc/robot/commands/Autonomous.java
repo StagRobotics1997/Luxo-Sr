@@ -18,9 +18,9 @@ public final class Autonomous {
 
     return Commands.sequence(
         new StartEndCommand(() -> drive.resetGyroscope(), () -> drive.resetGyroscope(), drive).withTimeout(1.0),
-        PositionCommands.startCommands(arm, leadscrew, drop, claw).withTimeout(2.0),
+        // PositionCommands.startCommands(arm, leadscrew, drop, claw).withTimeout(2.0),
         new WaitCommand(1.0),
-        new StartEndCommand(() -> drive.stickDrive(.5, .0, .0),
+        new StartEndCommand(() -> drive.stickDrive(-.5, .0, .0),
             () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(2.0),
         Commands.runOnce(() -> claw.OpenClaw(), claw));
   }

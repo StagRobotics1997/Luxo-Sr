@@ -24,10 +24,16 @@ public class Autonomous2 extends SequentialCommandGroup {
             new ParallelCommandGroup(
                 Commands.runOnce(() -> arm.forearmIn(), arm),
                 new WaitCommand(1)))
+        // .andThen(
+        //     new ParallelCommandGroup(
+        //         PositionCommands.position2Command(leadscrew),
+        //         new WaitCommand(1)))
+
         .andThen(
             new ParallelCommandGroup(
                 PositionCommands.position1Command(leadscrew),
                 new WaitCommand(1)))
+
         .andThen(
             // Commands.runOnce(() -> arm.wristIn(), arm),
             new ParallelCommandGroup(
@@ -49,7 +55,7 @@ public class Autonomous2 extends SequentialCommandGroup {
             // Commands.print("************************** WMA 2
             // *************************"),
             // Commands.runOnce(() -> drive.stickDrive(-0, .0, .0)).withTimeout(2.0)
-            new StartEndCommand(() -> drive.stickDrive(-.6, .0, .0),
+            new StartEndCommand(() -> drive.stickDrive(-.7, .0, .0),
                 () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(2.0));
     // new StartEndCommand(() -> drive.drive(new Translation2d(-.5, 0.0), .0, true),
     // () -> drive.drive(new Translation2d(0.0, 0.0), .0, true)).withTimeout(2.0)

@@ -33,12 +33,12 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 
 public class DrivetrainSubsystem extends SubsystemBase {
-  private static final double TRACKWIDTH = 22.25;
-  private static final double WHEELBASE = 24.44;
+  private static final double TRACKWIDTH = 22.44;
+  private static final double WHEELBASE = 24.56;
   PIDController turnController;
   // The offsets are in Radians now. Copy the array from the dashbaord to assign
   // new values
-  private double[] OFFSETS = { 3.6927, 1.2436, 2.5644, 5.8660 };
+  private double[] OFFSETS = {3.6625, 1.3910, 2.8355, 5.9171};
   // private double[] OFFSETS = { 0.00, 0.00, 0.00, 0.00 };
 
   private static DrivetrainSubsystem instance;
@@ -137,7 +137,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Back Left Module Angle", Math.toDegrees(backLeftModule.getCurrentAngle()));
     SmartDashboard.putNumber("Back Right Module Angle", Math.toDegrees(backRightModule.getCurrentAngle()));
     SmartDashboard.putNumber("Gyroscope Angle", gyroscope.getAngle());
-    SmartDashboard.putNumber("Gyroscope Raw degrees", gyroscope.getYaw());
+    SmartDashboard.putNumber("Gyroscope compass", gyroscope.getCompassHeading());
+    SmartDashboard.putNumber("Gyroscope yaw", gyroscope.getYaw());
     if (m_counter++ > 100) { // only update occasionally, to allow user time to copy
       SmartDashboard.putString("offsets", String.format("%.4f, %.4f, %.4f, %.4f",
           frontLeftModule.getCurrentAngle(),
@@ -160,7 +161,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     ChassisSpeeds speeds;
     if (fieldOriented) {
       speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation,
-          Rotation2d.fromDegrees(gyroscope.getAngle()));
+      Rotation2d.fromDegrees(gyroscope.getAngle() % 360));
+          // Rotation2d.fromDegrees(gyroscope.getYaw() >=0 ? gyroscope.getYaw() : 360 + gyroscope.getYaw()));
     } else {
       speeds = new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
     }
@@ -183,9 +185,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   }
 
-  public CommandBase resetGyroscope() {
-    // return Commands.runOnce(() -> {});
-    return new InstantCommand(() -> gyroscope.setAngleAdjustment(gyroscope.getAngle()));
+  public void resetGyroscope() {
+    gyroscope.setAngleAdjustment(gyroscope.getAngle());
+    gyroscope.zeroYaw();
   }
 
   public void turnTo0() {
@@ -197,7 +199,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   public void turn() {
-    double startHeading = gyroscope.getAngle();
+    double startHeading = gyroscope.getAngle()+180;
     double newHeading = startHeading + 180;
     int loops = 0;
     if (newHeading > 360) {
@@ -207,9 +209,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // drive(new Translation2d(0, 0), .5, true);
     do {
       SmartDashboard.putNumber("Loops", loops++);
-      SmartDashboard.putNumber("error", Math.abs(newHeading - gyroscope.getAngle()));
+      SmartDashboard.putNumber("error", Math.abs(newHeading - gyroscope.getYaw()+180));
       // Thread.sleep(100);
-      double turnSpeed = MathUtil.clamp(turnController.calculate(gyroscope.getAngle(),
+      double turnSpeed = MathUtil.clamp(turnController.calculate(gyroscope.getYaw()+180,
           newHeading), -0.5, 0.5);
       ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.0, 0.0, turnSpeed, gyroscope.getRotation2d());
       SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
@@ -218,7 +220,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
       backLeftModule.setTargetVelocity(states[2].speedMetersPerSecond, states[2].angle.getRadians());
       backRightModule.setTargetVelocity(states[3].speedMetersPerSecond, states[3].angle.getRadians());
       // drive(new Translation2d(0, 0),turnSpeed, true);
-    } while (Math.abs(newHeading - gyroscope.getAngle()) > 20);
+    } while (Math.abs(newHeading - (gyroscope.getAngle()+180)) > 20);
 
     // drive(new Translation2d(0, 0), 0.0, true);
     SmartDashboard.putNumber("Done turning", loops);
