@@ -8,8 +8,11 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -38,7 +41,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
   PIDController turnController;
   // The offsets are in Radians now. Copy the array from the dashbaord to assign
   // new values
-  private double[] OFFSETS = {3.6625, 1.3910, 2.8355, 5.9171};
+  // 0.0373, 6.2538, 0.0125, 6.2226
+  // 0.0225, 6.2414, 6.2688, 5.9135
+
+  private double[] OFFSETS = { 3.7353, 1.3208, 2.8707, 5.9419 };
   // private double[] OFFSETS = { 0.00, 0.00, 0.00, 0.00 };
 
   private static DrivetrainSubsystem instance;
@@ -49,21 +55,23 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private SwerveModule backRightModule;
 
   private int m_counter = 0; // counter used to throttle the updates to the dashboard
-
+ private double m_newHeading = 0;
+   
   private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
       new Translation2d(TRACKWIDTH / 2.0, WHEELBASE / 2.0),
       new Translation2d(TRACKWIDTH / 2.0, -WHEELBASE / 2.0),
       new Translation2d(-TRACKWIDTH / 2.0, WHEELBASE / 2.0),
       new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
 
-  private final AHRS gyroscope = new AHRS(SerialPort.Port.kUSB1);
+  // private final AHRS gyroscope = new AHRS(SerialPort.Port.kUSB1);
+  private final ADXRS450_Gyro gyroscope1 = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 
-  // private final ADXRS450_Gyro gyroscope1 = new
-  // ADXRS450_Gyro(SPI.Port.kOnboardCS0);
   public DrivetrainSubsystem() {
     // Timer.delay(1.0);
     turnController = new PIDController(0.1, 0, 0);
-    gyroscope.calibrate();
+    // gyroscope.calibrate();
+    gyroscope1.calibrate();
+    gyroscope1.reset();
     // gyroscope.setInverted(true); // You might not need to invert the gyro
     // Timer.delay(1.0);
     frontLeftModule = new Mk2SwerveModuleBuilder(
@@ -136,15 +144,18 @@ public class DrivetrainSubsystem extends SubsystemBase {
         Math.toDegrees(frontRightModule.getCurrentAngle()));
     SmartDashboard.putNumber("Back Left Module Angle", Math.toDegrees(backLeftModule.getCurrentAngle()));
     SmartDashboard.putNumber("Back Right Module Angle", Math.toDegrees(backRightModule.getCurrentAngle()));
-    SmartDashboard.putNumber("Gyroscope Angle", gyroscope.getAngle());
-    SmartDashboard.putNumber("Gyroscope compass", gyroscope.getCompassHeading());
-    SmartDashboard.putNumber("Gyroscope yaw", gyroscope.getYaw());
+    // SmartDashboard.putNumber("Gyroscope Angle", gyroscope.getAngle());
+    // SmartDashboard.putNumber("Gyroscope compass", gyroscope.getCompassHeading());
+    // SmartDashboard.putNumber("Gyroscope yaw", gyroscope.getYaw());
+    // SmartDashboard.putNumber("Gyroscope yaw", gyroscope.getYaw());
+    SmartDashboard.putNumber("Gyroscope 1 Angle", gyroscope1.getAngle());
     if (m_counter++ > 100) { // only update occasionally, to allow user time to copy
       SmartDashboard.putString("offsets", String.format("%.4f, %.4f, %.4f, %.4f",
           frontLeftModule.getCurrentAngle(),
           frontRightModule.getCurrentAngle(),
           backLeftModule.getCurrentAngle(),
           backRightModule.getCurrentAngle()));
+
       m_counter = 0;
     }
     frontLeftModule.updateState(TimedRobot.kDefaultPeriod);
@@ -161,17 +172,30 @@ public class DrivetrainSubsystem extends SubsystemBase {
     ChassisSpeeds speeds;
     if (fieldOriented) {
       speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation,
-      Rotation2d.fromDegrees(gyroscope.getAngle() % 360));
-          // Rotation2d.fromDegrees(gyroscope.getYaw() >=0 ? gyroscope.getYaw() : 360 + gyroscope.getYaw()));
+          gyroscope1.getRotation2d());
+      // Rotation2d.fromDegrees(gyroscope.getYaw()));
+      // Rotation2d.fromDegrees(gyroscope.getYaw() >=0 ? gyroscope.getYaw() : 360 +
+      // gyroscope.getYaw()));
     } else {
       speeds = new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
     }
 
     SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
     frontLeftModule.setTargetVelocity(states[0].speedMetersPerSecond, states[0].angle.getRadians());
-    frontRightModule.setTargetVelocity(states[1].speedMetersPerSecond, states[1].angle.getRadians());
+    frontRightModule.setTargetVelocity(states[1].speedMetersPerSecond * 1.075, states[1].angle.getRadians());
     backLeftModule.setTargetVelocity(states[2].speedMetersPerSecond, states[2].angle.getRadians());
-    backRightModule.setTargetVelocity(states[3].speedMetersPerSecond, states[3].angle.getRadians());
+    backRightModule.setTargetVelocity(states[3].speedMetersPerSecond * 1.075, states[3].angle.getRadians());
+    SmartDashboard.putString("speed", String.format("%.4f, %.4f, %.4f, %.4f",
+        states[0].speedMetersPerSecond,
+        states[1].speedMetersPerSecond,
+        states[2].speedMetersPerSecond,
+        states[3].speedMetersPerSecond));
+    SmartDashboard.putString("angle", String.format("%.4f, %.4f, %.4f, %.4f",
+        states[0].angle.getRadians(),
+        states[1].angle.getRadians(),
+        states[2].angle.getRadians(),
+        states[3].angle.getRadians()));
+
   }
 
   public void stickDrive(double forward, double strafe, double rotation) {
@@ -186,8 +210,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   public void resetGyroscope() {
-    gyroscope.setAngleAdjustment(gyroscope.getAngle());
-    gyroscope.zeroYaw();
+    // gyroscope.setAngleAdjustment(-gyroscope.getAngle());
+    // gyroscope.zeroYaw();
+    gyroscope1.reset();
   }
 
   public void turnTo0() {
@@ -199,7 +224,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   public void turn() {
-    double startHeading = gyroscope.getAngle()+180;
+    double startHeading = gyroscope1.getAngle();
     double newHeading = startHeading + 180;
     int loops = 0;
     if (newHeading > 360) {
@@ -209,18 +234,27 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // drive(new Translation2d(0, 0), .5, true);
     do {
       SmartDashboard.putNumber("Loops", loops++);
-      SmartDashboard.putNumber("error", Math.abs(newHeading - gyroscope.getYaw()+180));
-      // Thread.sleep(100);
-      double turnSpeed = MathUtil.clamp(turnController.calculate(gyroscope.getYaw()+180,
+      SmartDashboard.putNumber("error", Math.abs(newHeading - gyroscope1.getAngle()));
+      Commands.waitSeconds(1.0);
+      double turnSpeed = MathUtil.clamp(turnController.calculate(gyroscope1.getAngle(),
           newHeading), -0.5, 0.5);
-      ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.0, 0.0, turnSpeed, gyroscope.getRotation2d());
-      SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
-      frontLeftModule.setTargetVelocity(states[0].speedMetersPerSecond, states[0].angle.getRadians());
-      frontRightModule.setTargetVelocity(states[1].speedMetersPerSecond, states[1].angle.getRadians());
-      backLeftModule.setTargetVelocity(states[2].speedMetersPerSecond, states[2].angle.getRadians());
-      backRightModule.setTargetVelocity(states[3].speedMetersPerSecond, states[3].angle.getRadians());
-      // drive(new Translation2d(0, 0),turnSpeed, true);
-    } while (Math.abs(newHeading - (gyroscope.getAngle()+180)) > 20);
+      SmartDashboard.putNumber("Turn Speed", turnSpeed);
+      // ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.0, 0.0,
+      // turnSpeed, gyroscope1.getRotation2d());
+      // SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
+      // frontLeftModule.setTargetVelocity(states[0].speedMetersPerSecond,
+      // states[0].angle.getRadians());
+      // frontRightModule.setTargetVelocity(states[1].speedMetersPerSecond,
+      // states[1].angle.getRadians());
+      // backLeftModule.setTargetVelocity(states[2].speedMetersPerSecond,
+      // states[2].angle.getRadians());
+      // backRightModule.setTargetVelocity(states[3].speedMetersPerSecond,
+      // states[3].angle.getRadians());
+      // drive(new Translation2d(0, 0),turnSpeed, false);
+      // Commands.runOnce(() -> stickDrive(-.5, .0, .1),
+      // () -> drive.stickDrive(0.0, .0, .0), this).withTimeout(1.0);
+      stickDrive(0, .0, turnSpeed);
+    } while (Math.abs(newHeading - (gyroscope1.getAngle())) > 20);
 
     // drive(new Translation2d(0, 0), 0.0, true);
     SmartDashboard.putNumber("Done turning", loops);
