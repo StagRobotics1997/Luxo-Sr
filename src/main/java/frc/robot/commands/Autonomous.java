@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.*;
 import frc.robot.commands.PositionCommands;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -16,12 +17,20 @@ public final class Autonomous {
   public static Command simpleCommand(DrivetrainSubsystem drive, DropSubsystem drop, ClawSubsystem claw,
       ArmSubsystem arm, LeadScrewSubsystem leadscrew) {
 
-    return Commands.sequence(
-        new StartEndCommand(() -> drive.resetGyroscope(), () -> drive.resetGyroscope(), drive).withTimeout(1.0),
-        // PositionCommands.startCommands(arm, leadscrew, drop, claw).withTimeout(2.0),
-        new WaitCommand(1.0),
-        new StartEndCommand(() -> drive.stickDrive(-.5, .0, .1),
-            () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(2.0),
-        Commands.runOnce(() -> claw.OpenClaw(), claw));
+    return new ParallelCommandGroup(
+
+        new ParallelCommandGroup(
+            PositionCommands.position1Command(leadscrew),
+            new WaitCommand(1))
+            .andThen(
+                new ParallelCommandGroup(
+                    Commands.runOnce(() -> drop.dropin(), drop),
+                    new WaitCommand(1)))
+            .andThen(
+                Commands.runOnce(() -> claw.CloseClaw(), claw))
+            .andThen(
+                new StartEndCommand(() -> drive.stickDrive(-.8, .0, .0),
+                    () -> drive.stickDrive(0.0, .0, .0), drive).withTimeout(2.0)));
+
   }
 }

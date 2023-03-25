@@ -18,7 +18,7 @@ public final class PositionCommands {
         Commands.runOnce(() -> arm.bicepIn(), arm),
         Commands.runOnce(() -> arm.forearmIn(), arm),
         Commands.runOnce(() -> leadScrew.move_to_position_1(), leadScrew),
-        Commands.runOnce(() -> arm.wristIn(), arm),
+        Commands.runOnce(() -> arm.wristOut(), arm),
         Commands.runOnce(() -> drop.dropin(), drop),
         Commands.runOnce(() -> claw.CloseClaw(), claw));
   }
@@ -46,7 +46,7 @@ public final class PositionCommands {
         Commands.runOnce(() -> arm.forearmOut(), arm),
         Commands.runOnce(() -> arm.wristOut(), arm),
         Commands.runOnce(() -> arm.bicepout(), arm),
-        Commands.runOnce(() -> Timer.delay(1.5)),
+        // Commands.runOnce(() -> Timer.delay(.5)),
         Commands.runOnce(() -> leadScrew.move_to_position_3(), leadScrew));
   }
 

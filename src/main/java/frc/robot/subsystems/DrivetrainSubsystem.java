@@ -44,7 +44,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   // 0.0373, 6.2538, 0.0125, 6.2226
   // 0.0225, 6.2414, 6.2688, 5.9135
 
-  private double[] OFFSETS = { 3.7353, 1.3208, 2.8707, 5.9419 };
+  private double[] OFFSETS = {3.7610, 1.8684, 2.9110, 5.9466};
   // private double[] OFFSETS = { 0.00, 0.00, 0.00, 0.00 };
 
   private static DrivetrainSubsystem instance;
@@ -182,8 +182,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
     frontLeftModule.setTargetVelocity(states[0].speedMetersPerSecond, states[0].angle.getRadians());
+    // frontRightModule.setTargetVelocity(states[1].speedMetersPerSecond , states[1].angle.getRadians());
     frontRightModule.setTargetVelocity(states[1].speedMetersPerSecond * 1.075, states[1].angle.getRadians());
     backLeftModule.setTargetVelocity(states[2].speedMetersPerSecond, states[2].angle.getRadians());
+    // backRightModule.setTargetVelocity(states[3].speedMetersPerSecond , states[3].angle.getRadians());
     backRightModule.setTargetVelocity(states[3].speedMetersPerSecond * 1.075, states[3].angle.getRadians());
     SmartDashboard.putString("speed", String.format("%.4f, %.4f, %.4f, %.4f",
         states[0].speedMetersPerSecond,
@@ -199,7 +201,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   public void stickDrive(double forward, double strafe, double rotation) {
-
+    SmartDashboard.putNumber("Driving forward ", forward);
+    SmartDashboard.putNumber("Driving straft ", strafe);
+    SmartDashboard.putNumber("Driving rotation ", rotation);
     forward = Utilities.joystickCubicScaledDeadband(forward);
     strafe = Utilities.joystickCubicScaledDeadband(-strafe);
     rotation = Utilities.joystickCubicScaledDeadband(-rotation);

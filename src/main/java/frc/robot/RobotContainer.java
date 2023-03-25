@@ -63,9 +63,9 @@ public class RobotContainer {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
 
     // Add commands to the autonomous command chooser
-    m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
+    m_chooser.setDefaultOption("SimpleAuto", m_simpleAuto);
     m_chooser.addOption("Autonomous2", m_Autonomous2);
-    m_chooser.addOption("Autonomous3", m_Autonomous3);
+    m_chooser.addOption("SimpleAuto", m_simpleAuto);
 
     // Put the chooser on the dashboard
     Shuffleboard.getTab("Autonomous").add(m_chooser);
